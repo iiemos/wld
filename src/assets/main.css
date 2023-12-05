@@ -135,11 +135,11 @@ section {
   left: 150px;
 
 }
-.section-inner.card{
+.inner_card{
+  margin: 0 20px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  aspect-ratio: 3/2;
   border-radius: 20px;
   color: #cbd5e1;
   background: rgba(255, 255, 255, 0.095);
@@ -180,6 +180,7 @@ section {
   background-image: url('./img/section-a.webp');
 }
 .section-b {
+  padding-top: 40px;
   background-image: url('./img/section-b.webp');
 }
 .section-c {
@@ -701,14 +702,12 @@ footer ul li a:hover {
 
 .color_card{
   margin: 0 20px;
-  max-width: 560px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  aspect-ratio: 3/2;
   border-radius: 20px;
   color: #cbd5e1;
-  background: rgba(255, 255, 255, 0.095);
+  background: #1a25447d;
   box-shadow: inset 2.01px -2.01px 20px rgba(214, 214, 214, 0.17), inset -3.01333px 3.01333px 3.01333px rgba(255, 255, 255, 0.39);
   backdrop-filter: blur(70px);
   padding: 20px 20px 30px;

@@ -25,7 +25,7 @@
     </section>
     <!-- Section B -->
     <section class="section-b">
-      <div class="section-inner my_info_warp card">
+      <div class="inner_card my_info_warp">
         <div class="inner_item">
           钱包余额：<span>0 USDT</span>
         </div>
@@ -50,7 +50,7 @@
           </div>
         </div>
       </div>
-      <div class="section-inner card">
+      <div class="inner_card" style="margin-top: 40px;">
         <h4>我的团队</h4>
         <div class="data_row">
           <div class="inner_item">
