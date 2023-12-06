@@ -1,7 +1,7 @@
 <template>
     <div class="home">
       <Header />
-        <section class="section-animate bg-falcon-9"></section>
+        <section class="section-animate bg-burn"></section>
         <div class="section-inner-center">
         <h3>Token burning</h3>
         <p>SpaceX token burn status</p>
