@@ -45,7 +45,6 @@ onMounted(() => {
                     <span class="reveal-render u-fullParent" role="img" aria-label="A rendering of fully stacked Falcon 9 booster with second stage and payload fairings" data-desktop="../../static/images/falcon-9/desktop/WebsiteF9Fairings_Render_Desktop.jpg" data-mobile="../../static/images/falcon-9/mobile/WebsiteF9Fairings_Render_Mobile.jpg" style="background-image: url(&quot;https://www.spacex.com/static/images/falcon-9/desktop/WebsiteF9Fairings_Render_Desktop.jpg&quot;);"><div class="vsc-controller"></div>
                       <video id="reveal-video" role="img" aria-hidden="true" aria-describedby="f9-video-description" aria-labelledby="f9-video-description" autoplay="" loop="" muted="" width="100%" height="100%" preload="auto" autobuffer="true">
                         <source type="video/mp4" src="@/assets/media/WebsiteF9Fairings_Anim_Render_Desktop.mp4">
-                        <source type="video/webm" src="@/assets/media/WebsiteF9Fairings_Anim_Render_Desktop.webm">
                         <p id="f9-video-description">A rendering of a fully stacked Falcon 9 booster spinning around its vertical axis</p>
                       </video>
                     </span>
