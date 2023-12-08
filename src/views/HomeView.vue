@@ -1,19 +1,64 @@
+<script setup>
+  import { ref, computed, onMounted } from "vue";
+  import { ElMessage } from "element-plus";
+  import { useGlobalState } from '@/store'
+  import WLDABI from '@/abis/defiABI.json'
+  // import Web3 from 'Web3'
+  const state = useGlobalState()
+  // import '@/joinWeb3'
+
+  console.log('state',state);
+  let web3 = ref() 
+  let myAddress=ref('')//我的地址
+  let WLDContract=ref(null)// 合约实例
+  let myBalance=ref(null)// 钱包余额
+  let infoData =ref(null)// 合约信息
+
+  
+  let refLinks = computed(()=>{ 
+    if(myAddress.value){
+      return window.location.origin + `/?ref=${myAddress.value}`
+    }
+    return 'Connect Wallet'
+  })
+  let showAdd = computed(()=>{ 
+    if(!myAddress.value) return 'Connect Wallet'
+    return myAddress.value.substring(0,4) + '....' + myAddress.value.substr(-4,4);
+  })
+
+  const navToggle = () => {
+  };
+
+
+
+
+  const copyLink = () => {
+    let _input = document.createElement('input')
+      _input.value = refLinks.value;
+      document.body.appendChild(_input)
+      _input.select()
+      document.execCommand('Copy')
+      ElMessage.success('Copied to clipboard')
+      _input.remove()
+  };
+</script>
 <template>
   <div class="home">
     <Header />
     <!-- Section A -->
     <section class="section-a">
-      <span class="background gallery-background gallery-full" role="img" aria-label="Image from Starship's Second Flight Test" data-desktop="https://sxcontent9668.azureedge.us/cms-assets/assets/Flight_2_Web_Crop_fbebdf1cd4.jpg" data-mobile="https://sxcontent9668.azureedge.us/cms-assets/assets/Flight_Test_2_Launch_Checkpoint_20231118_DSC_04687_037481d4c6.jpg" style="background-image: url(&quot;https://sxcontent9668.azureedge.us/cms-assets/assets/Flight_2_Web_Crop_fbebdf1cd4.jpg&quot;);"><div class="vsc-controller"></div>
-        <video aria-hidden="true" data-content-video="true" poster="https://sxcontent9668.azureedge.us/cms-assets/assets/Flight_2_Web_Crop_fbebdf1cd4.jpg" muted="" playsinline="" loop="" autoplay="">
-          <source type="video/mp4" src="https://sxcontent9668.azureedge.us/cms-assets/assets/OTF_2_Launch_Checkpoint_Slo_Mo_1920_1080_4ef903451e.mp4">
+      <span class="background gallery-background gallery-full" role="img" aria-label="Image from Starship's Second Flight Test" data-desktop="@/assets/img/home1.jpg" data-mobile="@/assets/img/home1.jpg" style="background-image: url(&quot;@/assets/img/home1.jpg&quot;);"><div class="vsc-controller"></div>
+        <video aria-hidden="true" data-content-video="true" poster="@/assets/img/home1.jpg" muted="" playsinline="" loop="" autoplay="">
+          <source type="video/mp4" src="@/assets/media/home.mp4">
         </video>
       </span>
       <div class="section-inner">
-        <h4>SpaceX</h4>
+        <h4>WLD</h4>
         <h2>High Yield Miner</h2>
         <a href="#" class="btn">
           <div class="hover"></div>
-          <span>Connect Wallet</span>
+          <span @click="copyLink()" v-if="myAddress">邀请好友</span>
+          <span @click="connections()" v-if="!myAddress">Connect Wallet</span>
         </a>
       </div>
 
@@ -31,7 +76,7 @@
     <!-- Section B -->
     <section class="section-b">
       <div class="section-inner">
-        <h4>SpaceX</h4>
+        <h4>WLD</h4>
         <h2>High Yield Miner</h2>
         <a href="#" class="btn">
           <div class="hover"></div>
@@ -42,9 +87,9 @@
     <!-- Section C -->
     <section class="section-c">
       <div class="section-inner">
-        <h4>SpaceX</h4>
+        <h4>WLD</h4>
         <h2>High Yield Miner</h2>
-        <a href="/liquidity" class="btn">
+        <a href="/" class="btn">
           <div class="hover"></div>
           <span>Liquidity</span>
         </a>
@@ -53,15 +98,14 @@
     <!-- Section F -->
     <section class="section-f">
       <div class="section-inner">
-        <h4>SpaceX</h4>
+        <h4>WLD</h4>
         <h2>High Yield Miner</h2>
-        <a href="/team" class="btn">
+        <a href="/" class="btn">
           <div class="hover"></div>
           <span>Team</span>
         </a>
       </div>
     </section>
-
     <Footer />
   </div>
 </template>

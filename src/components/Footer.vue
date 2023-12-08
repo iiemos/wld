@@ -1,7 +1,7 @@
 <template>
 	<footer>
 		<ul>
-			<li>SpaceX &copy; 2023</li>
+			<li>WLD &copy; 2023</li>
 			<li><a href="#">Twitter</a></li>
 			<li><a href="#">YouTube</a></li>
 			<li><a href="#">Instagram</a></li>

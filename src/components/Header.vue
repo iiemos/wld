@@ -1,9 +1,12 @@
 <script setup>
 import { ref } from "vue";
+
 import { RouterLink, RouterView } from "vue-router";
 import IconLogo from "./icons/IconLogo.vue";
+import IconEarth from "./icons/IconEarth.vue";
 
 const isActive = ref(false);
+const centerDialogVisible = ref(false);
 const navToggle = () => {
   isActive.value = !isActive.value;
 };
@@ -21,23 +24,27 @@ const navToggle = () => {
           <RouterLink to="/">Home</RouterLink>
         </li>
         <li class="mobile-only">
-          <RouterLink to="liquidity">Liquidity</RouterLink>
+          <RouterLink to="/">Liquidity</RouterLink>
         </li>
-		<li class="mobile-only">
+        <!-- <li class="mobile-only">
           <RouterLink to="income">Income</RouterLink>
-        </li>
-		<li class="mobile-only">
-          <RouterLink to="team">Team</RouterLink>
-        </li>
-		<li class="mobile-only">
-          <RouterLink to="burn">Burn</RouterLink>
+        </li> -->
+        <li class="mobile-only">
+          <RouterLink to="/">Team</RouterLink>
         </li>
         <li class="mobile-only">
-          <RouterLink to="#">White Paper</RouterLink>
+          <RouterLink to="/">Burn</RouterLink>
+        </li>
+        <li class="mobile-only">
+          <RouterLink to="/">White Paper</RouterLink>
         </li>
       </ul>
     </div>
     <header class="main-header">
+      <!-- <IconEarth
+        @click="centerDialogVisible = true"
+        style="z-index: 999; width: 24px"
+      /> -->
       <div class="logo">
         <RouterLink to="/">
           <IconLogo />
@@ -48,20 +55,20 @@ const navToggle = () => {
           <li>
             <RouterLink to="/">Home</RouterLink>
           </li>
-		  <li>
+          <!-- <li>
             <RouterLink to="income">Income</RouterLink>
+          </li> -->
+          <li>
+            <RouterLink to="/">Liquidity</RouterLink>
           </li>
           <li>
-            <RouterLink to="liquidity">Liquidity</RouterLink>
-          </li>
-		  <li>
-            <RouterLink to="team">Team</RouterLink>
-          </li>
-		  <li>
-            <RouterLink to="burn">Burn</RouterLink>
+            <RouterLink to="/">Team</RouterLink>
           </li>
           <li>
-            <RouterLink to="#">White Paper</RouterLink>
+            <RouterLink to="/">Burn</RouterLink>
+          </li>
+          <li>
+            <RouterLink to="/">White Paper</RouterLink>
           </li>
         </ul>
       </nav>
@@ -78,6 +85,16 @@ const navToggle = () => {
       <span class="hamburger-middle"></span>
       <span class="hamburger-bottom"></span>
     </button>
+
+    <el-dialog
+      v-model="centerDialogVisible"
+      title=""
+      width="90%"
+      align-center
+      :showClose="false"
+    >
+      <span>Open the dialog from the center from the screen</span>
+    </el-dialog>
   </div>
 </template>
 
