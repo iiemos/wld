@@ -3,7 +3,26 @@ import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <template>
-  <RouterView />
+  <div>
+    <RouterView />
+    <el-backtop :bottom="100" id="">
+      <div
+        style="
+          height: 100%;
+          width: 100%;
+          background-color: #231d70;
+          box-shadow: var(--el-box-shadow-lighter);
+          border: 1px solid #e8dff8;
+          text-align: center;
+          line-height: 40px;
+          color: #fff;
+          border-radius: 5px;
+        "
+      >
+        <i class="fas fa-arrow-up"></i>
+      </div>
+    </el-backtop>
+  </div>
 </template>
 
 <style scoped>
