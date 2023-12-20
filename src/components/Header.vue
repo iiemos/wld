@@ -12,90 +12,41 @@ const navToggle = () => {
 };
 </script>
 <template>
-  <div class="header">
-    <div id="overlay" :class="{ overlayShow: isActive }"></div>
-    <div
-      id="mobile-menu"
-      class="mobile-main-menu"
-      :class="{ showMenu: isActive }"
-    >
-      <ul>
-        <li class="mobile-only">
-          <RouterLink to="/">Home</RouterLink>
-        </li>
-        <li class="mobile-only">
-          <RouterLink to="/">Liquidity</RouterLink>
-        </li>
-        <!-- <li class="mobile-only">
-          <RouterLink to="income">Income</RouterLink>
-        </li> -->
-        <li class="mobile-only">
-          <RouterLink to="/">Team</RouterLink>
-        </li>
-        <li class="mobile-only">
-          <RouterLink to="/">Burn</RouterLink>
-        </li>
-        <li class="mobile-only">
-          <RouterLink to="/">White Paper</RouterLink>
-        </li>
-      </ul>
-    </div>
-    <header class="main-header">
-      <!-- <IconEarth
-        @click="centerDialogVisible = true"
-        style="z-index: 999; width: 24px"
-      /> -->
-      <div class="logo">
-        <RouterLink to="/">
-          <IconLogo />
-        </RouterLink>
-      </div>
-      <nav class="desktop-main-menu">
-        <ul>
-          <li>
-            <RouterLink to="/">Home</RouterLink>
-          </li>
-          <!-- <li>
-            <RouterLink to="income">Income</RouterLink>
-          </li> -->
-          <li>
-            <RouterLink to="/">Liquidity</RouterLink>
+  <header class="header-section animated slideInUp">
+    <div class="container">
+      <div class="header-wrapper">
+        <div class="logo-menu">
+          <a href="#" class="logo"
+            ><img src="@/assets/img/logo/logo.png" alt="logo"
+          /></a>
+        </div>
+        <div class="header-bar d-lg-none" :class="{ active: isActive }" @click="navToggle()">
+          <span></span><span></span><span></span>
+        </div>
+        <ul class="main-menu" :class="{ active: isActive }">
+          <li class="active">
+            <RouterLink :to="`/`">Home</RouterLink>
           </li>
           <li>
-            <RouterLink to="/">Team</RouterLink>
+            <RouterLink :to="`about`">About</RouterLink>
           </li>
           <li>
-            <RouterLink to="/">Burn</RouterLink>
+            <RouterLink :to="`contact`">Contact</RouterLink>
           </li>
           <li>
-            <RouterLink to="/">White Paper</RouterLink>
+            <RouterLink :to="`portfolio-single`">Portfolio</RouterLink>
+          </li>
+          <li>
+            <RouterLink :to="`packages`">Packages</RouterLink>
+          </li>
+          <li>
+            <RouterLink :to="`404`">404</RouterLink>
           </li>
         </ul>
-      </nav>
-    </header>
-    <!-- Hamburger Menu -->
-    <button
-      id="menu-btn"
-      class="hamburger"
-      :class="{ open: isActive }"
-      type="button"
-      @click="navToggle"
-    >
-      <span class="hamburger-top"></span>
-      <span class="hamburger-middle"></span>
-      <span class="hamburger-bottom"></span>
-    </button>
-
-    <el-dialog
-      v-model="centerDialogVisible"
-      title=""
-      width="90%"
-      align-center
-      :showClose="false"
-    >
-      <span>Open the dialog from the center from the screen</span>
-    </el-dialog>
-  </div>
+        <a href="javascript:;" class="cmn--btn">Contact us </a>
+      </div>
+    </div>
+  </header>
 </template>
 
 <style></style>

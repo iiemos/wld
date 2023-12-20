@@ -1,4 +1,17 @@
 import './assets/main.css'
+// import './assets/js/jquery-3.6.0.min.js'
+import '@/assets/js/bootstrap.bundle.js'
+// import './assets/js/jquery.waypoints.min.js'
+// import './assets/js/viewport.jquery.js'
+// import './assets/js/wow.min.js'
+// import './assets/js/odometer.min.js'
+// import './assets/js/jquery.nice-select.min.js'
+// import './assets/js/main.js'
+
+// wow 样式
+import 'wow.js/css/libs/animate.css'
+
+import './assets/js/web3.min.js'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'

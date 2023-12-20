@@ -10,44 +10,12 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: '/income',
-      name: 'income',
+      path: '/portfolio-single',
+      name: 'portfolioSingle',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/Income.vue')
-    },
-    {
-      path: '/burn',
-      name: 'burn',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/Burn.vue')
-    },
-    {
-      path: '/team',
-      name: 'team',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/Team.vue')
-    },
-    {
-      path: '/whitepaper',
-      name: 'whitepaper',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/WhitePaper.vue')
-    },
-    {
-      path: '/liquidity',
-      name: 'liquidity',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/Liquidity.vue')
+      component: () => import('../views/portfolioSingle.vue')
     },
     {
       path: '/about',
@@ -56,8 +24,36 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue')
-    }
+    },
+    {
+      path: '/contact',
+      name: 'contact',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/Contact.vue')
+    },
+    {
+      path: '/packages',
+      name: 'packages',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/Packages.vue')
+    },
+    {
+      path: '/404',
+      name: '404',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/404.vue')
+    },
+    {
+      path: '/:pathMatch(.*)',
+      //访问主页的时候 重定向到index页面
+      redirect: '/404',
+    },
   ]
 })
-
 export default router
