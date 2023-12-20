@@ -6,9 +6,10 @@
           <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
             <div class="widget-items">
               <div class="footer-head">
-                <a href="#" class="footer-logo"
-                  ><img src="@/assets/img/logo/footer-logo.png" alt="f-logo"
-                /></a>
+                <a href="#" class="logo logo_svg" style="color: #fff;">
+                  <img src="@/assets/img/logo/logo.svg" alt="logo"/>
+                  IPO
+                </a>
               </div>
               <div class="content-area">
                 <p>

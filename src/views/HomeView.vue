@@ -106,36 +106,7 @@ const copyLink = () => {
                       class="odometer odometer-auto-theme"
                       data-odometer-final="321"
                     >
-                      <div class="odometer-inside">
-                        <span class="odometer-digit"
-                          ><span class="odometer-digit-spacer">8</span
-                          ><span class="odometer-digit-inner"
-                            ><span class="odometer-ribbon"
-                              ><span class="odometer-ribbon-inner"
-                                ><span class="odometer-value">3</span></span
-                              ></span
-                            ></span
-                          ></span
-                        ><span class="odometer-digit"
-                          ><span class="odometer-digit-spacer">8</span
-                          ><span class="odometer-digit-inner"
-                            ><span class="odometer-ribbon"
-                              ><span class="odometer-ribbon-inner"
-                                ><span class="odometer-value">2</span></span
-                              ></span
-                            ></span
-                          ></span
-                        ><span class="odometer-digit"
-                          ><span class="odometer-digit-spacer">8</span
-                          ><span class="odometer-digit-inner"
-                            ><span class="odometer-ribbon"
-                              ><span class="odometer-ribbon-inner"
-                                ><span class="odometer-value">1</span></span
-                              ></span
-                            ></span
-                          ></span
-                        >
-                      </div>
+                      <count-to class="conut_to" :startVal='0' :endVal='321' :duration='3000' :decimals="0"/>
                     </h2>
                     <h2>+</h2>
                   </div>
@@ -151,27 +122,7 @@ const copyLink = () => {
                       class="odometer odometer-auto-theme"
                       data-odometer-final="28"
                     >
-                      <div class="odometer-inside">
-                        <span class="odometer-digit"
-                          ><span class="odometer-digit-spacer">8</span
-                          ><span class="odometer-digit-inner"
-                            ><span class="odometer-ribbon"
-                              ><span class="odometer-ribbon-inner"
-                                ><span class="odometer-value">2</span></span
-                              ></span
-                            ></span
-                          ></span
-                        ><span class="odometer-digit"
-                          ><span class="odometer-digit-spacer">8</span
-                          ><span class="odometer-digit-inner"
-                            ><span class="odometer-ribbon"
-                              ><span class="odometer-ribbon-inner"
-                                ><span class="odometer-value">8</span></span
-                              ></span
-                            ></span
-                          ></span
-                        >
-                      </div>
+                      <count-to class="conut_to" :startVal='0' :endVal='59' :duration='3000' :decimals="0"/>
                     </h2>
                     <h2>+</h2>
                   </div>
@@ -187,18 +138,7 @@ const copyLink = () => {
                       class="odometer odometer-auto-theme"
                       data-odometer-final="9"
                     >
-                      <div class="odometer-inside">
-                        <span class="odometer-digit"
-                          ><span class="odometer-digit-spacer">8</span
-                          ><span class="odometer-digit-inner"
-                            ><span class="odometer-ribbon"
-                              ><span class="odometer-ribbon-inner"
-                                ><span class="odometer-value">9</span></span
-                              ></span
-                            ></span
-                          ></span
-                        >
-                      </div>
+                      <count-to class="conut_to" :startVal='0' :endVal='28' :duration='3000' :decimals="0"/>
                     </h2>
                     <h2>+</h2>
                   </div>
@@ -214,27 +154,7 @@ const copyLink = () => {
                       class="odometer odometer-auto-theme"
                       data-odometer-final="56"
                     >
-                      <div class="odometer-inside">
-                        <span class="odometer-digit"
-                          ><span class="odometer-digit-spacer">8</span
-                          ><span class="odometer-digit-inner"
-                            ><span class="odometer-ribbon"
-                              ><span class="odometer-ribbon-inner"
-                                ><span class="odometer-value">5</span></span
-                              ></span
-                            ></span
-                          ></span
-                        ><span class="odometer-digit"
-                          ><span class="odometer-digit-spacer">8</span
-                          ><span class="odometer-digit-inner"
-                            ><span class="odometer-ribbon"
-                              ><span class="odometer-ribbon-inner"
-                                ><span class="odometer-value">6</span></span
-                              ></span
-                            ></span
-                          ></span
-                        >
-                      </div>
+                      <count-to class="conut_to" :startVal='0' :endVal='9' :duration='3000' :decimals="0"/>
                     </h2>
                     <h2>+</h2>
                   </div>
