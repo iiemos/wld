@@ -34,10 +34,13 @@ const affixChange = () => {
               <RouterLink :to="`/`">Home</RouterLink>
             </li>
             <li>
-              <RouterLink :to="`about`">About</RouterLink>
+              <RouterLink :to="`power`">power</RouterLink>
             </li>
             <li>
-              <RouterLink :to="`contact`">Contact</RouterLink>
+              <RouterLink :to="`income`">income</RouterLink>
+            </li>
+            <li>
+              <RouterLink :to="`team`">team</RouterLink>
             </li>
             <li>
               <RouterLink :to="`portfolio-single`">Portfolio</RouterLink>
@@ -46,7 +49,10 @@ const affixChange = () => {
               <RouterLink :to="`packages`">Packages</RouterLink>
             </li>
             <li>
-              <RouterLink :to="`404`">404</RouterLink>
+              <RouterLink :to="`about`">About</RouterLink>
+            </li>
+            <li>
+              <RouterLink :to="`contact`">Contact</RouterLink>
             </li>
           </ul>
           <a href="javascript:;" class="cmn--btn">Contact us </a>
@@ -68,5 +74,8 @@ const affixChange = () => {
   img{
     margin: 4px;
   }
+}
+.header-wrapper .main-menu{
+  z-index:9999;
 }
 </style>

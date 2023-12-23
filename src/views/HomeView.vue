@@ -58,16 +58,16 @@ const copyLink = () => {
             data-wow-delay="0.2s"
           >
             <div class="hero-content">
-              <h5>Welcome to dgency</h5>
-              <h1>We’re a 3D design agency</h1>
+              <h5>Welcome to IPO</h5>
+              <h1>We are a high-yield web3 project</h1>
               <p>
                 Sed do eiusmod tempor incididunt ut labore et dolore magna
                 aliqua quis ipsum.
               </p>
               <div class="banner-cmn">
-                <a href="#" class="cmn--btn">Contact us </a
-                ><a href="#" class="cmn--border"
-                  >Browse portfolio
+                <a href="#" class="cmn--btn">邀请好友</a>
+                <a href="#" class="cmn--border">
+                  Copy referral link
                 </a>
               </div>
             </div>
@@ -106,12 +106,13 @@ const copyLink = () => {
                       class="odometer odometer-auto-theme"
                       data-odometer-final="321"
                     >
+                    $
                       <count-to class="conut_to" :startVal='0' :endVal='321' :duration='3000' :decimals="0"/>
                     </h2>
-                    <h2>+</h2>
+                    <h2>B</h2>
                   </div>
                 </div>
-                <p>Projects completed</p>
+                <p>30 Day Volume</p>
               </div>
             </div>
             <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
@@ -121,13 +122,13 @@ const copyLink = () => {
                     <h2
                       class="odometer odometer-auto-theme"
                       data-odometer-final="28"
-                    >
+                    >$
                       <count-to class="conut_to" :startVal='0' :endVal='59' :duration='3000' :decimals="0"/>
                     </h2>
-                    <h2>+</h2>
+                    <h2>B</h2>
                   </div>
                 </div>
-                <p>Design awards</p>
+                <p>Managed on IPO</p>
               </div>
             </div>
             <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
@@ -138,12 +139,13 @@ const copyLink = () => {
                       class="odometer odometer-auto-theme"
                       data-odometer-final="9"
                     >
+                    $
                       <count-to class="conut_to" :startVal='0' :endVal='28' :duration='3000' :decimals="0"/>
                     </h2>
-                    <h2>+</h2>
+                    <h2>M</h2>
                   </div>
                 </div>
-                <p>Years of experience</p>
+                <p>Total Collateral Automated</p>
               </div>
             </div>
             <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
@@ -154,12 +156,12 @@ const copyLink = () => {
                       class="odometer odometer-auto-theme"
                       data-odometer-final="56"
                     >
-                      <count-to class="conut_to" :startVal='0' :endVal='9' :duration='3000' :decimals="0"/>
+                      <count-to class="conut_to" :startVal='0' :endVal='15' :duration='3000' :decimals="0"/>
                     </h2>
-                    <h2>+</h2>
+                    <h2>%</h2>
                   </div>
                 </div>
-                <p>Worldwide clients</p>
+                <p>APR</p>
               </div>
             </div>
           </div>
