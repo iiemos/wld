@@ -1,6 +1,49 @@
+
+<script setup>
+import { ref, computed, onMounted, watch } from "vue";
+import { RouterLink, RouterView } from "vue-router";
+import { useDebounceFn } from '@vueuse/core'
+import { ElMessage, ElNotification } from "element-plus";
+// import { useI18n } from 'vue-i18n'
+import { useGlobalState } from "@/store";
+const state = useGlobalState();
+const headerChild = ref();
+// 领取奖励
+const claimFun = useDebounceFn( async() => {
+  if(!state.myAddress.value || state.myAddress.value === '0x00000000000000000000000000000000deadbeef'){
+    return headerChild.value.joinWeb3();
+  }
+  if(state.myETHBalance.value * 1 < 0.001) return ElMessage.warning('Insufficient Gas');
+  if(state.infoData.value.userAward == '0') return ElMessage.warning('当前奖励为0，请确认后再进行操作！');
+  try{
+    state.DeFiContract.value.methods.claim().send({
+        from: state.myAddress.value,
+        gasPrice: state.gasPrice.value
+      })
+    .on('transactionHash', (hash)=>{
+      console.log('hash',hash);
+      ElMessage.success(t('withdrawSend'))
+      console.log("Transaction sent");
+    })
+    .once('receipt', res => {
+      ElMessage.success(t('withdrawConfirmed'))
+      console.log("Transaction confirmed");
+      headerChild.value.joinWeb3();
+    })
+    .catch((error) => {
+        console.error('Approval failed:', error.code);
+        if(error.code == '-32603' || error.message == 'transaction underpriced'){
+          ElMessage.error(t('gasLow'));
+        }
+      });
+  }catch(e){
+    console.log(e);
+  }
+})
+</script>
 <template>
   <div class="contact">
-    <Header />
+    <Header ref="headerChild"/>
     <section class="hero-section hero-breadcumnd">
       <div class="container">
         <div class="row align-items-center">
@@ -47,36 +90,40 @@
                 <div class="income_item bg-amber-50 flex items-center justify-between">
                   <span>个人算力</span>
                   <span>
-                    0.000 / V0
+                    {{ (state.infoData.value.userCp) }} / V0
                   </span>
                 </div>
                 <div class="income_item bg-lime-50 flex items-center justify-between">
                   <span>已领取奖励</span>
                   <span style="text-align: right;">
-                    0.000 USDT
+                    {{ (state.infoData.value.overAward) }} BNB
                     <p style="font-size: 12px;">
-                      ≈ 0.000 SpaceX 
+                      ≈ 0.000 USDT
                     </p>
                   </span>
                 </div>
                 <div class="income_item bg-green-50 flex items-center justify-between">
                   <span>可领取奖励</span>
                   <span style="text-align: right;">
-                    0.000 USDT
+                    {{ (state.infoData.value.userAward) }} BNB
                     <p style="font-size: 12px;">
-                      ≈ 0.000 SpaceX 
+                      ≈ 0.000 USDT 
                     </p>
                   </span>
                 </div>
               </div>
+              <div class="rounded-md shadow mt-5 mb-5 h-sm:mt-2">
+                <div v-if="state.myAddress" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-semibold rounded-md text-white action-button md:py-5 md:text-xl md:px-10" @click="claimFun()">
+                  Receive award
+                </div>
+                <div
+                  v-else
+                  class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-semibold rounded-md text-white action-button md:py-5 md:text-xl md:px-10">
+                  Connect Wallet
+                </div>
+              </div>
+            </div>
 
-            </div>
-            <div class="rounded-md shadow mt-5 h-sm:mt-2">
-              <button class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-semibold rounded-md text-white action-button md:py-5 md:text-xl md:px-10">
-                Connect Wallet
-              </button>
-              <div></div>
-            </div>
           </div>
         </div>
 

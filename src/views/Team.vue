@@ -1,7 +1,16 @@
 
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, watch } from "vue";
+import { RouterLink, RouterView } from "vue-router";
+import { useDebounceFn } from '@vueuse/core'
+import { ElMessage, ElNotification } from "element-plus";
+// import { useI18n } from 'vue-i18n'
+import { useGlobalState } from "@/store";
+import IconCoins from '@/components/icons/IconCoins.vue'
 import WOW from "wow.js";
+
+const state = useGlobalState();
+const headerChild = ref();
 onMounted(async () => {
   let wow = new WOW({
     boxClass: 'wow',    //需要执行动画元素的Class
@@ -12,11 +21,20 @@ onMounted(async () => {
   });
   wow.init();
 });
+const copyLink = () => {
+  let _input = document.createElement('input')
+    _input.value = state.inviteLink.value;
+    document.body.appendChild(_input)
+    _input.select()
+    document.execCommand('Copy')
+    ElMessage.success('Link copied to clipboard! Send it to everyone')
+    _input.remove()
+};
 </script>
 
 <template>
   <div class="about">
-    <Header />
+    <Header ref="headerChild"/>
     <section class="hero-section hero-breadcumnd">
       <div class="container">
         <div class="row align-items-center">
@@ -59,13 +77,14 @@ onMounted(async () => {
           <div class="col-lg-12" style="padding: 0;">
             <div class="add_power rounded-lg px-3 py-3 pb-1 pt-6 h-sm:p-2 h-sm:pt-2">
               <div class="income_info">
+  
                 <div class="income_item bg-amber-50 flex items-center justify-between">
                   <span class="text-sm">
                     <img class="w-10 h-10" src="@/assets/img/process/process1.png"/>
-                    直推算力
+                    团队人数
                   </span>
                   <span>
-                    0.000
+                    {{ (state.infoData.value.team2Length) }}
                   </span>
                 </div>
                 <div class="income_item bg-amber-50 flex items-center justify-between">
@@ -74,52 +93,78 @@ onMounted(async () => {
                     团队算力
                     </span>
                   <span>
-                    0.000
+                    {{ (state.infoData.value.teamCp2) }}
                   </span>
                 </div>
                 <div class="income_item bg-lime-50 flex items-center justify-between">
                   <span class="text-sm">
                     <img class="w-10 h-10" src="@/assets/img/process/process8.png"/>
-                    直推可领奖励
+                    直推人数
                     </span>
                   <span style="text-align: right;">
-                    0.000 USDT
-                    <p style="font-size: 12px;">
-                      ≈ 0.000 SpaceX 
-                    </p>
+                    {{ (state.infoData.value.teamLength) }}
                   </span>
                 </div>
-                <div class="income_item bg-green-50 flex items-center justify-between">
+                <div class="income_item bg-lime-50 flex items-center justify-between">
                   <span class="text-sm">
                     <img class="w-10 h-10" src="@/assets/img/process/process8.png"/>
-                    团队可领奖励
+                    我的算力
                     </span>
-                  <span class="text-sm">
-                    0.000 USDT
-                    <p style="font-size: 12px;">
-                      ≈ 0.000 SpaceX 
-                    </p>
+                  <span style="text-align: right;">
+                    {{ (state.infoData.value.userCp) }}
                   </span>
                 </div>
+
+                <!-- <div class="income_item bg-green-50 flex items-center justify-between">
+                  <span class="text-sm">
+                    <img class="w-10 h-10" src="@/assets/img/process/process8.png"/>
+                    我的算力
+                    </span>
+                  <span class="text-sm" style="text-align: right;">
+                    0.000 BNB
+                    <p style="font-size: 12px;">
+                      ≈ 0.000 USDT 
+                    </p>
+                  </span>
+                </div> -->
                 <div class="income_item bg-green-50 flex items-center justify-between">
                   <span class="text-sm">
                     <img class="w-10 h-10" src="@/assets/img/process/process7.png"/>
                     上级地址
                     </span>
                   <span style="text-align: right;">
-                    <p style="font-size: 12px;">
-                    0x0000000000000000000
+                    <p style="font-size: 12px;" class="flex items-center">
+                      <el-tooltip
+                        class="box-item"
+                        effect="dark"
+                        :content="state.infoData.value.inivet"
+                        placement="top-end"
+                      >
+                        <span class="address_txt">{{ state.infoData.value.inivet }}</span>
+                      </el-tooltip>
                     </p>
                   </span>
                 </div>
               </div>
-
+              <!-- <div class="award_warp mt-4 mb-4 flex items-center justify-center">
+                <div class="award_btn">
+                  <IconCoins />
+                  直推奖励
+                </div>
+                <div class="award_btn">
+                  <IconCoins />团队奖励
+                </div>
+              </div> -->
             </div>
-            <div class="rounded-md shadow mt-5 h-sm:mt-2">
-              <button class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-semibold rounded-md text-white action-button md:py-5 md:text-xl md:px-10">
-                Connect Wallet
-              </button>
-              <div></div>
+          </div>
+          <div class="rounded-md mt-5 mb-5 h-sm:mt-2">
+            <div v-if="state.myAddress" class=" w-full flex items-center justify-center px-8 py-3 text-base font-semibold rounded-md  md:py-5 md:text-xl md:px-10 copy_btn" @click="copyLink()">
+              Copy referral link
+            </div>
+            <div
+              v-else
+              class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-semibold rounded-md text-white action-button md:py-5 md:text-xl md:px-10">
+              Connect Wallet
             </div>
           </div>
         </div>
@@ -132,6 +177,44 @@ onMounted(async () => {
 
 <style lang="less">
 @import url('@/assets/css/base.css');
+.copy_btn{
+  background-color: transparent;
+  border: 1px solid var(--border);
+  color: var(--border);
+  border-radius: 10px;
+}
+.address_txt {
+  // color: #fff !important;
+  display: inline-block;
+  max-width: 150px;
+  text-align: right;
+  cursor: text;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.award_warp{
+  .award_btn{
+    background-color: transparent;
+    border: 1px solid var(--border);
+    color: var(--border);
+    border-radius: 10px;
+    font-size: 14px;
+    padding: 8px 12px;
+    width: 50%;
+    line-height: 23.4px;
+    display: inline-block;
+    text-transform: capitalize;
+    transition: all 0.3s;
+    text-align: center;
+    &:nth-child(1){
+      margin-right: 4px;
+    }
+    &:nth-child(2){
+      margin-left: 4px;
+    }
+  }
+}
 .font-semibold {
   font-weight: 600;
 }

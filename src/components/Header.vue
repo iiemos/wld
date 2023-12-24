@@ -3,12 +3,26 @@ import { ref, computed, onMounted, watch } from "vue";
 import { useGlobalState } from "@/store";
 import { RouterLink, RouterView } from "vue-router";
 import { useRouteQuery } from '@vueuse/router'
+import { ElMessage, ElNotification } from "element-plus";
+import defiABI from "@/abis/defiABI.json";
 const state = useGlobalState();
+const web3 = ref(null);
 const isActive = ref(false);
+const refLinks = ref(null);
 const invites = useRouteQuery('invs')
+if (typeof (invites.value) == "undefined") {
+  refLinks.value = '0xDA02d522d8cd60de0a2F9773f80b16Fc9ED99bdd'
+} else {
+  refLinks.value = invites.value
+  state.inviteLink.value = invites.value
+}
+
 let showAdd = computed(()=>{ 
-    if(!state.myAddress.value) return 'Connect Wallet'
-    return state.myAddress.value.substring(0,4) + '....' + state.myAddress.value.substr(-4,4);
+    if(!state.myAddress.value){
+      return 'Connect Wallet'
+    }else{
+      return state.myAddress.value.substring(0,4) + '....' + state.myAddress.value.substr(-4,4);
+    }
   })
 const navToggle = () => {
   isActive.value = !isActive.value;
@@ -19,10 +33,113 @@ const affixChange = () => {
 const cutAdd = () => {
   console.log(123);
 };
-const joinWeb3 = () => {
-  console.log(123);
+// 当用户点击登录按钮时，请求 MetaMask 授权
+const login = async () => {
+  try {
+    // 请求 MetaMask 授权
+    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    state.updateMyAddress(accounts[0]);
+    console.log('Logged in!');
+  } catch (error) {
+    console.error(error);
+    if (error.code == 4001) {
+      console.log("用户拒绝连接");
+    }
+  }
+};
+ 
+// 当用户点击退出按钮时，清除 MetaMask 授权信息
+const logout = async () => {
+  try {
+    // 清除 MetaMask 授权信息
+    await window.ethereum.request({ method: 'eth_logout' });
+    console.log('Logged out!');
+  } catch (error) {
+    console.error(error);
+  }
+}
+onMounted(() => {
+  // Web3浏览器检测
+  if (typeof window.ethereum !== "undefined") {
+    console.log("MetaMask is installed!");
+  }
+  web3.value = new Web3(window.ethereum);
+  state.updateWbe3(web3.value)
+  // 连接钱包账户切换后触发的事件
+  ethereum.on("accountsChanged", function (accounts) {
+    console.log("连接钱包账户切换后触发的事件", accounts[0]); //一旦切换账号这里就会执行
+    state.updateMyAddress(accounts[0]);
+    joinWeb3();
+  });
+  // 正确处理链更改之后的业务流程可能很复杂。官方建议链更改只有重新加载页面
+  ethereum.on("chainChanged", (chainId) => {
+    console.log("chainId", chainId);
+    window.location.reload();
+  });
+  // 断开连接监听事件
+  ethereum.on("disconnect", async function (result, error) {
+    console.log("断开连接", result);
+    console.log("error", error);
+  });
+  connections();
+  setInterval(() => {
+    joinWeb3()
+  }, 30000);
+});
+const connections = () => {
+  //链接小狐狸钱包
+  window.ethereum
+    .request({ method: "eth_requestAccounts" })
+    .then((res) => {
+      console.log(res, "当前钱包地址");
+      state.updateMyAddress(res[0]);
+      joinWeb3();
+    })
+    .catch((err) => {
+      console.log(err);
+      if (err.code == 4001) {
+        console.log("用户拒绝连接");
+      }
+    });
+};
+const joinWeb3 = async () => {
+  // 请求用户授权 解决web3js无法直接唤起Meta Mask获取用户身份
+  const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+  // // 授权获取账户
+  // 返回指定地址账户的余额
+  let balance = await web3.value.eth.getBalance(accounts[0]);
+  const myAddress = accounts[0];
+  state.updateMyAddress(accounts[0]);
+  try {
+    // 创建合约实例
+    const  DeFiContract = new web3.value.eth.Contract(defiABI, state.contractAddress.value);
+    state.updateDeFiContract(DeFiContract) // 赋值合约实例
+    const infoData = await DeFiContract.methods.getInfo(myAddress).call();
+    state.updateInfoData(infoData);  // 设置info值
+    
+    // // 创建usdt合约实例
+    // usdtContract.value = new web3.value.eth.Contract(usdtABI, state.infoData.value.usdtCoin);
+    // 获取钱包eth余额
+    const myETHBalance = web3.value.utils.fromWei(balance, "ether");
+    console.log('myETHBalance',myETHBalance);
+    state.updateMyETHBalance(myETHBalance);  // 设置info值
+    // 获取当前gas价格
+    const gasPrice = await web3.value.eth.getGasPrice();
+    state.updateGasPrice(gasPrice);  // 设置Gas值
+    // // 设置gas费用
+    // gasLimit.value = 9000000; // 设置gas限制
+    // const gasCost = gasLimit.value * gasPrice.value;
+    // console.log('计算后的gas价格', gasCost/1000000000000000000);
+  } catch (e) {
+    ElMessage.warning(e.message);
+    console.log(e);
+  }
 };
 
+// 输出组件的方法，让外部组件可以调用
+defineExpose({
+  joinWeb3,
+})
 </script>
 <template>
   <el-affix :offset="0.1" @scroll="affixChange()">
@@ -64,10 +181,10 @@ const joinWeb3 = () => {
               <RouterLink :to="`contact`">Contact</RouterLink>
             </li>
           </ul>
-          <div class="connect_wallet" v-if="state.myAddress" @click="cutAdd">
+          <div class="connect_wallet" v-if="state.myAddress.value" @click="logout">
             <span>{{ showAdd }}</span>
           </div>
-          <div class="connect_wallet" v-else @click="joinWeb3">
+          <div class="connect_wallet" v-else @click="login">
             <span>Connect Wallet</span>
           </div>
         </div>

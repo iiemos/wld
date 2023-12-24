@@ -23,7 +23,7 @@ const addSpaceX = ref(0) //
 const tabsActive = ref(1) // tabs显示idex
 const myUSDTNumber = ref(0) // 添加的usdt数量
 const myUSDTNumber2 = ref(0) // 组合添加的usdt数量
-
+const headerChild = ref();
 
 const state = useGlobalState();
 let web3 = ref();
@@ -50,200 +50,31 @@ const gasPrice = ref(0) // 当前gas价格
 const gasLimit = ref(0) // gas最高限制费用
 
 
-// 监听LP添加usdt的变化，更新SpaceX的值
-watch(myUSDTNumber, (newValue) => {
-  if (!newValue || newValue == 0) myAddCpuPower.value = 0
-  myAddCpuPower.value = newValue * 2.5
-});
-
-watch(myAddCpuPower, (newValue) => {
-  if (!newValue || newValue == 0) myUSDTNumber.value = 0
-  myUSDTNumber.value = newValue / 2.5
-});
-
-// 监听tabs2添加usdt的变化，更新SpaceX的值
-watch(myUSDTNumber2, (newValue) => {
-  if (!newValue || newValue == 0) myAddCpuPower2.value = 0
-  if (newValue == 0) return addSpaceX.value = 0
-  myAddCpuPower2.value = Math.floor((newValue * 8.334) * 100) / 100
-  // getPriceFun((Number(newValue)/ 0.3 * 0.5833))
-  getPriceFun((Number(newValue) * 1.94444))
-
-});
-
-// watch(myAddCpuPower2, (newValue) => {
-//   if(!newValue || newValue == 0) myUSDTNumber2.value = 0
-//   myUSDTNumber2.value = (newValue / 83.334)
-// });
-
-
-const AddLpUsdtNumber = ref(0) // 添加流动性usdt数量
-let spaceCoinPrice = ref(0); // SpaceX实时价格（1USDT）
-let LPSpaceX = ref(0); // SpaceX实时价格（1USDT）
-
-
-// 监听LP添加usdt的变化，更新SpaceX的值
-watch(AddLpUsdtNumber, (newValue) => {
-  LPSpaceX.value = Number(newValue) * spaceCoinPrice.value
-});
-
-// // 监听LP添加SpaceX的变化，更新usdt的值
-watch(LPSpaceX, (newValue) => {
-  AddLpUsdtNumber.value = Number(newValue) / spaceCoinPrice.value
-});
-
-
-
-if (typeof (invites.value) == "undefined") {
-  refLinks.value = '0xDA02d522d8cd60de0a2F9773f80b16Fc9ED99bdd'
-} else {
-  refLinks.value = invites.value
-}
 console.log('当前邀请链接为：', refLinks.value);
 const changeTabs = (idx) => {
   tabsActive.value = idx
 }
-
-let toFixed8 = (val) => {
-  if (val == 0) return val
-  return Number((Math.floor(val * 100000) / 100000)).toFixed(5)
-}
 const MaxBalance = () =>{
-  addBnbNum.value = myETHBalance.value
+  addBnbNum.value = state.myETHBalance.value
 }
-
-onMounted(() => {
-
-  // Web3浏览器检测
-  if (typeof window.ethereum !== "undefined") {
-    console.log("MetaMask is installed!");
-  }
-
-  web3.value = new Web3(window.ethereum);
-  // 连接钱包账户切换后触发的事件
-  ethereum.on("accountsChanged", function (accounts) {
-    console.log("连接钱包账户切换后触发的事件", accounts[0]); //一旦切换账号这里就会执行
-    myAddress.value = accounts[0];
-    joinWeb3();
-  });
-  // 正确处理链更改之后的业务流程可能很复杂。官方建议链更改只有重新加载页面
-  ethereum.on("chainChanged", (chainId) => {
-    console.log("chainId", chainId);
-    window.location.reload();
-  });
-  // 断开连接监听事件
-  ethereum.on("disconnect", async function (result, error) {
-    console.log("断开连接", result);
-    console.log("error", error);
-  });
-  connections();
-  setInterval(() => {
-    joinWeb3()
-  }, 30000);
-});
-
-const connections = () => {
-  //链接小狐狸钱包
-  window.ethereum
-    .request({ method: "eth_requestAccounts" })
-    .then((res) => {
-      console.log(res, "当前钱包地址");
-      myAddress.value = res[0];
-      state.updateMyAddress(res[0]);
-      joinWeb3();
-    })
-    .catch((err) => {
-      console.log(err);
-      if (err.code == 4001) {
-        console.log("用户拒绝连接");
-      }
-    });
-};
-const joinWeb3 = async () => {
-  // 请求用户授权 解决web3js无法直接唤起Meta Mask获取用户身份
-  const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-  // // 授权获取账户
-  // 返回指定地址账户的余额
-  let balance = await web3.value.eth.getBalance(accounts[0]);
-  myAddress.value = accounts[0];
-  state.updateMyAddress(accounts[0]);
-  try {
-    // 创建合约实例
-    DeFiContract.value = new web3.value.eth.Contract(defiABI, state.contractAddress.value);
-    // 获取合约中返回的信息
-    infoData.value = await DeFiContract.value.methods.getInfo(myAddress.value).call();
-    // 设置info值
-    state.updateInfoData(infoData.value);
-    
-    // // 创建usdt合约实例
-    // usdtContract.value = new web3.value.eth.Contract(usdtABI, state.infoData.value.usdtCoin);
-    // 获取钱包eth余额
-    myETHBalance.value = web3.value.utils.fromWei(balance, "ether");
-    console.log('myETHBalance', myETHBalance.value);
-    // // 获取usdt余额
-    // let usdtBalance = await usdtContract.value.methods.balanceOf(myAddress.value).call();
-    // myUSDTBalance.value = web3.value.utils.fromWei(usdtBalance, "ether");
-    // console.log('usdtBalance',myUSDTBalance.value);
-    // // 创建spacex合约实例
-    // SpaceXContract.value = new web3.value.eth.Contract(spaceXABI, state.infoData.value.spaceCoin);
-    // // 获取spacex余额
-    // let SpaceXBalance = await SpaceXContract.value.methods.balanceOf(myAddress.value).call();
-    // mySpaceXBalance.value = web3.value.utils.fromWei(SpaceXBalance, "ether");
-    // console.log('mySpaceXBalance',mySpaceXBalance.value);
-    // // 获取当前质押等级
-    // state.userLevel.value = await DeFiContract.value.methods.getUserLevel(myAddress.value).call();
-    // if(state.infoData.value.inivet != '0x0000000000000000000000000000000000000000'){
-    //   refLinks.value = state.infoData.value.inivet
-    // }
-
-    // // 获取LP实时价格 getPrice
-    // const SpaceXPrice = await DeFiContract.value.methods.getPrice(state.infoData.value.spaceCoin).call();
-    // spaceCoinPrice.value = web3.value.utils.fromWei(SpaceXPrice, "ether");
-    // console.log('实时价格为：' ,spaceCoinPrice.value);
-    // // 获取_pair() LP的地址然后使用BALANCEOF函数拿到LP数量即可
-    // const lp_pair = await SpaceXContract.value.methods._pair().call();
-    // // 创建查询流动性组合合约实例
-    // lpPairContract.value = new web3.value.eth.Contract(cakeLpABI, lp_pair);
-    // const my_lp_balanceOf  = await lpPairContract.value.methods.balanceOf(myAddress.value).call();
-    // const lp_balanceOf = await SpaceXContract.value.methods.balanceOf(lp_pair).call();
-    // myLpBalance.value = web3.value.utils.fromWei(my_lp_balanceOf, "ether");
-    // myLpTotleBalance.value = web3.value.utils.fromWei(lp_balanceOf, "ether");
-    // // console.log('LP 流动性地址为：',lp_pair);
-    // // console.log('LP 流动性总数量：',myLpTotleBalance.value);
-    // // console.log('我的LP 流动性数量：',myLpBalance.value);
-    // // 创建 增删流动性 实例
-    // LPContract.value = new web3.value.eth.Contract(lpABI, state.LPAddress.value);
-
-
-    // // 获取当前gas价格
-    gasPrice.value = await web3.value.eth.getGasPrice();
-    // // 设置gas费用
-    // gasLimit.value = 9000000; // 设置gas限制
-    // const gasCost = gasLimit.value * gasPrice.value;
-    // console.log('计算后的gas价格', gasCost/1000000000000000000);
-  } catch (e) {
-    ElMessage.warning(e.message);
-    console.log(e);
-  }
-};
 const stakeFun = () =>{
-  if(!myAddress.value || myAddress.value === '0x00000000000000000000000000000000deadbeef'){
-    return joinWeb3()
+  if(!state.myAddress.value || state.myAddress.value === '0x00000000000000000000000000000000deadbeef'){
+    return headerChild.value.joinWeb3();
   }
   // myETHBalance addBnbNum
   if(addBnbNum.value < 0.5) return ElMessage.error('Minimum addition of 0.5 BNB');
-  if(myETHBalance.value < 0.5) return ElMessage.error('The account balance is insufficient, please add more');
-  if(addBnbNum.value > myETHBalance.value) return ElMessage.error('The account balance is insufficient, please add more');
+  if(state.myETHBalance.value < 0.5) return ElMessage.error('The account balance is insufficient, please add more');
+  if(addBnbNum.value > state.myETHBalance.value) return ElMessage.error('The account balance is insufficient, please add more');
   if(refLinks.value == 'undefined' || !refLinks.value) return ElMessage.warning('The invitation link address cannot be empty, please obtain the invitation link again.') 
 
-  const callValue = web3.value.utils.toWei(addBnbNum.value.toString());
+  const callValue = state.web3.value.utils.toWei(addBnbNum.value.toString());
   console.log('购买的数量',callValue);
   console.log('邀请链接----',refLinks.value);
-  console.log('from---',myAddress.value);
+  console.log('from---',state.myAddress.value);
 
   DeFiContract.value.methods.stake(refLinks.value)
     .send({
-      from: myAddress.value,
+      from: state.myAddress.value,
       value: callValue
     })
     .on('transactionHash', (hash)=>{
@@ -255,7 +86,7 @@ const stakeFun = () =>{
       ElMessage.success(t('TransactionSuccess'))
       console.log("交易已确认");
       addBnbNum.value = 0
-      joinWeb3();
+      headerChild.value.joinWeb3();
     })
     .catch((error) => {
       console.error('Approval failed:', error);
@@ -267,7 +98,7 @@ const stakeFun = () =>{
 </script>
 <template>
   <div class="contact">
-    <Header />
+    <Header ref="headerChild"/>
     <section class="hero-section hero-breadcumnd">
       <div class="container">
         <div class="row align-items-center">
@@ -316,7 +147,7 @@ const stakeFun = () =>{
                       <span>Stake BNB</span>
                     </div>
                     <div class="flex">
-                      <span>Balance: {{ myETHBalance }}
+                      <span>Balance: {{ state.myETHBalance }}
                         <span class="font-semibold">BNB</span>
                       </span>
                       <span class="max_btn" @click="MaxBalance()">Max</span>
