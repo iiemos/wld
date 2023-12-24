@@ -5,7 +5,7 @@ const state = useGlobalState()
 
 console.log(123123);
 let web3 = ref() 
-let myAddress=ref('')//我的地址
+let myAddress=ref('')// 我的地址
 let SpaceXContract=ref(null)// 合约实例
 let myBalance=ref(null)// 钱包余额
 let infoData =ref(null)// 合约信息
