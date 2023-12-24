@@ -20,7 +20,7 @@ import lpABI from "@/abis/lpABI.json";
 import cakeLpABI from "@/abis/cakeLpABI.json";
 // const { t } = useI18n()
 const addSpaceX = ref(0) // 
-const tabsActive = ref(1)
+const tabsActive = ref(1) // tabs显示idex
 const myUSDTNumber = ref(0) // 添加的usdt数量
 const myUSDTNumber2 = ref(0) // 组合添加的usdt数量
 
@@ -29,8 +29,7 @@ const state = useGlobalState();
 let web3 = ref();
 let myAddress = ref(""); //我的地址
 let infoData = ref(""); //我的地址
-let myETHBalance = ref(""); // EHT余额
-let tabsNum = ref(0); // tabs显示idex
+let myETHBalance = ref('0'); // EHT余额
 const addBnbNum = ref(0); // 添加的数量
 
 let myUSDTBalance = ref(""); // USDT余额
@@ -43,7 +42,6 @@ let LPContract = ref(""); // LP合约实例
 // 0x76a569aBA8E6909e9350A36389D0a061e1264193
 const invites = useRouteQuery('invs')
 const refLinks = ref('')
-const activeName = ref('first') // tabs 选中的名称
 const myLpBalance = ref(0) // 流动性总余额
 const myLpTotleBalance = ref(0) // 我的流动性余额
 const myAddCpuPower = ref(0) // 加入添加的算力
