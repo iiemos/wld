@@ -50,7 +50,7 @@ const gasPrice = ref(0) // 当前gas价格
 const gasLimit = ref(0) // gas最高限制费用
 
 
-console.log('当前邀请链接为：', state.refLinks.value);
+console.log('当前邀请链接为：', state.inviteLink.value);
 const changeTabs = (idx) => {
   tabsActive.value = idx
 }
@@ -65,14 +65,14 @@ const stakeFun = () =>{
   if(addBnbNum.value < 0.5) return ElMessage.error('Minimum addition of 0.5 BNB');
   if(state.myETHBalance.value < 0.5) return ElMessage.error('The account balance is insufficient, please add more');
   if(addBnbNum.value > state.myETHBalance.value) return ElMessage.error('The account balance is insufficient, please add more');
-  if(state.refLinks.value == 'undefined' || !state.refLinks.value) return ElMessage.warning('The invitation link address cannot be empty, please obtain the invitation link again.') 
+  if(state.inviteLink.value == 'undefined' || !state.inviteLink.value) return ElMessage.warning('The invitation link address cannot be empty, please obtain the invitation link again.') 
 
   const callValue = state.web3.value.utils.toWei(addBnbNum.value.toString());
   console.log('购买的数量',callValue);
-  console.log('邀请链接----',state.refLinks.value);
+  console.log('邀请链接----',state.inviteLink.value);
   console.log('from---',state.myAddress.value);
 
-  DeFiContract.value.methods.stake(state.refLinks.value)
+  state.DeFiContract.value.methods.stake(state.inviteLink.value)
     .send({
       from: state.myAddress.value,
       value: callValue
