@@ -51,6 +51,10 @@ const gasLimit = ref(0) // gas最高限制费用
 
 
 console.log('当前邀请链接为：', state.inviteLink.value);
+let fromWeiFun = (val)=>{ 
+  if(val == 0) return val
+  return (val / 1000000000000000000)
+}
 const changeTabs = (idx) => {
   tabsActive.value = idx
 }
@@ -176,7 +180,7 @@ const stakeFun = () =>{
                       class="wallet_item_logo absolute inset-y-0 left-0 pl-1 flex items-center pointer-events-none px-3 py-3">
                       <IconCPU style="width: 2rem;height: 2rem;" />
                     </div>
-                    <div class="calculation text-right">{{ state.infoData.value.userCp }}</div>
+                    <div class="calculation text-right">{{ fromWeiFun(state.infoData.value.userCp) }}</div>
                   </div>
                   <div class="wallet_item_footer"></div>
                 </div>

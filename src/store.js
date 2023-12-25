@@ -32,11 +32,27 @@ export const useGlobalState = createGlobalState(
         // team2Award: '0', // 15代团队可领取收益 ✅
     })
     const userLevel = ref('0')
+    const inviteLink = ref('0xDA02d522d8cd60de0a2F9773f80b16Fc9ED99bdd')
     const contractAddress=ref('0x0E02dE0c9ffFB602c10fcbec38944aA97991fbE6')//合约地址
+
+    const Router_ADDRESS=ref('0xBA6b07C1cDE52cC51ff7357ECc43A47f9581a291') // 路由合约地址
+    // https://testnet.bscscan.com/address/0xB6BA90af76D139AB3170c7df0139636dB6120F7e#code
+
+    const Factory_ADDRESS=ref('0xcBc23fD0a109F225D262BB1F5ee032da107e3CF0') // 工厂合约地址
+    // https://testnet.bscscan.com/address/0x7e71d9E2235E4C90cCcDBED00e43ab44f3094A44#code
+
+    const WOKT_ADDRESS=ref('0x221c4A420fDF65a1837000dcb7Ff950AF2bb2829') // WOKT合约地址
+    // https://testnet.bscscan.com/address/0x4c6289890009d7358e522d8BA97287a29F1988bB#code
+
     const DeFiContract = ref(null)
     const gasPrice = ref(null)
-    const inviteLink = ref('0xDA02d522d8cd60de0a2F9773f80b16Fc9ED99bdd')
     
+    // 首先搭建OKT测试网的SWAP
+    // 路由地址 0xBA6b07C1cDE52cC51ff7357ECc43A47f9581a291
+    // 工厂地址 0xcBc23fD0a109F225D262BB1F5ee032da107e3CF0
+    // WOKT地址 0x221c4A420fDF65a1837000dcb7Ff950AF2bb2829
+    // 这个搭建出来有买卖功能即可
+    // 路由合约ABI和工作合于ABI和WOKT的和BSC主网博饼的一模一样，直接去博饼复制合约即可
     // getters
     const doubleCount = computed(() => count.value * 2)
 
