@@ -1,6 +1,8 @@
 <script setup>
 import IconTwitter from '@/components/icons/IconTwitter.vue'
 import { RouterLink, RouterView } from "vue-router";
+import { useRouteQuery } from '@vueuse/router'
+const invites = useRouteQuery('invs')
 </script>
 <template>
   <footer class="footer-section section-bg pt-120">
@@ -30,16 +32,16 @@ import { RouterLink, RouterView } from "vue-router";
               <div class="content-area">
                 <ul class="quick-link">
                   <li class="active">
-                    <RouterLink :to="`/`">Home</RouterLink>
+                    <RouterLink :to="`/?invs=${invites}`">Home</RouterLink>
                   </li>
                   <li>
-                    <RouterLink :to="`power`">power</RouterLink>
+                    <RouterLink :to="`power?invs=${invites}`">power</RouterLink>
                   </li>
                   <li>
-                    <RouterLink :to="`income`">income</RouterLink>
+                    <RouterLink :to="`income?invs=${invites}`">income</RouterLink>
                   </li>
                   <li>
-                    <RouterLink :to="`team`">team</RouterLink>
+                    <RouterLink :to="`team?invs=${invites}`">team</RouterLink>
                   </li>
                 </ul>
               </div>

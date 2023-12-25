@@ -164,16 +164,16 @@ defineExpose({
           </div>
           <ul class="main-menu" :class="{ active: isActive }">
             <li class="active">
-              <RouterLink :to="`/`">Home</RouterLink>
+              <RouterLink :to="`/?invs=${invites}`">Home</RouterLink>
             </li>
             <li>
-              <RouterLink :to="`power`">power</RouterLink>
+              <RouterLink :to="`power?invs=${invites}`">power</RouterLink>
             </li>
             <li>
-              <RouterLink :to="`income`">income</RouterLink>
+              <RouterLink :to="`income?invs=${invites}`">income</RouterLink>
             </li>
             <li>
-              <RouterLink :to="`team`">team</RouterLink>
+              <RouterLink :to="`team?invs=${invites}`">team</RouterLink>
             </li>
             <!-- <li>
               <RouterLink :to="`portfolio-single`">Portfolio</RouterLink>
