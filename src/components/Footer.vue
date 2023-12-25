@@ -19,28 +19,7 @@ import { RouterLink, RouterView } from "vue-router";
                   The IPO platform is designed to facilitate users to seamlessly transfer tokens between different blockchain networks (including the Bitcoin network), thereby enhancing liquidity and interoperability between different blockchain networks.
                 </p>
                 <p>The protocol permanently binds the token units of each blockchain network to the IPO, destroys them and automatically inscribes them on the IPO network.</p>
-                <ul class="social">
-                  <li>
-                    <a href="#" class="icon"
-                      ><i class="fa-brands fa-facebook-f"></i
-                    ></a>
-                  </li>
-                  <li>
-                    <a href="#" class="icon"
-                      ><i class="fa-brands fa-instagram"></i
-                    ></a>
-                  </li>
-                  <li>
-                    <a href="#" class="icon"
-                      ><i class="fa-brands fa-twitter"></i
-                    ></a>
-                  </li>
-                  <li>
-                    <a href="#" class="icon"
-                      ><i class="fa-brands fa-whatsapp"></i
-                    ></a>
-                  </li>
-                </ul>
+
               </div>
             </div>
           </div>
@@ -69,19 +48,26 @@ import { RouterLink, RouterView } from "vue-router";
             <div class="widget-items">
               <div class="footer-head"><h5 class="title">Contact Us</h5></div>
               <div class="content-area">
-                <ul class="contact">
+                <ul class="social mb-4" style="justify-content: space-around;">
+                  <li class="">
+                    <a href="#" class="icon"
+                      ><i class="fa-brands fa-facebook-f"></i
+                    ></a>
+                  </li>
                   <li>
-                    <div class="phone-icon">
-                      <img src="@/assets/img/footer/email.png" alt="email" />
-                    </div>
-                    <a href="#0" class="email-part"
-                      ><span>Email:</span
-                      ><span
-                        class="__cf_email__"
-                        data-cfemail="b3c0c6c3c3dcc1c7f3f7d4d6ddd0ca"
-                        >[email&nbsp;protected]</span
-                      ></a
-                    >
+                    <a href="#" class="icon"
+                      ><i class="fa-brands fa-instagram"></i
+                    ></a>
+                  </li>
+                  <li>
+                    <a href="#" class="icon"
+                      ><i class="fa-brands fa-twitter"></i
+                    ></a>
+                  </li>
+                  <li>
+                    <a href="#" class="icon"
+                      ><i class="fa-brands fa-whatsapp"></i
+                    ></a>
                   </li>
                 </ul>
               </div>
