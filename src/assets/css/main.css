@@ -710,7 +710,7 @@ p {
 }
 .breadcumnd-content {
   position: relative;
-  /* z-index: 999; */
+  z-index: 12;
 }
 .breadcumnd-content h1 {
   color: var(--theme-color);

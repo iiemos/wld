@@ -343,11 +343,9 @@ const stakeFun = () =>{
           <div class="col-lg-8">
             <div class="section-header section-center wow fadeInDown"
               style="visibility: visible; animation-name: fadeInDown">
-              <h2>Frequently Asked Questions</h2>
+              <h2>InscriptionOne Agreement (IPO) Details</h2>
               <p>
-                Aenean venenatis libero odio,id efficitur elit tempus fringilla.
-                Fusce et rutrum tortor. Mauris ut enim nulla. Vestibulum a
-                pellentesque eros.
+                The IPO protocol permanently binds the token units of each blockchain network to the IPO, destroys them, and automatically inscribes them on the IPO network.
               </p>
             </div>
             <div class="main-faq">
@@ -357,7 +355,7 @@ const stakeFun = () =>{
                     <div class="accordion-header" id="headingOne">
                       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                        <span>Are you open for new projects? </span><span class="icon"><img
+                        <span>1. Narrative nature of IPO based on inscriptions</span><span class="icon"><img
                             src="@/assets/img/faq/plus.png" alt="arrow-img" /></span><span class="plus"><img
                             src="@/assets/img/faq/d.png" alt="arrow-img" /></span>
                       </button>
@@ -365,30 +363,7 @@ const stakeFun = () =>{
                         data-bs-parent="#accordionExample">
                         <div class="accordion-body">
                           <p>
-                            Aenean venenatis libero odio,id efficitur elit
-                            tempus fringilla. Fusce et rutrum tortor. Mauris ut
-                            enim nulla. Vestibulum a pellentesque eros.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="accordion-item">
-                    <div class="accordion-header" id="headingTwo">
-                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        <span>Do you currently have career openings?</span><span class="icon"><img
-                            src="@/assets/img/faq/plus.png" alt="arrow-img" /></span><span class="plus"><img
-                            src="@/assets/img/faq/d.png" alt="arrow-img" /></span>
-                      </button>
-                      <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
-                        data-bs-parent="#accordionExample">
-                        <div class="accordion-body">
-                          <p>
-                            All successful bidders can confirm their winning bid
-                            by checking the “Techbid”. In addition,all
-                            successful bidders will receive an email notifying
-                            them of their winning bid after the auction closes.
+                            Consensus through characters is the cornerstone of inscription; the deployer and the inscriber have the same rights, and the inscription means I own it.
                           </p>
                         </div>
                       </div>
@@ -398,7 +373,7 @@ const stakeFun = () =>{
                     <div class="accordion-header" id="headingThree">
                       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                        <span>How long has the agency been running for?</span><span class="icon"><img
+                        <span>2. Scenarios of IPO Agreement</span><span class="icon"><img
                             src="@/assets/img/faq/plus.png" alt="arrow-img" /></span><span class="plus"><img
                             src="@/assets/img/faq/d.png" alt="arrow-img" /></span>
                       </button>
@@ -406,10 +381,7 @@ const stakeFun = () =>{
                         data-bs-parent="#accordionExample">
                         <div class="accordion-body">
                           <p>
-                            All successful bidders can confirm their winning bid
-                            by checking the “Techbid”. In addition,all
-                            successful bidders will receive an email notifying
-                            them of their winning bid after the auction closes.
+                            The protocol permanently binds the token units of each blockchain network to the IPO, destroys them and automatically inscribes them on the IPO network. Different blockchain network inscriptions can be misaligned with IPO tokens to achieve multi-chain aggregation transactions on the IPO inscription exchange.
                           </p>
                         </div>
                       </div>
@@ -419,7 +391,7 @@ const stakeFun = () =>{
                     <div class="accordion-header" id="headingThree4">
                       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseThree4" aria-expanded="false" aria-controls="collapseThree">
-                        <span>Do you offer discounts for nonprofit companies?</span><span class="icon"><img
+                        <span>3. What problems does IPO solve?</span><span class="icon"><img
                             src="@/assets/img/faq/plus.png" alt="arrow-img" /></span><span class="plus"><img
                             src="@/assets/img/faq/d.png" alt="arrow-img" /></span>
                       </button>
@@ -427,10 +399,25 @@ const stakeFun = () =>{
                         data-bs-parent="#accordionExample">
                         <div class="accordion-body">
                           <p>
-                            All successful bidders can confirm their winning bid
-                            by checking the “Techbid”. In addition,all
-                            successful bidders will receive an email notifying
-                            them of their winning bid after the auction closes.
+                            Users can seamlessly transfer tokens between the Bitcoin blockchain and other blockchain networks, thereby enhancing liquidity and interoperability between different blockchain networks; IPO tokens provide a new way for users to Inscriptions can be transferred smoothly between different networks.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="accordion-item">
+                    <div class="accordion-header" id="headingTwo">
+                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        <span>4. What is an IPO agreement?</span><span class="icon"><img
+                            src="@/assets/img/faq/plus.png" alt="arrow-img" /></span><span class="plus"><img
+                            src="@/assets/img/faq/d.png" alt="arrow-img" /></span>
+                      </button>
+                      <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                        data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                          <p>
+                            The IPO protocol promotes the seamless flow and interoperability of tokens between different blockchain ecosystems; it proposes a cultural solution for non-native tokens in other blockchain networks; the IPO protocol cleverly uses destruction to replace the high-quality products produced by inscription Because Gas does not enter the cycle of token economics, it avoids asset spillover.
                           </p>
                         </div>
                       </div>

@@ -133,7 +133,7 @@ const claimFun = useDebounceFn( async() => {
 
       </div>
     </section>
-    <section class="contact-section pt-120 pb-120">
+    <section v-if="false" class="contact-section pt-120 pb-120">
       <div class="container">
         <div class="section-header section-center wow fadeInDown" data-wow-delay="0.3s">
           <h2 class="section-title">Computing power level</h2>

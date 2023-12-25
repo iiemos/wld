@@ -168,7 +168,7 @@ defineExpose({
             <li>
               <RouterLink :to="`team`">team</RouterLink>
             </li>
-            <li>
+            <!-- <li>
               <RouterLink :to="`portfolio-single`">Portfolio</RouterLink>
             </li>
             <li>
@@ -179,7 +179,7 @@ defineExpose({
             </li>
             <li>
               <RouterLink :to="`contact`">Contact</RouterLink>
-            </li>
+            </li> -->
           </ul>
           <div class="connect_wallet" v-if="state.myAddress.value" @click="logout">
             <span>{{ showAdd }}</span>

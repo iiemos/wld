@@ -1,3 +1,6 @@
+<script setup>
+import { RouterLink, RouterView } from "vue-router";
+</script>
 <template>
   <footer class="footer-section section-bg pt-120">
     <div class="container">
@@ -13,9 +16,9 @@
               </div>
               <div class="content-area">
                 <p>
-                  In vel ipsum pretium,sagittis tellus sed,finibus mauris.
-                  Curabitur varius placerat risus.
+                  The IPO platform is designed to facilitate users to seamlessly transfer tokens between different blockchain networks (including the Bitcoin network), thereby enhancing liquidity and interoperability between different blockchain networks.
                 </p>
+                <p>The protocol permanently binds the token units of each blockchain network to the IPO, destroys them and automatically inscribes them on the IPO network.</p>
                 <ul class="social">
                   <li>
                     <a href="#" class="icon"
@@ -46,69 +49,17 @@
               <div class="footer-head"><h5 class="title">Menu</h5></div>
               <div class="content-area">
                 <ul class="quick-link">
-                  <li>
-                    <a href="#"
-                      ><i class="fas fa-caret-right"></i>Home
-                    </a>
+                  <li class="active">
+                    <RouterLink :to="`/`">Home</RouterLink>
                   </li>
                   <li>
-                    <a href="#"
-                      ><i class="fas fa-caret-right"></i>About Us
-                    </a>
+                    <RouterLink :to="`power`">power</RouterLink>
                   </li>
                   <li>
-                    <a href="#"
-                      ><i class="fas fa-caret-right"></i>Blog
-                    </a>
+                    <RouterLink :to="`income`">income</RouterLink>
                   </li>
                   <li>
-                    <a href="#"
-                      ><i class="fas fa-caret-right"></i>Protfolio
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#"
-                      ><i class="fas fa-caret-right"></i>Packages
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#"
-                      ><i class="fas fa-caret-right"></i>Contact
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-            <div class="widget-items">
-              <div class="footer-head">
-                <h5 class="title">Untility Pages</h5>
-              </div>
-              <div class="content-area">
-                <ul class="quick-link">
-                  <li>
-                    <a href="#0"
-                      ><i class="fas fa-caret-right"></i>Start here
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#"
-                      ><i class="fas fa-caret-right"></i>404 Not found
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#0"
-                      ><i class="fas fa-caret-right"></i>Password protected
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#0"><i class="fas fa-caret-right"></i>Licenses </a>
-                  </li>
-                  <li>
-                    <a href="#0"
-                      ><i class="fas fa-caret-right"></i>Changelog
-                    </a>
+                    <RouterLink :to="`team`">team</RouterLink>
                   </li>
                 </ul>
               </div>
@@ -132,29 +83,11 @@
                       ></a
                     >
                   </li>
-                  <li>
-                    <div class="phone-icon">
-                      <img src="@/assets/img/footer/phone.png" alt="phone" />
-                    </div>
-                    <a href="#0" class="email-part"
-                      ><span>Phone:</span>+879 624 548
-                    </a>
-                  </li>
                 </ul>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="footer-bottom">
-        <p class="text-white">
-          Copyright ©2022 Dgency | Designed by
-          <a href="HttP://www.bootstrapmb.com">Softivus</a>
-        </p>
-        <ul class="footer-bottom-link">
-          <li><a href="#0">Privacy </a></li>
-          <li><a href="#0">Terms &amp; Condition </a></li>
-        </ul>
       </div>
     </div>
   </footer>
