@@ -118,7 +118,6 @@ const copyLink = () => {
                     {{ fromWeiFun(state.infoData.value.userCp) }}
                   </span>
                 </div>
-
                 <!-- <div class="income_item bg-green-50 flex items-center justify-between">
                   <span class="text-sm">
                     <img class="w-10 h-10" src="@/assets/img/process/process8.png"/>

@@ -131,7 +131,7 @@ const joinWeb3 = async () => {
     // const gasCost = gasLimit.value * gasPrice.value;
     // console.log('计算后的gas价格', gasCost/1000000000000000000);
   } catch (e) {
-    ElMessage.warning(e.message);
+    // ElMessage.warning(e.message);
     console.log(e);
   }
 };
