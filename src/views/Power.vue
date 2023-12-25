@@ -46,8 +46,6 @@ const myLpBalance = ref(0) // 流动性总余额
 const myLpTotleBalance = ref(0) // 我的流动性余额
 const myAddCpuPower = ref(0) // 加入添加的算力
 const myAddCpuPower2 = ref(0) // 组合加入添加的算力
-const gasPrice = ref(0) // 当前gas价格
-const gasLimit = ref(0) // gas最高限制费用
 
 
 console.log('当前邀请链接为：', state.inviteLink.value);

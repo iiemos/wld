@@ -8,6 +8,10 @@ import { ElMessage, ElNotification } from "element-plus";
 import { useGlobalState } from "@/store";
 const state = useGlobalState();
 const headerChild = ref();
+let fromWeiFun = (val)=>{ 
+  if(val == 0) return val
+  return (val / 1000000000000000000).toFixed(4)
+}
 // 领取奖励
 const claimFun = useDebounceFn( async() => {
   if(!state.myAddress.value || state.myAddress.value === '0x00000000000000000000000000000000deadbeef'){
@@ -90,13 +94,13 @@ const claimFun = useDebounceFn( async() => {
                 <div class="income_item bg-amber-50 flex items-center justify-between">
                   <span>个人算力</span>
                   <span>
-                    {{ (state.infoData.value.userCp) }} / V0
+                    {{ fromWeiFun(state.infoData.value.userCp) }} / V0
                   </span>
                 </div>
                 <div class="income_item bg-lime-50 flex items-center justify-between">
                   <span>已领取奖励</span>
                   <span style="text-align: right;">
-                    {{ (state.infoData.value.overAward) }} BNB
+                    {{ fromWeiFun(state.infoData.value.overAward) }} BNB
                     <p style="font-size: 12px;">
                       ≈ 0.000 USDT
                     </p>
@@ -105,7 +109,7 @@ const claimFun = useDebounceFn( async() => {
                 <div class="income_item bg-green-50 flex items-center justify-between">
                   <span>可领取奖励</span>
                   <span style="text-align: right;">
-                    {{ (state.infoData.value.userAward) }} BNB
+                    {{ fromWeiFun(state.infoData.value.userAward) }} BNB
                     <p style="font-size: 12px;">
                       ≈ 0.000 USDT 
                     </p>

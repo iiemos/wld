@@ -21,6 +21,10 @@ onMounted(async () => {
   });
   wow.init();
 });
+let fromWeiFun = (val)=>{ 
+  if(val == 0) return val
+  return (val / 1000000000000000000).toFixed(4)
+}
 const copyLink = () => {
   let _input = document.createElement('input')
     _input.value = state.inviteLink.value;
@@ -93,7 +97,7 @@ const copyLink = () => {
                     团队算力
                     </span>
                   <span>
-                    {{ (state.infoData.value.teamCp2) }}
+                    {{ fromWeiFun(state.infoData.value.teamCp2) }}
                   </span>
                 </div>
                 <div class="income_item bg-lime-50 flex items-center justify-between">
@@ -111,7 +115,7 @@ const copyLink = () => {
                     我的算力
                     </span>
                   <span style="text-align: right;">
-                    {{ (state.infoData.value.userCp) }}
+                    {{ fromWeiFun(state.infoData.value.userCp) }}
                   </span>
                 </div>
 
