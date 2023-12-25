@@ -5,6 +5,7 @@ import { RouterLink, RouterView } from "vue-router";
 import { useRouteQuery } from '@vueuse/router'
 import { ElMessage, ElNotification } from "element-plus";
 import defiABI from "@/abis/defiABI.json";
+import RouterABI from "@/abis/RouterABI.json";
 const state = useGlobalState();
 const web3 = ref(null);
 const isActive = ref(false);
@@ -113,12 +114,10 @@ const joinWeb3 = async () => {
   try {
     // 创建合约实例
     const  DeFiContract = new web3.value.eth.Contract(defiABI, state.contractAddress.value);
+    console.log('DeFiContract',DeFiContract);
     state.updateDeFiContract(DeFiContract) // 赋值合约实例
     const infoData = await DeFiContract.methods.getInfo(myAddress).call();
     state.updateInfoData(infoData);  // 设置info值
-    
-    // // 创建usdt合约实例
-    // usdtContract.value = new web3.value.eth.Contract(usdtABI, state.infoData.value.usdtCoin);
     // 获取钱包eth余额
     const myETHBalance = web3.value.utils.fromWei(balance, "ether");
     console.log('myETHBalance',myETHBalance);
@@ -130,6 +129,14 @@ const joinWeb3 = async () => {
     // gasLimit.value = 9000000; // 设置gas限制
     // const gasCost = gasLimit.value * gasPrice.value;
     // console.log('计算后的gas价格', gasCost/1000000000000000000);
+    // 创建路由合约地址
+    const RouterContract = new web3.value.eth.Contract(RouterABI, state.Router_ADDRESS.value);
+    console.log('RouterContract----------',RouterContract);
+
+    const WETH = await RouterContract.methods.WETH().call();
+    console.log('WETH----------',WETH);
+    state.updateRouterContract(RouterContract) // 赋值合约实例
+
   } catch (e) {
     // ElMessage.warning(e.message);
     console.log(e);

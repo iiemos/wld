@@ -5,7 +5,7 @@ import { RouterLink, RouterView } from 'vue-router'
 <template>
   <div>
     <RouterView />
-    <el-backtop :bottom="100" id="">
+    <el-backtop :bottom="50" id="">
       <div
         style="
           height: 100%;

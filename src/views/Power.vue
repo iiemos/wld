@@ -14,10 +14,6 @@ import { useDebounceFn, computedAsync } from '@vueuse/core'
 import { ElMessage, ElNotification } from "element-plus";
 import { Pointer } from '@element-plus/icons-vue'
 import defiABI from "@/abis/defiABI.json";
-import usdtABI from "@/abis/usdtABI.json";
-import spaceXABI from "@/abis/spaceABI.json";
-import lpABI from "@/abis/lpABI.json";
-import cakeLpABI from "@/abis/cakeLpABI.json";
 // const { t } = useI18n()
 const addSpaceX = ref(0) // 
 const tabsActive = ref(1) // tabs显示idex

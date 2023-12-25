@@ -45,6 +45,7 @@ export const useGlobalState = createGlobalState(
     // https://testnet.bscscan.com/address/0x4c6289890009d7358e522d8BA97287a29F1988bB#code
 
     const DeFiContract = ref(null)
+    const RouterContract = ref(null)
     const gasPrice = ref(null)
     
     // 首先搭建OKT测试网的SWAP
@@ -75,6 +76,9 @@ export const useGlobalState = createGlobalState(
     function updateDeFiContract(val) {
       DeFiContract.value = val
     }
+    function updateRouterContract(val) {
+      RouterContract.value = val
+    }
     function updateMyAddress(val) {
       myAddress.value = val
     }    
@@ -94,10 +98,14 @@ export const useGlobalState = createGlobalState(
       myETHBalance,
       DeFiContract,
       contractAddress,
+      Router_ADDRESS,
+      Factory_ADDRESS,
+      WOKT_ADDRESS,
       increment,
       updateWbe3,
       updateGasPrice,
       updateDeFiContract,
+      updateRouterContract,
       updateMyETHBalance,
       updateInfoData,
       updateMyAddress,
