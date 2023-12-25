@@ -16,7 +16,7 @@ let infoData = ref(null); // 合约信息
 
 onMounted(async () => {
   let wow = new WOW({
-    boxClass: 'wow',    //需要执行动画元素的Class
+    boxClass: 'wow',    // 需要执行动画元素的Class
     animateClass: 'animated',    //animation.css动画的Class
     offset: 0,    //距离可视区域多少开始执行动画
     mobile: true,    //是否在移动设备执行动画
@@ -25,18 +25,18 @@ onMounted(async () => {
   wow.init();
 });
 
-let refLinks = computed(() => {
-  if (myAddress.value) {
-    return window.location.origin + `/?ref=${myAddress.value}`;
-  }
-  return "Connect Wallet";
-});
 let showAdd = computed(() => {
   if (!myAddress.value) return "Connect Wallet";
   return (
     myAddress.value.substring(0, 4) + "...." + myAddress.value.substr(-4, 4)
   );
 });
+let refLinks = computed(()=>{ 
+  if(state.myAddress.value){
+    return window.location.origin + `/?invs=${state.myAddress.value}`
+  }
+  return 'Connect Wallet'
+})
 const copyLink = () => {
   let _input = document.createElement("input");
   _input.value = refLinks.value;
@@ -65,8 +65,8 @@ const copyLink = () => {
                 aliqua quis ipsum.
               </p>
               <div class="banner-cmn">
-                <a href="#" class="cmn--btn">邀请好友</a>
-                <a href="#" class="cmn--border">
+                <!-- <a href="#" class="cmn--btn">邀请好友</a> -->
+                <a href="#" class="cmn--border" @click="copyLink">
                   Copy referral link
                 </a>
               </div>

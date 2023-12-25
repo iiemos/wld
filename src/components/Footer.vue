@@ -1,4 +1,5 @@
 <script setup>
+import IconTwitter from '@/components/icons/IconTwitter.vue'
 import { RouterLink, RouterView } from "vue-router";
 </script>
 <template>
@@ -49,25 +50,20 @@ import { RouterLink, RouterView } from "vue-router";
               <div class="footer-head"><h5 class="title">Contact Us</h5></div>
               <div class="content-area">
                 <ul class="social mb-4" style="justify-content: space-around;">
-                  <li class="">
-                    <a href="#" class="icon"
-                      ><i class="fa-brands fa-facebook-f"></i
-                    ></a>
+                  <li>
+                    <a href="#" class="icon">
+                      <IconTwitter style="color: #231d70; width: 14px;"/>
+                     </a>
                   </li>
                   <li>
-                    <a href="#" class="icon"
-                      ><i class="fa-brands fa-instagram"></i
-                    ></a>
+                    <a href="#" class="icon">
+                      <i class="fa-brands fa-discord"></i>
+                    </a>
                   </li>
                   <li>
-                    <a href="#" class="icon"
-                      ><i class="fa-brands fa-twitter"></i
-                    ></a>
-                  </li>
-                  <li>
-                    <a href="#" class="icon"
-                      ><i class="fa-brands fa-whatsapp"></i
-                    ></a>
+                    <a href="#" class="icon">
+                      <i class="fa-brands fa-telegram"></i>
+                    </a>
                   </li>
                 </ul>
               </div>

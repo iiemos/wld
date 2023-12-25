@@ -25,9 +25,15 @@ let fromWeiFun = (val)=>{
   if(val == 0) return val
   return (val / 1000000000000000000).toFixed(4)
 }
+let refLinks = computed(()=>{ 
+  if(state.myAddress.value){
+    return window.location.origin + `/?invs=${state.myAddress.value}`
+  }
+  return 'Connect Wallet'
+})
 const copyLink = () => {
   let _input = document.createElement('input')
-    _input.value = state.inviteLink.value;
+    _input.value = refLinks.value;
     document.body.appendChild(_input)
     _input.select()
     document.execCommand('Copy')
