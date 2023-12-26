@@ -33,7 +33,7 @@ export const useGlobalState = createGlobalState(
     })
     const userLevel = ref('0')
     const inviteLink = ref('0xDA02d522d8cd60de0a2F9773f80b16Fc9ED99bdd')
-    const contractAddress=ref('0x0E02dE0c9ffFB602c10fcbec38944aA97991fbE6')//合约地址
+    const contractAddress=ref('0xe96a245c4fc0d6695BFf6C564Bb91aCa684F0dC9')// Defi合约地址
 
     const Router_ADDRESS=ref('0xBA6b07C1cDE52cC51ff7357ECc43A47f9581a291') // 路由合约地址
     // https://testnet.bscscan.com/address/0xB6BA90af76D139AB3170c7df0139636dB6120F7e#code
@@ -48,7 +48,7 @@ export const useGlobalState = createGlobalState(
     const RouterContract = ref(null)
     const gasPrice = ref(null)
     
-    // 首先搭建OKT测试网的SWAP
+    // 首先搭建OKT测试网的SWAP 
     // 路由地址 0xBA6b07C1cDE52cC51ff7357ECc43A47f9581a291
     // 工厂地址 0xcBc23fD0a109F225D262BB1F5ee032da107e3CF0
     // WOKT地址 0x221c4A420fDF65a1837000dcb7Ff950AF2bb2829
