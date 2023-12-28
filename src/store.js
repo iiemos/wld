@@ -33,7 +33,7 @@ export const useGlobalState = createGlobalState(
     })
     const userLevel = ref('0')
     const inviteLink = ref('0xDA02d522d8cd60de0a2F9773f80b16Fc9ED99bdd')
-    const contractAddress=ref('0xe96a245c4fc0d6695BFf6C564Bb91aCa684F0dC9')// Defi合约地址
+    const contractAddress=ref('0xFa01F763fE65F198A5c259bED88195594674A441')// Defi合约地址
 
     const Router_ADDRESS=ref('0xBA6b07C1cDE52cC51ff7357ECc43A47f9581a291') // 路由合约地址
     // https://testnet.bscscan.com/address/0xB6BA90af76D139AB3170c7df0139636dB6120F7e#code
@@ -44,6 +44,7 @@ export const useGlobalState = createGlobalState(
     const WOKT_ADDRESS=ref('0x221c4A420fDF65a1837000dcb7Ff950AF2bb2829') // WOKT合约地址
     // https://testnet.bscscan.com/address/0x4c6289890009d7358e522d8BA97287a29F1988bB#code
 
+    const TOKEN_ADDRESS=ref('0x8a70a2A95A17b2C6137201a2DE07C529F1c5a77D') // 代币地址
     const DeFiContract = ref(null)
     const RouterContract = ref(null)
     const gasPrice = ref(null)
@@ -99,6 +100,7 @@ export const useGlobalState = createGlobalState(
       DeFiContract,
       contractAddress,
       Router_ADDRESS,
+      TOKEN_ADDRESS,
       Factory_ADDRESS,
       WOKT_ADDRESS,
       increment,

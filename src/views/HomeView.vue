@@ -24,7 +24,8 @@ onMounted(async () => {
   });
   wow.init();
 });
-
+ // young pool enforce priority cabbage amount warrior minute tooth resource transfer tag custom elephant goat remove noise ride select shift neutral young upset list
+//  console.log('young pool enforce priority cabbage amount warrior minute tooth resource transfer tag custom elephant goat remove noise ride select shift neutral young upset list');
 let showAdd = computed(() => {
   if (!myAddress.value) return "Connect Wallet";
   return (
@@ -58,7 +59,8 @@ const copyLink = () => {
             data-wow-delay="0.2s"
           >
             <div class="hero-content">
-              <h5>Welcome to IPO</h5>
+              <h5>Welcome to IPO
+              </h5>
               <h1>We are a high-yield web3 project</h1>
               <p>
                 Sed do eiusmod tempor incididunt ut labore et dolore magna
