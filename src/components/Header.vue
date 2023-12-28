@@ -6,6 +6,7 @@ import { useRouteQuery } from '@vueuse/router'
 import { ElMessage, ElNotification } from "element-plus";
 import defiABI from "@/abis/defiABI.json";
 import RouterABI from "@/abis/RouterABI.json";
+import usdtABI from "@/abis/usdtABI.json";
 const state = useGlobalState();
 const web3 = ref(null);
 const isActive = ref(false);
@@ -114,29 +115,35 @@ const joinWeb3 = async () => {
   try {
     // 创建合约实例
     const  DeFiContract = new web3.value.eth.Contract(defiABI, state.contractAddress.value);
-    console.log('DeFiContract',DeFiContract);
+    // console.log('DeFiContract',DeFiContract);
     state.updateDeFiContract(DeFiContract) // 赋值合约实例
     const infoData = await DeFiContract.methods.getInfo(myAddress).call();
     state.updateInfoData(infoData);  // 设置info值
     // 获取钱包eth余额
     const myETHBalance = web3.value.utils.fromWei(balance, "ether");
-    console.log('myETHBalance',myETHBalance);
+    // console.log('myETHBalance',myETHBalance);
     state.updateMyETHBalance(myETHBalance);  // 设置info值
     // 获取当前gas价格
     const gasPrice = await web3.value.eth.getGasPrice();
     state.updateGasPrice(gasPrice);  // 设置Gas值
+    state.updateGasGWeiPrice(web3.value.utils.fromWei(gasPrice, "ether"));  // 设置GasGwei值
     // // 设置gas费用
     // gasLimit.value = 9000000; // 设置gas限制
     // const gasCost = gasLimit.value * gasPrice.value;
     // console.log('计算后的gas价格', gasCost/1000000000000000000);
     // 创建路由合约地址
     const RouterContract = new web3.value.eth.Contract(RouterABI, state.Router_ADDRESS.value);
-    console.log('RouterContract----------',RouterContract);
+    // console.log('RouterContract----------',RouterContract);
 
     const WETH = await RouterContract.methods.WETH().call();
-    console.log('WETH----------',WETH);
+    // console.log('WETH----------',WETH);
     state.updateRouterContract(RouterContract) // 赋值合约实例
 
+    // 创建BBA代币实例并获取余额
+    const BbaTokenContract = new web3.value.eth.Contract(usdtABI, state.TOKEN_ADDRESS.value);
+    let BbaTokenBalance = await BbaTokenContract.methods.balanceOf(state.myAddress.value).call();
+    const BbaTokenBalanceFromWei = web3.value.utils.fromWei(BbaTokenBalance, "ether");
+    state.updateBbaCoinBlance(Number(BbaTokenBalanceFromWei)) // 赋值BBA代币余额
   } catch (e) {
     // ElMessage.warning(e.message);
     console.log(e);

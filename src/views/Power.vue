@@ -45,6 +45,7 @@ const myAddCpuPower = ref(0) // 加入添加的算力
 const myAddCpuPower2 = ref(0) // 组合加入添加的算力
 
 
+
 console.log('当前邀请链接为：', state.inviteLink.value);
 let fromWeiFun = (val)=>{ 
   if(val == 0) return val
@@ -89,6 +90,9 @@ const stakeFun = () =>{
     })
     .catch((error) => {
       console.error('Approval failed:', error);
+      if(error.code == '4001'){
+        ElMessage.warning('用户拒绝了请求！');
+      }
       if(error.code == '-32603' || error.message == 'transaction underpriced'){
         ElMessage.error('gas不足！');
       }
