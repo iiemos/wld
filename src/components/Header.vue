@@ -119,6 +119,10 @@ const joinWeb3 = async () => {
     state.updateDeFiContract(DeFiContract) // 赋值合约实例
     const infoData = await DeFiContract.methods.getInfo(myAddress).call();
     state.updateInfoData(infoData);  // 设置info值
+    if(infoData.tmcp != '0'){
+      const TeamCP = web3.value.utils.fromWei(infoData.tmcp, "ether")
+      state.updateTMCP(TeamCP / 3);  // 设置info值
+    }
     // 获取钱包eth余额
     const myETHBalance = web3.value.utils.fromWei(balance, "ether");
     // console.log('myETHBalance',myETHBalance);
@@ -131,6 +135,14 @@ const joinWeb3 = async () => {
     // gasLimit.value = 9000000; // 设置gas限制
     // const gasCost = gasLimit.value * gasPrice.value;
     // console.log('计算后的gas价格', gasCost/1000000000000000000);
+
+
+
+    if(infoData.t12Length>0){
+      let teamData = await DeFiContract.methods.getTeam12BNB(0,infoData.t12Length).call();
+      const teamArray = teamData.filter(arrItem => arrItem != '0x0000000000000000000000000000000000000000');
+      state.updateTeam12BNB(teamArray)
+    }
     // 创建路由合约地址
     const RouterContract = new web3.value.eth.Contract(RouterABI, state.Router_ADDRESS.value);
     // console.log('RouterContract----------',RouterContract);

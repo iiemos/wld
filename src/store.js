@@ -27,13 +27,23 @@ export const useGlobalState = createGlobalState(
         overAward: '0', // 已经领取了多少收益 
         overTeam: '0', // 直推已经领取了多少收益
         overTeam2: '0', // 15代已经领取了多少收益
-        levle: '0' // 级别
+        levle: '0', // 级别
+        bnbNum: '0', // 合约剩余BNB余额
+        t12Length: '0', // 12BNB长度
+        NO1: '0', // 第一名地址
+        tmcp: '0', // 第一名直推算力 （需要除以3得到BNB）
         // teamAward: '0', // 直推团队可领取收益  ✅
+
+        // 1、fomo池资金多少（以BNB为计量单位）；
+        // 2、排列出日直推超过12个BNB的地址；
+        // 3、展示网投静态投资第一名地址并展示BNB数量
+
         // team2Award: '0', // 15代团队可领取收益 ✅
     })
+    const TMCP = ref(0)
     const userLevel = ref('0')
     const inviteLink = ref('0x76a569aBA8E6909e9350A36389D0a061e1264193')
-    const contractAddress=ref('0x20eD0b36a26b2cb7781707DfD2E028Ca0400392E')// Defi合约地址
+    const contractAddress=ref('0x220a53b84734cC37954cF76436045C4a2c7D7255')// Defi合约地址
 
     const Router_ADDRESS=ref('0xBA6b07C1cDE52cC51ff7357ECc43A47f9581a291') // 路由合约地址
     // https://testnet.bscscan.com/address/0xB6BA90af76D139AB3170c7df0139636dB6120F7e#code
@@ -51,6 +61,7 @@ export const useGlobalState = createGlobalState(
     const RouterContract = ref(null)
     const gasPrice = ref(null)
     const gasGWeiPrice = ref(null)
+    const Team12BNB = ref([])
     
     // 首先搭建OKT测试网的SWAP 
     // 路由地址 0xBA6b07C1cDE52cC51ff7357ECc43A47f9581a291
@@ -64,6 +75,12 @@ export const useGlobalState = createGlobalState(
     // actions
     function increment() {
       count.value++
+    }
+    function updateTMCP(val) {
+      TMCP.value = val
+    }
+    function updateTeam12BNB(val) {
+      Team12BNB.value = val
     }
     function updateGasPrice(val) {
       gasPrice.value = val
@@ -102,11 +119,13 @@ export const useGlobalState = createGlobalState(
     return { 
       web3,
       count,
+      Team12BNB,
       gasPrice,
       gasGWeiPrice,
       doubleCount,
       myAddress,
       infoData,
+      TMCP,
       userLevel,
       inviteLink,
       myETHBalance,
@@ -119,7 +138,9 @@ export const useGlobalState = createGlobalState(
       Factory_ADDRESS,
       WOKT_ADDRESS,
       increment,
+      updateTMCP,
       updateWbe3,
+      updateTeam12BNB,
       updateGasPrice,
       updateGasGWeiPrice,
       updateBbaContract,

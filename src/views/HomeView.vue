@@ -4,7 +4,9 @@ import { ElMessage } from "element-plus";
 import { useGlobalState } from "@/store";
 import WLDABI from "@/abis/defiABI.json";
 import WOW from "wow.js";
-
+import {
+  More,
+} from '@element-plus/icons-vue'
 const state = useGlobalState();
 
 console.log("state", state);
@@ -13,6 +15,7 @@ let myAddress = ref(""); //我的地址
 let WLDContract = ref(null); // 合约实例
 let myBalance = ref(null); // 钱包余额
 let infoData = ref(null); // 合约信息
+let drawer = ref(false); // 合约信息
 
 onMounted(async () => {
   let wow = new WOW({
@@ -47,6 +50,12 @@ const copyLink = () => {
   ElMessage.success("Copied to clipboard");
   _input.remove();
 };
+const handleClose = () =>{
+  drawer.value = false
+}
+const drawerShow = () =>{
+  drawer.value = true
+}
 </script>
 <template>
   <div class="home">
@@ -102,6 +111,7 @@ const copyLink = () => {
           <div class="row g-4">
             <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
               <div class="counter-items odometer-item">
+                <p class="mb-4">Fomo Balance</p>
                 <div class="counter-content">
                   <div class="cont d-flex align-items-center">
                     <h2
@@ -109,48 +119,52 @@ const copyLink = () => {
                       data-odometer-final="321"
                     >
                     $
-                      <count-to class="conut_to" :startVal='0' :endVal='321' :duration='3000' :decimals="0"/>
+                      <count-to class="conut_to" :startVal='0' :endVal='state.infoData.value.bnbNum' :duration='3000' :decimals="0"/>
                     </h2>
-                    <h2>B</h2>
+                    <h2>BNB</h2>
                   </div>
                 </div>
-                <p>30 Day Volume</p>
               </div>
             </div>
             <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
               <div class="counter-items odometer-item">
                 <div class="counter-content">
-                  <div class="cont d-flex align-items-center">
-                    <h2
-                      class="odometer odometer-auto-theme"
-                      data-odometer-final="28"
-                    >$
-                      <count-to class="conut_to" :startVal='0' :endVal='59' :duration='3000' :decimals="0"/>
-                    </h2>
-                    <h2>B</h2>
+                  <p>NO.1 Address</p>
+                  <el-tooltip
+                    class="box-item"
+                    effect="dark"
+                    :content="state.infoData.value.NO1"
+                    placement="top-end"
+                  >
+                    <span class="address_txt">{{ state.infoData.value.NO1 }}</span>
+                  </el-tooltip>
+                  <div class="mt-5">
+                    <p class="mb-2">NO.1 BNB Number</p>
+                    <h2>{{ state.TMCP }} BNB</h2>
                   </div>
                 </div>
-                <p>Managed on IPO</p>
               </div>
             </div>
             <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
               <div class="counter-items odometer-item">
-                <div class="counter-content">
-                  <div class="cont d-flex align-items-center">
-                    <h2
-                      class="odometer odometer-auto-theme"
-                      data-odometer-final="9"
+                <p class="mb-4">Invite more than 12 BNB addresses per day</p>
+                <div class="add_warp">
+                  <div class="add_item pt-2 pb-2" v-for="items in state.Team12BNB.value" :key="items">
+                    <el-tooltip
+                      class="box-item"
+                      effect="dark"
+                      :content="items"
+                      placement="top-end"
                     >
-                    $
-                      <count-to class="conut_to" :startVal='0' :endVal='28' :duration='3000' :decimals="0"/>
-                    </h2>
-                    <h2>M</h2>
+                      <span class="">{{items}}</span>
+                    </el-tooltip>
                   </div>
+                  <div v-if="state.Team12BNB.value.length>0" class="more_btn" @click="drawerShow()">More <el-icon class="ml-2"><More /></el-icon></div>
+                  <div v-else style="color: black;">No data</div>
                 </div>
-                <p>Total Collateral Automated</p>
               </div>
             </div>
-            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
+            <div v-if="false" class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
               <div class="counter-items odometer-item">
                 <div class="counter-content">
                   <div class="cont d-flex align-items-center">
@@ -171,7 +185,73 @@ const copyLink = () => {
       </div>
     </section>
     <Footer />
+    <el-drawer
+      v-model="drawer"
+      title="Invite more than 12 BNB addresses per day"
+      direction="btt"
+      :before-close="handleClose"
+      size="90%"
+    >
+      <div class="add_item pt-2 pb-2" v-for="key in 20" :key="key">
+        <el-tooltip
+          class="box-item"
+          effect="dark"
+          :content="state.infoData.value.NO1"
+          placement="top-end"
+        >
+          <span class="pt-2 pb-2">0x0000000000000000000000000000000000000000</span>
+    </el-tooltip>
+      </div>
+    </el-drawer>
   </div>
 </template>
 
-<style></style>
+<style lang="less" scoped>
+.add_item{
+  border-bottom: 1px solid #ccc;
+}
+.ml-2{
+  margin-left: 0.5rem!important;
+}
+.more_btn{
+  margin-top: 20px;
+  cursor: pointer;
+  display: block;
+  border-radius: 10px;
+  padding: 10px 29px;
+  width: 100%;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 23.4px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: capitalize;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  background-color: transparent;
+  border: 1px solid var(--border);
+  color: var(--theme-color);
+}
+.add_item{
+  cursor: text;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  color: var(--theme-color);
+}
+.address_txt {
+  color: var(--theme-color);
+  display: inline-block;
+  max-width: 220px;
+  text-align: right;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: text;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+</style>
