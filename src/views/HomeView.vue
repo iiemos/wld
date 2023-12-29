@@ -118,10 +118,9 @@ const drawerShow = () =>{
                       class="odometer odometer-auto-theme"
                       data-odometer-final="321"
                     >
-                    $
                       <count-to class="conut_to" :startVal='0' :endVal='state.infoData.value.bnbNum' :duration='3000' :decimals="0"/>
                     </h2>
-                    <h2>BNB</h2>
+                    <h2> BNB</h2>
                   </div>
                 </div>
               </div>
@@ -140,7 +139,7 @@ const drawerShow = () =>{
                   </el-tooltip>
                   <div class="mt-5">
                     <p class="mb-2">NO.1 BNB Number</p>
-                    <h2>{{ state.TMCP }} BNB</h2>
+                    <h2>{{ state.TMCP }}BNB</h2>
                   </div>
                 </div>
               </div>
