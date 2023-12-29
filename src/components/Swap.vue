@@ -73,15 +73,34 @@ const swapTokens = () => {
     let stringValue = String(inputValue.value.toString()+'000000000000000000'); 
     // BBA 代币 ---> WBNB
     const path = [state.TOKEN_ADDRESS.value, state.WOKT_ADDRESS.value];
-    RouterContract.value.methods.swapExactTokensForTokens(stringValue, 0, path, state.myAddress.value, '0xFFFFFFFFFF').send({from: state.myAddress.value});
+
+    // swapExactTokensForTokensSupportingFeeOnTransferTokens
+    /*
+      amountIn: 这个参数表示你希望交换的输入代的数量。它指定了你希望在交易中使用的代币数量。
+      amountOutMin: 这个参数表示你期望获得的目标代币的最低数量。在交易发生时，系统会确保你至少获得这个数量的目标代币。如果实际交易导致你获得的目标代币少于这个数额，交易将被取消。
+      path: 这个参数是一个代币路径数组，指定了交易的路径。它用于确定交易从输入代币到目标代币的转换。例如，如果你想要在ETH和BNB间交换，你可以将path设置为[ETH, BNB]。
+      to: 这个参数是指定交易目标地址的合约地址。它表示你希望将交易的结果发送到哪个合约地址。通常，这个地址是你自的钱包地址或其他合约地址。
+      deadline: 这参数表示交易的截止时间。它是一个时间戳，以秒为单位，表示交易的有效期限。如果交易在截止时间之后仍未完成，交易将被取消。
+    */ 
+    // RouterContract.value.methods.swapExactTokensForTokens(stringValue, 0, path, state.myAddress.value, '0xFFFFFFFFFF').send({from: state.myAddress.value});
+    RouterContract.value.methods.swapExactTokensForTokensSupportingFeeOnTransferTokens(stringValue, 0, path, state.myAddress.value, '0xFFFFFFFFFF').send({from: state.myAddress.value});
 }
 const getQuote = async() => {
-  // amountA reserveA reserveB
-  let reserveA = state.WOKT_ADDRESS.value
-  let reserveB = state.TOKEN_ADDRESS.value
-  const QuoteRes = await RouterContract.value.methods.quote('100000000000000000',reserveB,reserveA).call()
-  // const QuoteRes = await RouterContract.value.methods.quote('100000000000000000',reserveA,reserveB).call()
-  const toWeiQuoteVal = state.web3.value.utils.fromWei(QuoteRes, "ether"); // 默认授权额度
+  // // amountA reserveA reserveB
+  // let reserveA = state.WOKT_ADDRESS.value
+  // let reserveB = state.TOKEN_ADDRESS.value
+  // // const QuoteRes = await RouterContract.value.methods.quote('100000000000000000',reserveB,reserveA).call()
+
+  // const toWeiQuoteVal = state.web3.value.utils.fromWei(QuoteRes, "ether"); //
+  // if(toWeiQuoteVal != 0) toWeiQuote.value = toWeiQuoteVal.substring(0, 6)
+  // else toWeiQuote.value = toWeiQuoteVal
+  // console.log('toWeiQuote',toWeiQuote.value);
+
+
+  let stringValue = String('1000000000000000000'); 
+  const path = [state.TOKEN_ADDRESS.value, state.WOKT_ADDRESS.value];
+  const QuoteRes = await RouterContract.value.methods.getAmountsOut(stringValue, path).call()
+  const toWeiQuoteVal = state.web3.value.utils.fromWei(QuoteRes[1], "ether"); //
   if(toWeiQuoteVal != 0) toWeiQuote.value = toWeiQuoteVal.substring(0, 6)
   else toWeiQuote.value = toWeiQuoteVal
   console.log('toWeiQuote',toWeiQuote.value);
@@ -90,19 +109,20 @@ const getQuote = async() => {
 
 const updateConversionValue = useDebounceFn( async(val) => {
   // BBA 代币 ---> WBNB
-  // const path = [state.TOKEN_ADDRESS.value, state.WOKT_ADDRESS.value];
+  const path = [state.TOKEN_ADDRESS.value, state.WOKT_ADDRESS.value];
   // 我想要收到的金额，用于交换的地址数组 [wethAddress, tokenAddress]
   // inputValue.value = await RouterContract.value.methods.getAmountsIn(outputValue.value, path).call()
   // console.log('inputValue.value ',inputValue.value);
-  const amountIn = String(inputValue.value.toString()+'000000000000000000'); 
-  const reserveIn = state.TOKEN_ADDRESS.value
-  const reserveOut = state.WOKT_ADDRESS.value
+  // const amountIn = String(inputValue.value.toString()+'000000000000000000'); 
+  // const reserveIn = state.TOKEN_ADDRESS.value
+  // const reserveOut = state.WOKT_ADDRESS.value
   let stringValue = String(inputValue.value.toString()+'000000000000000000'); 
-  // const getAmountsOut = await RouterContract.value.methods.getAmountsOut(stringValue, path).call()
-  const getAmountOut = await RouterContract.value.methods.getAmountOut(amountIn, reserveIn, reserveOut).call()
-  // console.log('getAmountsOut[0]',state.web3.value.utils.fromWei(getAmountsOut[0], "ether"));
-  // console.log('getAmountsOut[1]',state.web3.value.utils.fromWei(getAmountsOut[1], "ether"));
-  const getAmountOutWei = state.web3.value.utils.fromWei(getAmountOut, "ether")
+  const getAmountsOut = await RouterContract.value.methods.getAmountsOut(stringValue, path).call()
+  // const getAmountOut = await RouterContract.value.methods.getAmountOut(amountIn, reserveIn, reserveOut).call()
+  console.log('getAmountsOut[0]',state.web3.value.utils.fromWei(getAmountsOut[0], "ether"));
+  console.log('getAmountsOut[1]',state.web3.value.utils.fromWei(getAmountsOut[1], "ether"));
+  const getAmountOutWei =  state.web3.value.utils.fromWei(getAmountsOut[1], "ether")
+  // const getAmountOutWei = state.web3.value.utils.fromWei(getAmountOut, "ether")
   let truncatedNum = Math.floor(getAmountOutWei * 10000) / 10000;
   if(getAmountOutWei != 0) outputValue.value = truncatedNum
   else toWeiQuote.value = getAmountOutWei
