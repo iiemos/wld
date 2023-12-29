@@ -62,8 +62,10 @@ const stakeFun = () =>{
     return headerChild.value.joinWeb3();
   }
   // myETHBalance addBnbNum
-  if(addBnbNum.value < 0.5) return ElMessage.error('Minimum addition of 0.5 BNB');
-  if(state.myETHBalance.value < 0.5) return ElMessage.error('The account balance is insufficient, please add more');
+  /* 临时去除最低0.5的校验 */ 
+  // if(addBnbNum.value < 0.5) return ElMessage.error('Minimum addition of 0.5 BNB');
+  // if(state.myETHBalance.value < 0.5) return ElMessage.error('The account balance is insufficient, please add more');
+  
   if(addBnbNum.value > state.myETHBalance.value) return ElMessage.error('The account balance is insufficient, please add more');
   // if(state.inviteLink.value == 'undefined' || !state.inviteLink.value) return ElMessage.warning('The invitation link address cannot be empty, please obtain the invitation link again.') 
 
@@ -71,6 +73,7 @@ const stakeFun = () =>{
   console.log('购买的数量',callValue);
   console.log('邀请链接----',state.inviteLink.value);
   console.log('from---',state.myAddress.value);
+  console.log('Defi合约地址---',state.contractAddress.value);
 
   state.DeFiContract.value.methods.stake(state.inviteLink.value)
     .send({

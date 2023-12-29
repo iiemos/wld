@@ -32,7 +32,7 @@ export const useGlobalState = createGlobalState(
         // team2Award: '0', // 15代团队可领取收益 ✅
     })
     const userLevel = ref('0')
-    const inviteLink = ref('0xDA02d522d8cd60de0a2F9773f80b16Fc9ED99bdd')
+    const inviteLink = ref('0x76a569aBA8E6909e9350A36389D0a061e1264193')
     const contractAddress=ref('0x20eD0b36a26b2cb7781707DfD2E028Ca0400392E')// Defi合约地址
 
     const Router_ADDRESS=ref('0xBA6b07C1cDE52cC51ff7357ECc43A47f9581a291') // 路由合约地址
