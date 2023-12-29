@@ -141,6 +141,7 @@ const joinWeb3 = async () => {
 
     // 创建BBA代币实例并获取余额
     const BbaTokenContract = new web3.value.eth.Contract(usdtABI, state.TOKEN_ADDRESS.value);
+    state.updateBbaContract(BbaTokenContract) // 赋值BBA合约实例
     let BbaTokenBalance = await BbaTokenContract.methods.balanceOf(state.myAddress.value).call();
     const BbaTokenBalanceFromWei = web3.value.utils.fromWei(BbaTokenBalance, "ether");
     state.updateBbaCoinBlance(Number(BbaTokenBalanceFromWei)) // 赋值BBA代币余额

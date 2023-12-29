@@ -33,7 +33,7 @@ export const useGlobalState = createGlobalState(
     })
     const userLevel = ref('0')
     const inviteLink = ref('0xDA02d522d8cd60de0a2F9773f80b16Fc9ED99bdd')
-    const contractAddress=ref('0x7b3Ac55DA4d9317135E689A4fe0CA797bC158fB2')// Defi合约地址
+    const contractAddress=ref('0x20eD0b36a26b2cb7781707DfD2E028Ca0400392E')// Defi合约地址
 
     const Router_ADDRESS=ref('0xBA6b07C1cDE52cC51ff7357ECc43A47f9581a291') // 路由合约地址
     // https://testnet.bscscan.com/address/0xB6BA90af76D139AB3170c7df0139636dB6120F7e#code

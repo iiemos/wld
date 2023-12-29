@@ -16,7 +16,7 @@ const inputValue=ref(0)
 const outputValue=ref(0)
 const toWeiQuote=ref(0)
 const replaceValue = ref(null)
-const isApprove = ref(false)
+const isApprove = ref(true)
 /*
 薄饼getAmountIn函数是用于计算在进行交易时，输入一定数量的目标代币所需的源代币数量。它可以帮助你确定在进行交易时需要提供多少源代币。
 薄饼getAmountOut函数是用于计算在进行交易时，输出一定数量的源代币所能获得的目标代币数量。它可以帮助你确定在进行交易时可以获得多少目标代币。
@@ -29,14 +29,16 @@ quote函数用于获取两种代币之间的实时交易报价。它可以告诉
 onMounted(() => {
   RouterContract.value = new state.web3.value.eth.Contract(RouterABI, state.Router_ADDRESS.value);
   getQuote()
+  checkAuthorization()
   console.log('BbaTokenBalanceFromWei',state.BbaCoinBlance.value);
 })
 
 
 // 监听IPO 更新WBNB数量
 watch(inputValue, (newValue) => {
-  if(!newValue || newValue == 0) return replaceValue.value = 0
-  if(newValue == 0) return replaceValue.value = 0
+  console.log('newValue',newValue);
+  if(!newValue || newValue == 0) return outputValue.value = 0
+  if(newValue == 0) return outputValue.value = 0
   updateConversionValue()
 });
 
@@ -77,38 +79,65 @@ const getQuote = async() => {
   // amountA reserveA reserveB
   let reserveA = state.WOKT_ADDRESS.value
   let reserveB = state.TOKEN_ADDRESS.value
-  const QuoteRes = await RouterContract.value.methods.quote('100000000000000000',reserveA,reserveB).call()
+  const QuoteRes = await RouterContract.value.methods.quote('100000000000000000',reserveB,reserveA).call()
+  // const QuoteRes = await RouterContract.value.methods.quote('100000000000000000',reserveA,reserveB).call()
   const toWeiQuoteVal = state.web3.value.utils.fromWei(QuoteRes, "ether"); // 默认授权额度
   if(toWeiQuoteVal != 0) toWeiQuote.value = toWeiQuoteVal.substring(0, 6)
   else toWeiQuote.value = toWeiQuoteVal
   console.log('toWeiQuote',toWeiQuote.value);
+
 }
 
 const updateConversionValue = useDebounceFn( async(val) => {
   // BBA 代币 ---> WBNB
-  const path = [state.TOKEN_ADDRESS.value, state.WOKT_ADDRESS.value];
-  console.log('path',path);
+  // const path = [state.TOKEN_ADDRESS.value, state.WOKT_ADDRESS.value];
   // 我想要收到的金额，用于交换的地址数组 [wethAddress, tokenAddress]
   // inputValue.value = await RouterContract.value.methods.getAmountsIn(outputValue.value, path).call()
   // console.log('inputValue.value ',inputValue.value);
-  const amountIn = inputValue.value
+  const amountIn = String(inputValue.value.toString()+'000000000000000000'); 
   const reserveIn = state.TOKEN_ADDRESS.value
   const reserveOut = state.WOKT_ADDRESS.value
-  const getAmountsOut = await RouterContract.value.methods.getAmountsOut(inputValue.value, path).call()
+  let stringValue = String(inputValue.value.toString()+'000000000000000000'); 
+  // const getAmountsOut = await RouterContract.value.methods.getAmountsOut(stringValue, path).call()
   const getAmountOut = await RouterContract.value.methods.getAmountOut(amountIn, reserveIn, reserveOut).call()
-  console.log('getAmountsOut',getAmountsOut);
-  console.log('getAmountOut--------',getAmountOut);
+  // console.log('getAmountsOut[0]',state.web3.value.utils.fromWei(getAmountsOut[0], "ether"));
+  // console.log('getAmountsOut[1]',state.web3.value.utils.fromWei(getAmountsOut[1], "ether"));
+  const getAmountOutWei = state.web3.value.utils.fromWei(getAmountOut, "ether")
+  let truncatedNum = Math.floor(getAmountOutWei * 10000) / 10000;
+  if(getAmountOutWei != 0) outputValue.value = truncatedNum
+  else toWeiQuote.value = getAmountOutWei
+  console.log('getAmountOut--------',outputValue.value);
 },500)
+// 查询授权状态
+async function checkAuthorization() {
+  try {
+    // 调用合约中的allowance方法
+    const allowance = await state.BbaContract.value.methods.allowance(state.myAddress.value, state.Router_ADDRESS.value).call();
+    console.log('allowance======',allowance);
+    // 根据返回值判断授权状态
+    if (allowance > 0) {
+      console.log('用户已授权PancakeRouter合约');
+    } else {
+      isApprove.value = false;
+      console.log('用户未授权PancakeRouter合约');
+    }
+  } catch (error) {
+    console.error('查询授权状态时发生错误:', error);
+  }
+}
 
+// 执行查询授权状态函数
+// checkAuthorization();
 const approveContract = () => {
   if(state.BbaCoinBlance.value == 0) return false
   let stringValue = state.web3.value.utils.toWei("10000000000", "ether"); // 默认授权额度
   // 创建代币合约实例
-  let tokenContract = new state.web3.value.eth.Contract(usdtABI, state.TOKEN_ADDRESS.value.toString().toLowerCase());
-  tokenContract.methods.approve(state.Router_ADDRESS.value.toString().toLowerCase(), stringValue).send({
+  // let tokenContract = new state.web3.value.eth.Contract(usdtABI, state.TOKEN_ADDRESS.value.toString().toLowerCase());
+  state.BbaContract.value.methods.approve(state.Router_ADDRESS.value, stringValue).send({
     from: state.myAddress.value
   }).then((receipt) => {
     console.log('授权成功swap', receipt);
+    isApprove.value = true;
   }).catch((error) => { console.log('授权失败',error); })
 }
 </script>
@@ -154,7 +183,7 @@ const approveContract = () => {
             class="wallet_item_logo absolute inset-y-0 left-0 pl-1 flex items-center pointer-events-none px-3 py-3">
             <IconBNB style="width: 2rem;height: 2rem;" />
           </div>
-          <div class="calculation text-right">{{ outputValue }}</div>
+          <div class="calculation text-right">≈ {{ outputValue }}</div>
         </div>
         <div class="wallet_item_footer"></div>
       </div>
@@ -170,7 +199,7 @@ const approveContract = () => {
         <div class="py-2 flex items-center justify-between">
           <dt class="font-medium flex">Exchange Rate</dt>
             <dd class="font-base flex items-center justify-between">
-              <span class="pr-1">1 WBNB ≈ {{ toWeiQuote }} IPO</span>
+              <span class="pr-1">1 IPO ≈ {{ toWeiQuote }} WBNB</span>
             </dd>
         </div>
         <div class="py-2 flex items-center justify-between pb-0 divide-none">
@@ -181,7 +210,7 @@ const approveContract = () => {
           </dd>
         </div>
       </dl>
-      <div v-if="isApprove" @click="approveContract" :class="{ disabled: state.BbaCoinBlance.value == 0 }" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-semibold rounded-md text-white action-button md:py-5 md:text-xl md:px-10 mb-4">
+      <div v-if="!isApprove" @click="approveContract" :class="{ disabled: state.BbaCoinBlance.value == 0 }" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-semibold rounded-md text-white action-button md:py-5 md:text-xl md:px-10 mb-4">
         Approve Swap
       </div>
       <div v-else @click="swapTokens" :class="{ disabled: state.BbaCoinBlance.value == 0 }" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-semibold rounded-md text-white action-button md:py-5 md:text-xl md:px-10 mb-4">
