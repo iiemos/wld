@@ -12,6 +12,7 @@ const web3 = ref(null);
 const isActive = ref(false);
 const refLinks = ref(null);
 const invites = useRouteQuery('invs')
+let timer;
 if (typeof (invites.value) == "undefined") {
   refLinks.value = '0xDA02d522d8cd60de0a2F9773f80b16Fc9ED99bdd'
 } else {
@@ -123,6 +124,7 @@ const joinWeb3 = async () => {
       const TeamCP = web3.value.utils.fromWei(infoData.tmcp, "ether")
       state.updateTMCP(((TeamCP / 3) / 1000000000000000000).toFixed(4));  // 设置info值
     }
+    updateCountdown()
     // 获取钱包eth余额
     const myETHBalance = web3.value.utils.fromWei(balance, "ether");
     // console.log('myETHBalance',myETHBalance);
@@ -162,6 +164,29 @@ const joinWeb3 = async () => {
     console.log(e);
   }
 };
+
+
+const updateCountdown  = () => {
+  const startTime = (Number(state.infoData.value.deadNum)*1000) + (12 * 60 * 60 * 1000); // 当前时间加上12小时的毫秒数
+  timer = setInterval(() => {
+    const currentTime = new Date().getTime();
+    const timeLeft = startTime - currentTime;
+    console.log('timeLeft',timeLeft);
+    if (timeLeft <= 0) {
+      clearInterval(timer);
+      state.updateCountDown('Time UP!')
+    } else {
+      const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+      state.updateCountDown(`${hours}:${minutes}:${seconds}`)
+    }
+  }, 1000);
+};
+
+onUnmounted(() => {
+  clearInterval(timer);
+});
 
 // 输出组件的方法，让外部组件可以调用
 defineExpose({

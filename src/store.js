@@ -62,6 +62,7 @@ export const useGlobalState = createGlobalState(
     const gasPrice = ref(null)
     const gasGWeiPrice = ref(null)
     const Team12BNB = ref([])
+    const countdown = ref() // 12小时倒计时
     
     // 首先搭建OKT测试网的SWAP 
     // 路由地址 0xBA6b07C1cDE52cC51ff7357ECc43A47f9581a291
@@ -75,6 +76,9 @@ export const useGlobalState = createGlobalState(
     // actions
     function increment() {
       count.value++
+    }
+    function updateCountDown(val) {
+      countdown.value = val
     }
     function updateTMCP(val) {
       TMCP.value = val
@@ -125,6 +129,7 @@ export const useGlobalState = createGlobalState(
       doubleCount,
       myAddress,
       infoData,
+      countdown,
       TMCP,
       userLevel,
       inviteLink,
@@ -138,6 +143,7 @@ export const useGlobalState = createGlobalState(
       Factory_ADDRESS,
       WOKT_ADDRESS,
       increment,
+      updateCountDown,
       updateTMCP,
       updateWbe3,
       updateTeam12BNB,

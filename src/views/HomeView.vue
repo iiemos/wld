@@ -17,10 +17,6 @@ let myBalance = ref(null); // 钱包余额
 let infoData = ref(null); // 合约信息
 let drawer = ref(false); // 合约信息
 
-const countdown = ref(0);
-const timestamp = ref(state.infoData.value.deadNum); // 示例时间戳（以秒为单位）
-let timer;
-
 
 
 onMounted(async () => {
@@ -32,25 +28,8 @@ onMounted(async () => {
     live: true    //异步加载的内容是否有效
   });
   wow.init();
-  const startTime = (Number(timestamp.value)*1000) + (12 * 60 * 60 * 1000); // 当前时间加上12小时的毫秒数
-  timer = setInterval(() => {
-    const currentTime = new Date().getTime();
-    const timeLeft = startTime - currentTime;
-    if (timeLeft <= 0) {
-      clearInterval(timer);
-      countdown.value = 'Time UP!';
-    } else {
-      const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-      countdown.value = `${hours}:${minutes}:${seconds}`;
-    }
-  }, 1000);
+});
 
-});
-onUnmounted(() => {
-  clearInterval(timer);
-});
  // young pool enforce priority cabbage amount warrior minute tooth resource transfer tag custom elephant goat remove noise ride select shift neutral young upset list
 //  console.log('young pool enforce priority cabbage amount warrior minute tooth resource transfer tag custom elephant goat remove noise ride select shift neutral young upset list');
 let showAdd = computed(() => {
@@ -147,13 +126,13 @@ const drawerShow = () =>{
                         Fomo Time
                       </div>
                       <div class="basis-1/2 text-right">
-                        {{ countdown }}
+                        {{ state.countdown.value }}
                       </div>
                     </div>
                     <div class="flex flex-row py-3 px-2 my-2 " style="border-bottom: 1px solid var(--border-color);">
                       <div class="basis-1/2">Fomo Pool</div>
                       <div class="basis-1/2 text-right">
-                        <count-to class="conut_to" :startVal='0' :endVal='NO1BNBNUM' :duration='3000' :decimals="4"/>
+                        <count-to class="conut_to" style="color: #e55638;" :startVal='0' :endVal='NO1BNBNUM' :duration='3000' :decimals="4"/>
                         BNB
                       </div>
                     </div>
