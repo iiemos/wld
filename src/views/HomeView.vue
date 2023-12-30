@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, onUnmounted } from "vue";
 import { ElMessage } from "element-plus";
 import { useGlobalState } from "@/store";
 import WLDABI from "@/abis/defiABI.json";
@@ -17,6 +17,12 @@ let myBalance = ref(null); // 钱包余额
 let infoData = ref(null); // 合约信息
 let drawer = ref(false); // 合约信息
 
+const countdown = ref(0);
+const timestamp = ref(state.infoData.value.deadNum); // 示例时间戳（以秒为单位）
+let timer;
+
+
+
 onMounted(async () => {
   let wow = new WOW({
     boxClass: 'wow',    // 需要执行动画元素的Class
@@ -26,6 +32,24 @@ onMounted(async () => {
     live: true    //异步加载的内容是否有效
   });
   wow.init();
+  const startTime = (Number(timestamp.value)*1000) + (12 * 60 * 60 * 1000); // 当前时间加上12小时的毫秒数
+  timer = setInterval(() => {
+    const currentTime = new Date().getTime();
+    const timeLeft = startTime - currentTime;
+    if (timeLeft <= 0) {
+      clearInterval(timer);
+      countdown.value = 'Time UP!';
+    } else {
+      const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+      countdown.value = `${hours}:${minutes}:${seconds}`;
+    }
+  }, 1000);
+
+});
+onUnmounted(() => {
+  clearInterval(timer);
 });
  // young pool enforce priority cabbage amount warrior minute tooth resource transfer tag custom elephant goat remove noise ride select shift neutral young upset list
 //  console.log('young pool enforce priority cabbage amount warrior minute tooth resource transfer tag custom elephant goat remove noise ride select shift neutral young upset list');
@@ -35,6 +59,12 @@ let showAdd = computed(() => {
     myAddress.value.substring(0, 4) + "...." + myAddress.value.substr(-4, 4)
   );
 });
+
+const NO1BNBNUM = computed(()=>{
+  if(state.infoData.value.bnbNum == 0) return 0
+  return state.infoData.value.bnbNum / 100000000000000000
+})
+
 let refLinks = computed(()=>{ 
   if(state.myAddress.value){
     return window.location.origin + `/?invs=${state.myAddress.value}`
@@ -108,43 +138,54 @@ const drawerShow = () =>{
     <section class="counter-section pb-120">
       <div class="container">
         <div class="counter-wrapper">
+          <div class="row justify-content-between align-items-center max-w-2xl m-auto flex flex-col items-center justify-center mt-10">
+              <div class="col-lg-12" style="padding: 0;">
+                <div class="rounded-lg  pb-1 h-sm:p-2 h-sm:pt-2">
+                  <div class="fomo_info">
+                    <div class="flex flex-row py-3 px-2 my-2 " style="border-bottom: 1px solid var(--border-color);">
+                      <div class="basis-1/2">
+                        Fomo Time
+                      </div>
+                      <div class="basis-1/2 text-right">
+                        {{ countdown }}
+                      </div>
+                    </div>
+                    <div class="flex flex-row py-3 px-2 my-2 " style="border-bottom: 1px solid var(--border-color);">
+                      <div class="basis-1/2">Fomo Pool</div>
+                      <div class="basis-1/2 text-right">
+                        <count-to class="conut_to" :startVal='0' :endVal='NO1BNBNUM' :duration='3000' :decimals="4"/>
+                        BNB
+                      </div>
+                    </div>
+                    <div class="flex flex-row py-3 px-2 my-2" style="border-bottom: 1px solid var(--border-color);">
+                      <div class="basis-1/2">NO.1 Address</div>
+                      <div class="basis-1/2 text-right">
+                        <el-tooltip
+                          class="box-item"
+                          effect="dark"
+                          :content="state.infoData.value.NO1"
+                          placement="top-end"
+                        >
+                          <span class="address_txt">{{ state.infoData.value.NO1 }}</span>
+                        </el-tooltip>
+                      </div>
+                    </div>
+                    <div class="flex flex-row py-3 px-2 my-2 " style="border-bottom: 1px solid var(--border-color);">
+                      <div class="basis-1/2">NO.1 BNB Number</div>
+                      <div class="basis-1/2 text-right">
+                        {{ state.TMCP }} BNB
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+
+        <div class="counter-wrapper mt-4 mb-4" style="transform: translateY(0px);">
           <div class="row g-4">
-            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-              <div class="counter-items odometer-item">
-                <p class="mb-4">Fomo Balance</p>
-                <div class="counter-content">
-                  <div class="cont d-flex align-items-center">
-                    <h2
-                      class="odometer odometer-auto-theme"
-                      data-odometer-final="321"
-                    >
-                      <count-to class="conut_to" :startVal='0' :endVal='state.infoData.value.bnbNum' :duration='3000' :decimals="0"/>
-                    </h2>
-                    <h2> BNB</h2>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-              <div class="counter-items odometer-item">
-                <div class="counter-content">
-                  <p>NO.1 Address</p>
-                  <el-tooltip
-                    class="box-item"
-                    effect="dark"
-                    :content="state.infoData.value.NO1"
-                    placement="top-end"
-                  >
-                    <span class="address_txt">{{ state.infoData.value.NO1 }}</span>
-                  </el-tooltip>
-                  <div class="mt-5">
-                    <p class="mb-2">NO.1 BNB Number</p>
-                    <h2>{{ state.TMCP }}BNB</h2>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
               <div class="counter-items odometer-item">
                 <p class="mb-4">Invite more than 12 BNB addresses per day</p>
                 <div class="add_warp">
@@ -161,22 +202,6 @@ const drawerShow = () =>{
                   <div v-if="state.Team12BNB.value.length>0" class="more_btn" @click="drawerShow()">More <el-icon class="ml-2"><More /></el-icon></div>
                   <div v-else style="color: black;">No data</div>
                 </div>
-              </div>
-            </div>
-            <div v-if="false" class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-              <div class="counter-items odometer-item">
-                <div class="counter-content">
-                  <div class="cont d-flex align-items-center">
-                    <h2
-                      class="odometer odometer-auto-theme"
-                      data-odometer-final="56"
-                    >
-                      <count-to class="conut_to" :startVal='0' :endVal='15' :duration='3000' :decimals="0"/>
-                    </h2>
-                    <h2>%</h2>
-                  </div>
-                </div>
-                <p>APR</p>
               </div>
             </div>
           </div>
@@ -206,11 +231,38 @@ const drawerShow = () =>{
 </template>
 
 <style lang="less" scoped>
+@import url('@/assets/css/base.css');
+.counter-wrapper{
+  padding: 54px 20px;
+}
+.number_box{
+  color: var(--pragraph-color);
+  font-size: 30px;
+  font-weight: bold;
+}
+.fomo_info{
+  color: var(--theme-color);
+}
 .add_item{
   border-bottom: 1px solid #ccc;
 }
 .ml-2{
   margin-left: 0.5rem!important;
+}
+.add_power{
+  background-color: var(--white-color);
+  box-shadow: 0 5px 15.52px 0.48px rgba(0, 0, 0, 0.27);
+  position: relative;
+}
+.wallet_item{
+  color: var(--theme-color);
+  margin-bottom: 20px;
+}
+.wallet_item_top{
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 6px;
 }
 .more_btn{
   margin-top: 20px;
@@ -244,10 +296,8 @@ const drawerShow = () =>{
 .address_txt {
   color: var(--theme-color);
   display: inline-block;
-  max-width: 220px;
+  max-width: 180px;
   text-align: right;
-  font-size: 20px;
-  font-weight: bold;
   cursor: text;
   text-overflow: ellipsis;
   white-space: nowrap;

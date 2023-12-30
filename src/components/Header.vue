@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, watch } from "vue";
+import { ref, computed, onMounted, watch, onUnmounted } from "vue";
 import { useGlobalState } from "@/store";
 import { RouterLink, RouterView } from "vue-router";
 import { useRouteQuery } from '@vueuse/router'
@@ -121,7 +121,7 @@ const joinWeb3 = async () => {
     state.updateInfoData(infoData);  // 设置info值
     if(infoData.tmcp != '0'){
       const TeamCP = web3.value.utils.fromWei(infoData.tmcp, "ether")
-      state.updateTMCP(TeamCP / 3);  // 设置info值
+      state.updateTMCP(((TeamCP / 3) / 1000000000000000000).toFixed(4));  // 设置info值
     }
     // 获取钱包eth余额
     const myETHBalance = web3.value.utils.fromWei(balance, "ether");
@@ -136,12 +136,12 @@ const joinWeb3 = async () => {
     // const gasCost = gasLimit.value * gasPrice.value;
     // console.log('计算后的gas价格', gasCost/1000000000000000000);
 
-
-
     if(infoData.t12Length>0){
       let teamData = await DeFiContract.methods.getTeam12BNB(0,infoData.t12Length).call();
-      const teamArray = teamData.filter(arrItem => arrItem != '0x0000000000000000000000000000000000000000');
-      state.updateTeam12BNB(teamArray)
+      // const teamArray = teamData.filter(arrItem => arrItem != '0x0000000000000000000000000000000000000000');
+      console.log('teamData',teamData);
+      state.updateTeam12BNB(teamData)
+      // state.updateTeam12BNB(teamArray)
     }
     // 创建路由合约地址
     const RouterContract = new web3.value.eth.Contract(RouterABI, state.Router_ADDRESS.value);
