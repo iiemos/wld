@@ -125,6 +125,7 @@ const joinWeb3 = async () => {
       state.updateTMCP((Number(TeamCP / 3)).toFixed(4));  // 设置info值
     }
     if(infoData.bnbNum != '0'){
+      console.log('Fomo池奖励：',infoData.bnbNum);
       const bnbNum = web3.value.utils.fromWei(infoData.bnbNum, "ether")
       state.updateNO1BNBNum(Number(bnbNum));  // 设置info值
     }
