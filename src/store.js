@@ -41,6 +41,7 @@ export const useGlobalState = createGlobalState(
         // team2Award: '0', // 15代团队可领取收益 ✅
     })
     const TMCP = ref(0)
+    const NO1BNBNum = ref(0)
     const userLevel = ref('0')
     const inviteLink = ref('0x76a569aBA8E6909e9350A36389D0a061e1264193')
     const contractAddress=ref('0x220a53b84734cC37954cF76436045C4a2c7D7255')// Defi合约地址
@@ -82,6 +83,9 @@ export const useGlobalState = createGlobalState(
     }
     function updateTMCP(val) {
       TMCP.value = val
+    }
+    function updateNO1BNBNum(val) {
+      NO1BNBNum.value = val
     }
     function updateTeam12BNB(val) {
       Team12BNB.value = val
@@ -131,6 +135,7 @@ export const useGlobalState = createGlobalState(
       infoData,
       countdown,
       TMCP,
+      NO1BNBNum,
       userLevel,
       inviteLink,
       myETHBalance,
@@ -145,6 +150,7 @@ export const useGlobalState = createGlobalState(
       increment,
       updateCountDown,
       updateTMCP,
+      updateNO1BNBNum,
       updateWbe3,
       updateTeam12BNB,
       updateGasPrice,

@@ -39,10 +39,6 @@ let showAdd = computed(() => {
   );
 });
 
-const NO1BNBNUM = computed(()=>{
-  if(state.infoData.value.bnbNum == 0) return 0
-  return state.infoData.value.bnbNum / 100000000000000000
-})
 
 let refLinks = computed(()=>{ 
   if(state.myAddress.value){
@@ -132,7 +128,7 @@ const drawerShow = () =>{
                     <div class="flex flex-row py-3 px-2 my-2 " style="border-bottom: 1px solid var(--border-color);">
                       <div class="basis-1/2">Fomo Pool</div>
                       <div class="basis-1/2 text-right">
-                        <count-to class="conut_to" style="color: #e55638;" :startVal='0' :endVal='NO1BNBNUM' :duration='3000' :decimals="4"/>
+                        <count-to class="conut_to" style="color: #e55638;" :startVal='0' :endVal='state.NO1BNBNum.value' :duration='3000' :decimals="4"/>
                         BNB
                       </div>
                     </div>
@@ -178,8 +174,10 @@ const drawerShow = () =>{
                       <span class="">{{items}}</span>
                     </el-tooltip>
                   </div>
-                  <div v-if="state.Team12BNB.value.length>0" class="more_btn" @click="drawerShow()">More <el-icon class="ml-2"><More /></el-icon></div>
-                  <div v-else style="color: black;">No data</div>
+                  <div v-if="state.Team12BNB.value.length>10">
+                    <div v-if="state.Team12BNB.value.length>0" class="more_btn" @click="drawerShow()">More <el-icon class="ml-2"><More /></el-icon></div>
+                    <div v-else style="color: black;">No data</div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -195,14 +193,14 @@ const drawerShow = () =>{
       :before-close="handleClose"
       size="90%"
     >
-      <div class="add_item pt-2 pb-2" v-for="key in 20" :key="key">
+      <div class="add_item pt-2 pb-2" v-for="key in state.Team12BNB.value" :key="key">
         <el-tooltip
           class="box-item"
           effect="dark"
-          :content="state.infoData.value.NO1"
+          :content="key"
           placement="top-end"
         >
-          <span class="pt-2 pb-2">0x0000000000000000000000000000000000000000</span>
+          <span class="pt-2 pb-2">{{ key }}</span>
     </el-tooltip>
       </div>
     </el-drawer>

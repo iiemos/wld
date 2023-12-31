@@ -122,8 +122,13 @@ const joinWeb3 = async () => {
     state.updateInfoData(infoData);  // 设置info值
     if(infoData.tmcp != '0'){
       const TeamCP = web3.value.utils.fromWei(infoData.tmcp, "ether")
-      state.updateTMCP(((TeamCP / 3) / 1000000000000000000).toFixed(4));  // 设置info值
+      state.updateTMCP((Number(TeamCP / 3)).toFixed(4));  // 设置info值
     }
+    if(infoData.bnbNum != '0'){
+      const bnbNum = web3.value.utils.fromWei(infoData.bnbNum, "ether")
+      state.updateNO1BNBNum(Number(bnbNum));  // 设置info值
+    }
+
     updateCountdown()
     // 获取钱包eth余额
     const myETHBalance = web3.value.utils.fromWei(balance, "ether");
@@ -140,9 +145,8 @@ const joinWeb3 = async () => {
 
     if(infoData.t12Length>0){
       let teamData = await DeFiContract.methods.getTeam12BNB(0,infoData.t12Length).call();
-      // const teamArray = teamData.filter(arrItem => arrItem != '0x0000000000000000000000000000000000000000');
-      console.log('teamData',teamData);
-      state.updateTeam12BNB(teamData)
+      const teamArray = teamData.filter(arrItem => arrItem != '0x0000000000000000000000000000000000000000');
+      state.updateTeam12BNB(teamArray)
       // state.updateTeam12BNB(teamArray)
     }
     // 创建路由合约地址
@@ -171,7 +175,6 @@ const updateCountdown  = () => {
   timer = setInterval(() => {
     const currentTime = new Date().getTime();
     const timeLeft = startTime - currentTime;
-    console.log('timeLeft',timeLeft);
     if (timeLeft <= 0) {
       clearInterval(timer);
       state.updateCountDown('Time UP!')
