@@ -150,6 +150,10 @@ const joinWeb3 = async () => {
       state.updateTeam12BNB(teamArray)
       // state.updateTeam12BNB(teamArray)
     }
+
+    // 获取getSy 剩余奖励
+    let SYJL = await DeFiContract.methods.getSy(myAddress).call();
+    console.log('剩余可领取---------:',SYJL);
     // 创建路由合约地址
     const RouterContract = new web3.value.eth.Contract(RouterABI, state.Router_ADDRESS.value);
     // console.log('RouterContract----------',RouterContract);
