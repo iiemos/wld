@@ -120,10 +120,12 @@ const joinWeb3 = async () => {
     state.updateDeFiContract(DeFiContract) // 赋值合约实例
     const infoData = await DeFiContract.methods.getInfo(myAddress).call();
     state.updateInfoData(infoData);  // 设置info值
-    if(infoData.tmcp != '0'){
-      const TeamCP = web3.value.utils.fromWei(infoData.tmcp, "ether")
-      state.updateTMCP((Number(TeamCP / 3)).toFixed(4));  // 设置info值
-    }
+    // 获取第一名 BNB 奖励
+    const userStakeCp = await DeFiContract.methods.userStakeCp(infoData.NO1).call();
+    console.log('userStakeCp=====:',userStakeCp);
+    const userCP = web3.value.utils.fromWei(userStakeCp, "ether")
+    state.updateTMCP((Number(userCP / 3)).toFixed(4));  // 设置info值
+    
     if(infoData.bnbNum != '0'){
       console.log('Fomo池奖励：',infoData.bnbNum);
       const bnbNum = web3.value.utils.fromWei(infoData.bnbNum, "ether")

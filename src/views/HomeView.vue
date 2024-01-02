@@ -148,7 +148,7 @@ const drawerShow = () =>{
                     <div class="flex flex-row py-3 px-2 my-2 " style="border-bottom: 1px solid var(--border-color);">
                       <div class="basis-1/2">NO.1 BNB Number</div>
                       <div class="basis-1/2 text-right">
-                        {{ state.TMCP }} BNB
+                        {{ state.TMCP.value }} BNB
                       </div>
                     </div>
 
@@ -164,7 +164,7 @@ const drawerShow = () =>{
               <div class="counter-items odometer-item">
                 <p class="mb-4">Invite more than 12 BNB addresses per day</p>
                 <div class="add_warp">
-                  <div class="add_item pt-2 pb-2" v-for="items in state.Team12BNB.value" :key="items">
+                  <div class="add_item pt-2 pb-2"  style="font-size: 12px;" v-for="items in state.Team12BNB.value" :key="items">
                     <el-tooltip
                       class="box-item"
                       effect="dark"
@@ -193,7 +193,7 @@ const drawerShow = () =>{
       :before-close="handleClose"
       size="90%"
     >
-      <div class="add_item pt-2 pb-2" v-for="key in state.Team12BNB.value" :key="key">
+      <div class="add_item pt-2 pb-2 text-center"  style="font-size: 12px;" v-for="key in state.Team12BNB.value" :key="key">
         <el-tooltip
           class="box-item"
           effect="dark"
