@@ -34,6 +34,7 @@ onMounted(() => {
 })
 
 
+
 // 监听IPO 更新WBNB数量
 watch(inputValue, (newValue) => {
   console.log('newValue',newValue);

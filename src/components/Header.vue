@@ -131,7 +131,6 @@ const joinWeb3 = async () => {
       const bnbNum = web3.value.utils.fromWei(infoData.bnbNum, "ether")
       state.updateNO1BNBNum(Number(bnbNum));  // 设置info值
     }
-    console.log('合约返回信息', infoData);
     updateCountdown()
     // 获取钱包eth余额
     const myETHBalance = web3.value.utils.fromWei(balance, "ether");
