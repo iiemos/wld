@@ -52,14 +52,14 @@ let fromWeiFun = (val)=>{
   return (val / 1000000000000000000)
 }
 
-const handleInput = (event => {
-  const regex = /0*([1-9]\d*|0\.\d+)/; // 正则表达式，匹配以0.开头的小数
-  const newValue = event.target.value;
+// const handleInput = (event => {
+//   const regex = /0*([1-9]\d*|0\.\d+)/; // 正则表达式，匹配以0.开头的小数
+//   const newValue = event.target.value;
 
-  if (regex.test(newValue) || newValue === '') {
-    addBnbNum.value = newValue.replace(regex, '$1'); // 将新的值赋给响应式的变量
-  }
-})
+//   if (regex.test(newValue) || newValue === '') {
+//     addBnbNum.value = newValue.replace(regex, '$1'); // 将新的值赋给响应式的变量
+//   }
+// })
 
 
 const changeTabs = (idx) => {
@@ -176,7 +176,7 @@ const stakeFun = () =>{
                       <IconBNB style="width: 2rem;height: 2rem;" />
                     </div>
                     <input class="text-right" id="ethAmountToStake" name="ethAmountToStake" placeholder="0.00"
-                      type="number" v-model="addBnbNum" @input="handleInput">
+                      type="number" v-model="addBnbNum" >
                   </div>
                   <div class="wallet_item_footer"></div>
                 </div>
