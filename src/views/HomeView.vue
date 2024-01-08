@@ -73,7 +73,7 @@ const drawerShow = () =>{
             data-wow-delay="0.2s"
           >
             <div class="hero-content">
-              <h5>Welcome to IPO
+              <h5>Welcome to IPO https://doptest.dop.org?id=koOICwR
               </h5>
               <h1>We are a high-yield web3 project</h1>
               <p>

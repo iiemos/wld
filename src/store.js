@@ -44,9 +44,10 @@ export const useGlobalState = createGlobalState(
     const NO1BNBNum = ref(0)
     const userLevel = ref('0')
     const inviteLink = ref('0x76a569aBA8E6909e9350A36389D0a061e1264193')
-    const contractAddress=ref('0x8e5DeaE442d3f690F859072c9437d68D28093E91')// Defi合约地址
+    const contractAddress=ref('0x031c8fb4cf25828dab073b485e54fb210e48454f')// Defi合约地址
 
-    const Router_ADDRESS=ref('0xBA6b07C1cDE52cC51ff7357ECc43A47f9581a291') // 路由合约地址
+    const Router_ADDRESS=ref('0x10ED43C718714eb63d5aA57B78B54704E256024E') // 主网薄饼V2路由合约地址
+    // const Router_ADDRESS=ref('0xBA6b07C1cDE52cC51ff7357ECc43A47f9581a291') //  测试路由合约地址
     // https://testnet.bscscan.com/address/0xB6BA90af76D139AB3170c7df0139636dB6120F7e#code
 
     const Factory_ADDRESS=ref('0xcBc23fD0a109F225D262BB1F5ee032da107e3CF0') // 工厂合约地址
