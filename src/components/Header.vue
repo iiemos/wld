@@ -190,7 +190,7 @@ const joinWeb3 = async () => {
 
 
 const updateCountdown  = () => {
-  const startTime = (Number(state.infoData.value.deadNum)*1000) + (12 * 60 * 60 * 1000); // 当前时间加上12小时的毫秒数
+  const startTime = (Number(state.infoData.value.deadNum)*1000) + (24 * 60 * 60 * 1000); // 当前时间加上12小时的毫秒数
   timer = setInterval(() => {
     const currentTime = new Date().getTime();
     const timeLeft = startTime - currentTime;
