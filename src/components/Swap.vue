@@ -263,6 +263,12 @@ const approveContract = () => {
           </dd>
         </div>
         <div class="py-2 flex items-center justify-between">
+          <dt class="font-medium flex">After Tax Rate</dt>
+            <dd class="font-base flex items-center justify-between">
+              <span class="pr-1">1 IPO ≈ {{ toWeiQuote * 0.9 }} USDT</span>
+            </dd>
+        </div>
+        <div class="py-2 flex items-center justify-between">
           <dt class="font-medium flex">Exchange Rate</dt>
             <dd class="font-base flex items-center justify-between">
               <span class="pr-1">1 IPO ≈ {{ toWeiQuote }} USDT</span>
