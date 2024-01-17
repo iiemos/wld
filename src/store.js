@@ -43,7 +43,7 @@ export const useGlobalState = createGlobalState(
     })
     const userSY = ref(null)
     const TMCP = ref(0)
-    const NO1BNBNum = ref(0)
+    const FomoBalance = ref(0)
     const userLevel = ref('0')
     const inviteLink = ref('0x76a569aBA8E6909e9350A36389D0a061e1264193')
     const contractAddress=ref('0x370477A0212fCA720A22a29826115c0741F4B5a0')// Defi合约地址
@@ -68,6 +68,7 @@ export const useGlobalState = createGlobalState(
     const gasGWeiPrice = ref(null)
     const Team12BNB = ref([])
     const countdown = ref() // 12小时倒计时
+    const fomoBalance = ref() // fomo池余额
     
     // 首先搭建OKT测试网的SWAP 
     // 路由地址 0xBA6b07C1cDE52cC51ff7357ECc43A47f9581a291
@@ -82,6 +83,9 @@ export const useGlobalState = createGlobalState(
     function increment() {
       count.value++
     }
+    function updateFomoBalance(val) {
+      fomoBalance.value = val
+    }
     function updateCountDown(val) {
       countdown.value = val
     }
@@ -91,8 +95,8 @@ export const useGlobalState = createGlobalState(
     function updateTMCP(val) {
       TMCP.value = val
     }
-    function updateNO1BNBNum(val) {
-      NO1BNBNum.value = val
+    function updateFomoBalance(val) {
+      FomoBalance.value = val
     }
     function updateTeam12BNB(val) {
       Team12BNB.value = val
@@ -155,7 +159,8 @@ export const useGlobalState = createGlobalState(
       infoData,
       countdown,
       TMCP,
-      NO1BNBNum,
+      FomoBalance,
+      fomoBalance,
       userLevel,
       inviteLink,
       myETHBalance,
@@ -169,13 +174,14 @@ export const useGlobalState = createGlobalState(
       TOKEN_ADDRESS,
       Factory_ADDRESS,
       WOKT_ADDRESS,
+      updateFomoBalance,
       updateBBACoin,
       updateWOKTCoin,
       increment,
       updateCountDown,
       updateUserSY,
       updateTMCP,
-      updateNO1BNBNum,
+      updateFomoBalance,
       updateWbe3,
       updateTeam12BNB,
       updateGasPrice,

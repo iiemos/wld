@@ -128,7 +128,7 @@ const drawerShow = () =>{
                     <div class="flex flex-row py-3 px-2 my-2 " style="border-bottom: 1px solid var(--border-color);">
                       <div class="basis-1/2">Fomo Pool</div>
                       <div class="basis-1/2 text-right">
-                        <count-to class="conut_to" style="color: #e55638;" :startVal='0' :endVal='state.NO1BNBNum.value' :duration='3000' :decimals="4"/>
+                        <count-to class="conut_to" style="color: #e55638;" :startVal='0' :endVal='state.FomoBalance.value' :duration='3000' :decimals="4"/>
                         USDT
                       </div>
                     </div>

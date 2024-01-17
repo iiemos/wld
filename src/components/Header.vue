@@ -123,6 +123,9 @@ const joinWeb3 = async () => {
     state.updateInfoData(infoData);  // 设置info值
     state.updateBBACoin(infoData.bbaCoin);  // 设置BBA 代币地址
     state.updateWOKTCoin(infoData.usdtCoin);  // 设置WOKT 代币地址
+
+
+
     // 创建usdt合约实例
     const usdtContract = new web3.value.eth.Contract(usdtABI, infoData.usdtCoin);
     state.updateUsdtContract(usdtContract);  // 设置usdt合约实例
@@ -132,17 +135,23 @@ const joinWeb3 = async () => {
     state.updateMyUSDTBalance(myUSDTBalanceFromWe);  // 设置usdt余额
 
 
+    // 获取Fomo池子余额（合约地址USDT余额）
+    const FomoBalance = await usdtContract.methods.balanceOf(state.contractAddress.value).call();
+    const  FomoBalanceFromWe = web3.value.utils.fromWei(FomoBalance, "ether");
+    console.log('FomoBalanceFromWe',FomoBalanceFromWe);
+    state.updateFomoBalance(Number(FomoBalanceFromWe))  // 设置Fomo usdt余额
+    if(infoData.bnbNum != '0'){
+      console.log('Fomo池奖励：',infoData.bnbNum);
+      const bnbNum = web3.value.utils.fromWei(infoData.bnbNum, "ether")
+      state.updateFomoBalance(Number(bnbNum));  // 设置info值
+    }
     // 获取第一名 BNB 奖励
     const userStakeCp = await DeFiContract.methods.userStakeCp(infoData.NO1).call();
     console.log('userStakeCp=====:',userStakeCp);
     const userCP = web3.value.utils.fromWei(userStakeCp, "ether")
     state.updateTMCP((Number(userCP / 3)).toFixed(4));  // 设置info值
     
-    if(infoData.bnbNum != '0'){
-      console.log('Fomo池奖励：',infoData.bnbNum);
-      const bnbNum = web3.value.utils.fromWei(infoData.bnbNum, "ether")
-      state.updateNO1BNBNum(Number(bnbNum));  // 设置info值
-    }
+
     updateCountdown()
     // 获取钱包eth余额
     const myETHBalance = web3.value.utils.fromWei(balance, "ether");
