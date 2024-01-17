@@ -12,6 +12,19 @@ let fromWeiFun = (val)=>{
   if(val == 0) return val
   return (val / 1000000000000000000).toFixed(4)
 }
+// userSY 个人淘汰进度
+
+let nowUserSy = computed(()=>{ 
+  if(!state.userSY.value){
+    return 0
+  }else{
+    return Number(100 - (state.userSY.value * 10 ))
+  }
+})
+
+onMounted(() => {
+  getPeopleMoney()
+})
 // 领取奖励
 const claimFun = useDebounceFn( async() => {
   if(!state.myAddress.value || state.myAddress.value === '0x00000000000000000000000000000000deadbeef'){
@@ -44,6 +57,13 @@ const claimFun = useDebounceFn( async() => {
     console.log(e);
   }
 })
+
+// 查询接口，参数是个人地址，返回可直接卖币的数量
+const getPeopleMoney = async()=>{
+    // 获取第一名 BNB 奖励
+  const userPeopleMoney = await state.DeFiContract.value.methods.peopleMoney(state.myAddress.value).call();
+  console.log('userPeopleMoney=====:',userPeopleMoney);
+}
 </script>
 <template>
   <div class="contact">
@@ -90,29 +110,34 @@ const claimFun = useDebounceFn( async() => {
         <div class="row justify-content-between align-items-center max-w-2xl m-auto flex flex-col items-center justify-center">
           <div class="col-lg-12" style="padding: 0;">
             <div class="add_power rounded-lg px-3 py-3 pb-1 pt-6 h-sm:p-2 h-sm:pt-2">
+              <p class="mb-2">Elimination progress {{ nowUserSy }}%</p>
+              <div class="mb-5 h-4 overflow-hidden rounded-full bg-gray-200">
+                <div class="h-4 animate-pulse rounded-full bg-gradient-to-r from-sky-500 to-indigo-500" :style="{width: nowUserSy+'%'}"></div>
+              </div>
+
               <div class="income_info">
                 <div class="income_item bg-amber-50 flex items-center justify-between">
-                  <span>个人算力</span>
+                  <span>User CP</span>
                   <span>
                     {{ fromWeiFun(state.infoData.value.userCp) }} / V0
                   </span>
                 </div>
                 <div class="income_item bg-lime-50 flex items-center justify-between">
-                  <span>已领取奖励</span>
+                  <span>Over Award</span>
                   <span style="text-align: right;">
-                    {{ fromWeiFun(state.infoData.value.overAward) }} BNB
-                    <p style="font-size: 12px;">
+                    {{ fromWeiFun(state.infoData.value.overAward) }} USDT
+                    <!-- <p style="font-size: 12px;">
                       ≈ 0.000 USDT
-                    </p>
+                    </p> -->
                   </span>
                 </div>
                 <div class="income_item bg-green-50 flex items-center justify-between">
-                  <span>可领取奖励</span>
+                  <span>Award</span>
                   <span style="text-align: right;">
-                    {{ fromWeiFun(state.infoData.value.userAward) }} BNB
-                    <p style="font-size: 12px;">
+                    {{ fromWeiFun(state.infoData.value.userAward) }} USDT
+                    <!-- <p style="font-size: 12px;">
                       ≈ 0.000 USDT 
-                    </p>
+                    </p> -->
                   </span>
                 </div>
               </div>

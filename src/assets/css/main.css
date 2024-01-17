@@ -3902,3 +3902,11 @@ input::-webkit-inner-spin-button {
 .max-w-xs {
   max-width: 20rem
 }
+
+.bg-gray-200{
+  background-color: rgb(229 231 235);
+}
+
+.bg-gradient-to-r	{
+  background: linear-gradient(to right, #7c45f3, #4d5aec, #72a7f7, #92dae6)
+}

@@ -5,7 +5,7 @@ import { RouterLink, RouterView } from "vue-router";
 import { useDebounceFn } from '@vueuse/core'
 import { ElMessage, ElNotification } from "element-plus";
 import { useGlobalState } from "@/store";
-import IconBNB from '@/components/icons/IconBNB.vue'
+import IconUSDT from '@/components/icons/IconUSDT.vue'
 import IconLogo from '@/components/icons/IconLogo.vue'
 import RouterABI from "@/abis/RouterABI.json";
 import usdtABI from "@/abis/usdtABI.json";
@@ -28,19 +28,22 @@ quote函数用于获取两种代币之间的实时交易报价。它可以告诉
 
 onMounted(() => {
   RouterContract.value = new state.web3.value.eth.Contract(RouterABI, state.Router_ADDRESS.value);
-  getQuote()
+  getPrice2Fun()
+  // getQuote()
   checkAuthorization()
-  console.log('BbaTokenBalanceFromWei',state.BbaCoinBlance.value);
 })
 
 
+// getPrice 返回值是：1个U 可以换多少币
+// getPrice2 无参数 返回值是：1个代币换多少U
 
 // 监听IPO 更新WBNB数量
 watch(inputValue, (newValue) => {
   console.log('newValue',newValue);
   if(!newValue || newValue == 0) return outputValue.value = 0
   if(newValue == 0) return outputValue.value = 0
-  updateConversionValue()
+  updateShowIPOTokensVal()
+  // updateConversionValue()
 });
 
 const MaxBalance = () =>{
@@ -68,6 +71,7 @@ const calculateConversion = async() => {
     console.log('error',error);
   }
 }
+// 通过swap卖出Token
 const swapTokens = () => {
   if(state.BbaCoinBlance.value == 0) return false
     //console.log(this.inputValue, this.inputToken, this.outputValue, this.outputToken);
@@ -86,28 +90,32 @@ const swapTokens = () => {
     // RouterContract.value.methods.swapExactTokensForTokens(stringValue, 0, path, state.myAddress.value, '0xFFFFFFFFFF').send({from: state.myAddress.value});
     RouterContract.value.methods.swapExactTokensForTokensSupportingFeeOnTransferTokens(stringValue, 0, path, state.myAddress.value, '0xFFFFFFFFFF').send({from: state.myAddress.value});
 }
-const getQuote = async() => {
-  // // amountA reserveA reserveB
-  // let reserveA = state.WOKT_ADDRESS.value
-  // let reserveB = state.TOKEN_ADDRESS.value
-  // // const QuoteRes = await RouterContract.value.methods.quote('100000000000000000',reserveB,reserveA).call()
-
-  // const toWeiQuoteVal = state.web3.value.utils.fromWei(QuoteRes, "ether"); //
-  // if(toWeiQuoteVal != 0) toWeiQuote.value = toWeiQuoteVal.substring(0, 6)
-  // else toWeiQuote.value = toWeiQuoteVal
-  // console.log('toWeiQuote',toWeiQuote.value);
-
-
-  let stringValue = String('1000000000000000000'); 
-  const path = [state.TOKEN_ADDRESS.value, state.WOKT_ADDRESS.value];
-  const QuoteRes = await RouterContract.value.methods.getAmountsOut(stringValue, path).call()
-  const toWeiQuoteVal = state.web3.value.utils.fromWei(QuoteRes[1], "ether"); //
-  if(toWeiQuoteVal != 0) toWeiQuote.value = toWeiQuoteVal.substring(0, 6)
-  else toWeiQuote.value = toWeiQuoteVal
-  console.log('toWeiQuote',toWeiQuote.value);
-
+// 通过合约卖出Token
+const ShellTokens = () =>{
+  if(state.BbaCoinBlance.value == 0) return false
+    //console.log(this.inputValue, this.inputToken, this.outputValue, this.outputToken);
+    let stringValue = String(inputValue.value.toString()+'000000000000000000'); 
+    // BBA 代币 ---> WBNB
+    state.DeFiContract.value.methods.sellToken(stringValue).send({from: state.myAddress.value}).on('transactionHash', (hash)=>{
+      console.log(hash);
+      ElMessage.success('交易已发送')
+      console.log("Transaction sent");
+    })
+    .once('receipt', res => {
+      ElMessage.success(t('TransactionSuccess'))
+      console.log("交易已确认");
+    })
+    .catch((error) => {
+      console.error('Approval failed:', error);
+      if(error.code == '4001'){
+        ElMessage.warning('用户拒绝了请求！');
+      }
+      if(error.code == '-32603' || error.message == 'transaction underpriced'){
+        ElMessage.error('gas不足！');
+      }
+    });
 }
-
+// 使用理由获取交换价格
 const updateConversionValue = useDebounceFn( async(val) => {
   // BBA 代币 ---> WBNB
   const path = [state.TOKEN_ADDRESS.value, state.WOKT_ADDRESS.value];
@@ -133,18 +141,56 @@ const updateConversionValue = useDebounceFn( async(val) => {
 async function checkAuthorization() {
   try {
     // 调用合约中的allowance方法
-    const allowance = await state.BbaContract.value.methods.allowance(state.myAddress.value, state.Router_ADDRESS.value).call();
+    const allowance = await state.BbaContract.value.methods.allowance(state.myAddress.value, state.contractAddress.value).call();
     console.log('allowance======',allowance);
     // 根据返回值判断授权状态
     if (allowance > 0) {
-      console.log('用户已授权PancakeRouter合约');
+      console.log('用户已授权DeFi合约');
     } else {
       isApprove.value = false;
-      console.log('用户未授权PancakeRouter合约');
+      console.log('用户未授权DeFi合约');
     }
   } catch (error) {
-    console.error('查询授权状态时发生错误:', error);
+    console.error('查询DeFi授权状态时发生错误:', error);
   }
+}
+
+const updateShowIPOTokensVal = useDebounceFn((val) => {
+  // return inputValue.value * (toWeiQuote.value)
+  let truncatedNum = Math.floor(toWeiQuote.value * 10000) / 10000;
+  const deduct = truncatedNum * 0.9
+  if(toWeiQuote.value != 0) outputValue.value = deduct * inputValue.value
+},500)
+// 通过DeFi合约实例获取价格
+const getPrice2Fun =  async() => {
+  const IPOPrice = await state.DeFiContract.value.methods.getPrice2().call()
+  const FromWeiNum = state.web3.value.utils.fromWei(IPOPrice, "ether");
+  if(FromWeiNum != 0) toWeiQuote.value = FromWeiNum.substring(0, 6)
+  else toWeiQuote.value = FromWeiNum
+  console.log('toWeiQuote',toWeiQuote.value);
+  console.log('IPOPrice',FromWeiNum);
+}
+
+// 通过薄饼路由获取价格
+const getQuote = async() => {
+  // // amountA reserveA reserveB
+  // let reserveA = state.WOKT_ADDRESS.value
+  // let reserveB = state.TOKEN_ADDRESS.value
+  // // const QuoteRes = await RouterContract.value.methods.quote('100000000000000000',reserveB,reserveA).call()
+
+  // const toWeiQuoteVal = state.web3.value.utils.fromWei(QuoteRes, "ether"); //
+  // if(toWeiQuoteVal != 0) toWeiQuote.value = toWeiQuoteVal.substring(0, 6)
+  // else toWeiQuote.value = toWeiQuoteVal
+  // console.log('toWeiQuote',toWeiQuote.value);
+
+  let stringValue = String('1000000000000000000'); 
+  const path = [state.TOKEN_ADDRESS.value, state.WOKT_ADDRESS.value];
+  const QuoteRes = await RouterContract.value.methods.getAmountsOut(stringValue, path).call()
+  const toWeiQuoteVal = state.web3.value.utils.fromWei(QuoteRes[1], "ether"); //
+  if(toWeiQuoteVal != 0) toWeiQuote.value = toWeiQuoteVal.substring(0, 6)
+  else toWeiQuote.value = toWeiQuoteVal
+  console.log('toWeiQuote',toWeiQuote.value);
+
 }
 
 // 执行查询授权状态函数
@@ -153,11 +199,10 @@ const approveContract = () => {
   if(state.BbaCoinBlance.value == 0) return false
   let stringValue = state.web3.value.utils.toWei("10000000000", "ether"); // 默认授权额度
   // 创建代币合约实例
-  // let tokenContract = new state.web3.value.eth.Contract(usdtABI, state.TOKEN_ADDRESS.value.toString().toLowerCase());
-  state.BbaContract.value.methods.approve(state.Router_ADDRESS.value, stringValue).send({
+  state.BbaContract.value.methods.approve(state.contractAddress.value, stringValue).send({
     from: state.myAddress.value
   }).then((receipt) => {
-    console.log('授权成功swap', receipt);
+    console.log('授权成功DeFi', receipt);
     isApprove.value = true;
   }).catch((error) => { console.log('授权失败',error); })
 }
@@ -195,21 +240,21 @@ const approveContract = () => {
           </div>
           <div class="flex">
             <span>Balance: 0.00
-              <span class="font-semibold">WBNB</span>
+              <span class="font-semibold">USDT</span>
             </span>
           </div>
         </div>
         <div class="wallet_item_mid relative">
           <div
             class="wallet_item_logo absolute inset-y-0 left-0 pl-1 flex items-center pointer-events-none px-3 py-3">
-            <IconBNB style="width: 2rem;height: 2rem;" />
+            <IconUSDT style="width: 2rem;height: 2rem;" />
           </div>
           <div class="calculation text-right">≈ {{ outputValue }}</div>
         </div>
         <div class="wallet_item_footer"></div>
       </div>
       <dl class="divide-y divide-slate-100 divide-opacity-25 p-3 text-xs sm:text-sm h-sm:p-2 h-sm:text-xs">
-        <div class="py-2 flex items-center justify-between">
+        <div v-if="false" class="py-2 flex items-center justify-between">
           <dt class="font-medium">Routing</dt>
           <dd class="font-base flex items-center">
             <div
@@ -220,10 +265,10 @@ const approveContract = () => {
         <div class="py-2 flex items-center justify-between">
           <dt class="font-medium flex">Exchange Rate</dt>
             <dd class="font-base flex items-center justify-between">
-              <span class="pr-1">1 IPO ≈ {{ toWeiQuote }} WBNB</span>
+              <span class="pr-1">1 IPO ≈ {{ toWeiQuote }} USDT</span>
             </dd>
         </div>
-        <div class="py-2 flex items-center justify-between pb-0 divide-none">
+        <div v-if="false" class="py-2 flex items-center justify-between pb-0 divide-none">
           <dt class="font-medium">Transaction Cost</dt>
           <dd class="font-base">
             @ <span class="font-semibold">18</span> gwei<span
@@ -234,7 +279,7 @@ const approveContract = () => {
       <div v-if="!isApprove" @click="approveContract" :class="{ disabled: state.BbaCoinBlance.value == 0 }" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-semibold rounded-md text-white action-button md:py-5 md:text-xl md:px-10 mb-4">
         Approve Swap
       </div>
-      <div v-else @click="swapTokens" :class="{ disabled: state.BbaCoinBlance.value == 0 }" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-semibold rounded-md text-white action-button md:py-5 md:text-xl md:px-10 mb-4">
+      <div v-else @click="ShellTokens" :class="{ disabled: state.BbaCoinBlance.value == 0 }" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-semibold rounded-md text-white action-button md:py-5 md:text-xl md:px-10 mb-4">
         Swap
       </div>
     </div>

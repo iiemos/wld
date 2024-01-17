@@ -16,6 +16,14 @@ import { ElMessage, ElNotification } from "element-plus";
 import { Pointer } from '@element-plus/icons-vue'
 import defiABI from "@/abis/defiABI.json";
 // const { t } = useI18n()
+
+let UserUSDTBalance = computed(()=>{ 
+  if(!state.myUSDTBalance.value){
+    return 0
+  }else{
+    return Number((Math.floor(state.myUSDTBalance.value * 100000) / 100000)).toFixed(5)
+  }
+})
 const addSpaceX = ref(0) // 
 const tabsActive = ref(1) // tabs显示idex
 const myUSDTNumber = ref(0) // 添加的usdt数量
@@ -27,7 +35,7 @@ let web3 = ref();
 let myAddress = ref(""); //我的地址
 let infoData = ref(""); //我的地址
 let myETHBalance = ref('0'); // EHT余额
-const addBnbNum = ref(0); // 添加的数量
+const addUsdtNum = ref(0); // 添加的数量
 
 let myUSDTBalance = ref(""); // USDT余额
 let DeFiContract = ref(""); // 合约实例
@@ -57,7 +65,7 @@ let fromWeiFun = (val)=>{
 //   const newValue = event.target.value;
 
 //   if (regex.test(newValue) || newValue === '') {
-//     addBnbNum.value = newValue.replace(regex, '$1'); // 将新的值赋给响应式的变量
+//     addUsdtNum.value = newValue.replace(regex, '$1'); // 将新的值赋给响应式的变量
 //   }
 // })
 
@@ -66,30 +74,36 @@ const changeTabs = (idx) => {
   tabsActive.value = idx
 }
 const MaxBalance = () =>{
-  addBnbNum.value = state.myETHBalance.value
+  addUsdtNum.value = state.myUSDTBalance.value
 }
-const stakeFun = () =>{
+const stakeFun = async() =>{
   if(!state.myAddress.value || state.myAddress.value === '0x00000000000000000000000000000000deadbeef'){
     return headerChild.value.joinWeb3();
   }
-  // myETHBalance addBnbNum
+  // myETHBalance addUsdtNum
   /* 临时去除最低0.5的校验 */ 
-  // if(addBnbNum.value < 0.5) return ElMessage.error('Minimum addition of 0.5 BNB');
+  if(addUsdtNum.value < 100) return ElMessage.error('Minimum addition of 100 USDT');
+  if(addUsdtNum.value > 10000) return ElMessage.error('Max addition of 10000 USDT');
   // if(state.myETHBalance.value < 0.5) return ElMessage.error('The account balance is insufficient, please add more');
 
-  if(addBnbNum.value > state.myETHBalance.value) return ElMessage.error('The account balance is insufficient, please add more');
+  if(addUsdtNum.value > state.myUSDTBalance.value) return ElMessage.error('The account balance is insufficient, please add more');
   // if(state.inviteLink.value == 'undefined' || !state.inviteLink.value) return ElMessage.warning('The invitation link address cannot be empty, please obtain the invitation link again.') 
-
-  const callValue = state.web3.value.utils.toWei(addBnbNum.value.toString());
+  const callValue = state.web3.value.utils.toWei(addUsdtNum.value.toString());
+  // 判断是否授权
+  let allowanceOfCurrentAccount = await state.UsdtContract.value.methods.allowance(state.myAddress.value, state.contractAddress.value).call();
+  console.log('被授权的数量：',allowanceOfCurrentAccount);
+  if(allowanceOfCurrentAccount == 0 || allowanceOfCurrentAccount < callValue){
+    console.log('执行授权语句');
+    approveUSDT()
+  }
   console.log('购买的数量',callValue);
   console.log('邀请链接----',state.inviteLink.value);
   console.log('from---',state.myAddress.value);
   console.log('Defi合约地址---',state.contractAddress.value);
   if(!state.inviteLink.value || state.inviteLink.value == 'undefined') return ElMessage.error('邀请链接不能为空！');
-  state.DeFiContract.value.methods.stake(state.inviteLink.value)
+  state.DeFiContract.value.methods.stake(state.inviteLink.value, callValue)
     .send({
       from: state.myAddress.value,
-      value: callValue
     })
     .on('transactionHash', (hash)=>{
       console.log(hash);
@@ -99,7 +113,7 @@ const stakeFun = () =>{
     .once('receipt', res => {
       ElMessage.success(t('TransactionSuccess'))
       console.log("交易已确认");
-      addBnbNum.value = 0
+      addUsdtNum.value = 0
       headerChild.value.joinWeb3();
     })
     .catch((error) => {
@@ -111,6 +125,16 @@ const stakeFun = () =>{
         ElMessage.error('gas不足！');
       }
     });
+}
+const approveUSDT = ()=>{
+  let stringValue = state.web3.value.utils.toWei("100000000000", "ether"); // 默认授权额度
+  // 创建代币合约实例
+  state.UsdtContract.value.methods.approve(state.contractAddress.value, stringValue).send({
+    from: state.myAddress.value
+  }).then((receipt) => {
+    console.log('授权成功USDT', receipt);
+    stakeFun()
+  }).catch((error) => { console.log('授权失败',error); })
 }
 </script>
 <template>
@@ -161,11 +185,11 @@ const stakeFun = () =>{
                 <div class="wallet_item">
                   <div class="wallet_item_top">
                     <div>
-                      <span>Stake BNB</span>
+                      <span>Stake USDT</span>
                     </div>
                     <div class="flex">
-                      <span>Balance: {{ state.myETHBalance }}
-                        <span class="font-semibold">BNB</span>
+                      <span>Balance: {{ UserUSDTBalance }}
+                        <span class="font-semibold">USDT</span>
                       </span>
                       <span class="max_btn" @click="MaxBalance()">Max</span>
                     </div>
@@ -173,10 +197,10 @@ const stakeFun = () =>{
                   <div class="wallet_item_mid relative">
                     <div
                       class="wallet_item_logo absolute inset-y-0 left-0 pl-1 flex items-center pointer-events-none px-3 py-3">
-                      <IconBNB style="width: 2rem;height: 2rem;" />
+                      <IconUSDT style="width: 2rem;height: 2rem;" />
                     </div>
                     <input class="text-right" id="ethAmountToStake" name="ethAmountToStake" placeholder="0.00"
-                      type="number" v-model="addBnbNum" >
+                      type="number" v-model="addUsdtNum" >
                   </div>
                   <div class="wallet_item_footer"></div>
                 </div>

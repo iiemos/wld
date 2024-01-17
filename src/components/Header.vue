@@ -119,7 +119,19 @@ const joinWeb3 = async () => {
     // console.log('DeFiContract',DeFiContract);
     state.updateDeFiContract(DeFiContract) // 赋值合约实例
     const infoData = await DeFiContract.methods.getInfo(myAddress).call();
+    console.log('infoData',infoData);
     state.updateInfoData(infoData);  // 设置info值
+    state.updateBBACoin(infoData.bbaCoin);  // 设置BBA 代币地址
+    state.updateWOKTCoin(infoData.usdtCoin);  // 设置WOKT 代币地址
+    // 创建usdt合约实例
+    const usdtContract = new web3.value.eth.Contract(usdtABI, infoData.usdtCoin);
+    state.updateUsdtContract(usdtContract);  // 设置usdt合约实例
+    // 获取usdt余额
+    let usdtBalance = await usdtContract.methods.balanceOf(myAddress).call();
+    const  myUSDTBalanceFromWe = web3.value.utils.fromWei(usdtBalance, "ether");
+    state.updateMyUSDTBalance(myUSDTBalanceFromWe);  // 设置usdt余额
+
+
     // 获取第一名 BNB 奖励
     const userStakeCp = await DeFiContract.methods.userStakeCp(infoData.NO1).call();
     console.log('userStakeCp=====:',userStakeCp);
@@ -154,7 +166,8 @@ const joinWeb3 = async () => {
 
     // 获取getSy 剩余奖励
     let SYJL = await DeFiContract.methods.getSy(myAddress).call();
-    console.log('剩余可领取---------:',SYJL);
+    state.updateUserSY(web3.value.utils.fromWei(SYJL, "ether"))
+    console.log('剩余可领取---------:',web3.value.utils.fromWei(SYJL, "ether"));
     // 创建路由合约地址
     const RouterContract = new web3.value.eth.Contract(RouterABI, state.Router_ADDRESS.value);
     // console.log('RouterContract----------',RouterContract);
@@ -163,10 +176,10 @@ const joinWeb3 = async () => {
     // console.log('WETH----------',WETH);
     state.updateRouterContract(RouterContract) // 赋值合约实例
 
-    // 创建BBA代币实例并获取余额
-    const BbaTokenContract = new web3.value.eth.Contract(usdtABI, state.TOKEN_ADDRESS.value);
+    // // 创建BBA代币实例并获取余额
+    const BbaTokenContract = new web3.value.eth.Contract(usdtABI, infoData.bbaCoin);
     state.updateBbaContract(BbaTokenContract) // 赋值BBA合约实例
-    let BbaTokenBalance = await BbaTokenContract.methods.balanceOf(state.myAddress.value).call();
+    let BbaTokenBalance = await BbaTokenContract.methods.balanceOf(myAddress).call();
     const BbaTokenBalanceFromWei = web3.value.utils.fromWei(BbaTokenBalance, "ether");
     state.updateBbaCoinBlance(Number(BbaTokenBalanceFromWei)) // 赋值BBA代币余额
   } catch (e) {
