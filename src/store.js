@@ -46,7 +46,7 @@ export const useGlobalState = createGlobalState(
     const FomoBalance = ref(0)
     const userLevel = ref('0')
     const inviteLink = ref('0x76a569aBA8E6909e9350A36389D0a061e1264193')
-    const contractAddress=ref('0x370477A0212fCA720A22a29826115c0741F4B5a0')// Defi合约地址
+    const contractAddress=ref('0xce3c538453CAB7cC373450c2cA47F5CD9F4D2d71')// Defi合约地址
 
     // const Router_ADDRESS=ref('0x10ED43C718714eb63d5aA57B78B54704E256024E') // 主网薄饼V2路由合约地址
     const Router_ADDRESS=ref('0xA7f24657114948f146f145863C8F7Abb55091006') //  测试路由合约地址
