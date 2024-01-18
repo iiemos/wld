@@ -191,6 +191,10 @@ const joinWeb3 = async () => {
     let BbaTokenBalance = await BbaTokenContract.methods.balanceOf(myAddress).call();
     const BbaTokenBalanceFromWei = web3.value.utils.fromWei(BbaTokenBalance, "ether");
     state.updateBbaCoinBlance(Number(BbaTokenBalanceFromWei)) // 赋值BBA代币余额
+
+
+
+
   } catch (e) {
     // ElMessage.warning(e.message);
     console.log(e);

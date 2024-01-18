@@ -14,13 +14,14 @@ let fromWeiFun = (val)=>{
 }
 // userSY 个人淘汰进度 已领取收益 overAward / 可领取上限收益 userAward
 let nowUserSy = computed(()=>{ 
-  if(!state.userSY.value){
+  if(state.infoData.value.userCp == 0){
     return 0
   }else{
-    return Number((state.userSY.value)/ state.infoData.userCp)
+    return Number(state.infoData.value.overAward) / Number(state.infoData.value.userCp) 
   }
 })
-
+console.log('state.infoData.value.state.userSY.value',state.userSY.value);
+console.log('state.infoData.value.userCp',state.infoData.value.userCp);
 onMounted(() => {
   getPeopleMoney()
 })
@@ -118,7 +119,7 @@ const getPeopleMoney = async()=>{
                 <div class="income_item bg-amber-50 flex items-center justify-between">
                   <span>User CP</span>
                   <span>
-                    {{ fromWeiFun(state.infoData.value.userCp) }} / V0
+                    {{ fromWeiFun(state.infoData.value.userCp) }} / V{{ state.infoData.value.levle }}
                   </span>
                 </div>
                 <div class="income_item bg-lime-50 flex items-center justify-between">

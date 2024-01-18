@@ -4,12 +4,17 @@ import { ref, computed, onMounted, watch } from "vue";
 import { RouterLink, RouterView } from "vue-router";
 import { useDebounceFn } from '@vueuse/core'
 import { ElMessage, ElNotification } from "element-plus";
-// import { useI18n } from 'vue-i18n'
+import {
+  ZoomIn,
+  Pointer,
+} from '@element-plus/icons-vue'
 import { useGlobalState } from "@/store";
 import IconCoins from '@/components/icons/IconCoins.vue'
 import WOW from "wow.js";
 
+const centerDialogVisible = ref(false)
 const state = useGlobalState();
+const teamArray = ref([]);
 const headerChild = ref();
 onMounted(async () => {
   let wow = new WOW({
@@ -40,6 +45,24 @@ const copyLink = () => {
     ElMessage.success('Link copied to clipboard! Send it to everyone')
     _input.remove()
 };
+
+const getMyTeamArr = async() =>{
+  centerDialogVisible.value = true
+  // 获取直推地址列表
+  if(state.infoData.value.teamLength>0){
+    let teamData = await state.DeFiContract.value.methods
+    .getTeamArry(state.myAddress.value,0,state.infoData.value.teamLength)
+    .call();
+    const teamMap = teamData.filter(arrItem => arrItem != '0x0000000000000000000000000000000000000000');
+    teamMap.forEach( async(ele) => {
+      const userinfoData = await state.DeFiContract.value.methods.getInfo(ele).call();
+      userinfoData.myUserAddress = ele
+      teamArray.value.push(userinfoData)
+    });
+    // teamArray.value = 
+
+  }
+}
 </script>
 
 <template>
@@ -107,19 +130,15 @@ const copyLink = () => {
                   </span>
                 </div>
                 <div>
-                  <div class="income_item bg-lime-50 flex items-center justify-between">
+                  <div class="income_item bg-lime-50 flex items-center justify-between" @click="getMyTeamArr">
                     <span class="text-sm">
                       <img class="w-10 h-10" src="@/assets/img/process/process8.png"/>
                       直推人数
                       </span>
                     <span style="text-align: right;">
-                      {{ (state.infoData.value.teamLength) }}
+                      <!-- {{ (state.infoData.value.teamLength) }} -->
+                      <el-icon><Pointer /></el-icon>
                     </span>
-                  </div>
-                  <div class="collap_warp">
-                    <p>地址</p>
-                    <p>算力</p>
-                    <p>等级</p>
                   </div>
                 </div>
 
@@ -187,6 +206,42 @@ const copyLink = () => {
         </div>
       </div>
     </section>
+    <el-dialog
+      v-model="centerDialogVisible"
+      :title="`Invitation List ${state.infoData.value.teamLength}`"
+      width="90%"
+      align-center
+    >
+    <div>
+      <!-- <div v-if="teamArray > 0" class="inv_list"> -->
+      <div class="inv_list">
+        <div class="inv_item" v-for="invitem in teamArray" :key="invitem.myUserAddress">
+          <div>
+            Levle: V{{ invitem.levle }}
+          </div>
+          <div>
+            Pool: {{ invitem.userCp }}
+          </div>
+          <el-tooltip
+            effect="dark"
+            :content="invitem.myUserAddress"
+            placement="top-end"
+          >
+            <span class="">
+              Address: {{ invitem.myUserAddress }}
+            </span>
+          </el-tooltip>
+        </div>
+        <!-- <div class="inv_item" v-for="invitem in teamArray" :key="invitem">
+          {{ invitem }}
+        </div> -->
+      </div>
+      <div v-if="teamArray.length <= 0" class="">
+        <el-empty description="No Data" />
+      </div>
+    </div>
+
+    </el-dialog>
     <Footer />
   </div>
 </template>
@@ -194,6 +249,20 @@ const copyLink = () => {
 
 <style lang="less">
 @import url('@/assets/css/base.css');
+.inv_list{
+  max-height: 60vh;
+  overflow-y: scroll;
+  font-size: 12px;
+  .inv_item{
+    text-align: left;
+    cursor: text;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, .2);
+  }
+}
 .copy_btn{
   background-color: transparent;
   border: 1px solid var(--border);
