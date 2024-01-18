@@ -147,8 +147,8 @@ const joinWeb3 = async () => {
     }
     // 获取第一名 BNB 奖励
     const userStakeCp = await DeFiContract.methods.userStakeCp(infoData.NO1).call();
-    console.log('userStakeCp=====:',userStakeCp);
     const userCP = web3.value.utils.fromWei(userStakeCp, "ether")
+    console.log('第一名奖励=====:',userCP);
     state.updateTMCP((Number(userCP / 3)).toFixed(4));  // 设置info值
     
 
@@ -176,7 +176,7 @@ const joinWeb3 = async () => {
     // 获取getSy 剩余奖励
     let SYJL = await DeFiContract.methods.getSy(myAddress).call();
     state.updateUserSY(web3.value.utils.fromWei(SYJL, "ether"))
-    console.log('剩余可领取---------:',web3.value.utils.fromWei(SYJL, "ether"));
+    console.log('我的剩余可领取---------:',web3.value.utils.fromWei(SYJL, "ether"));
     // 创建路由合约地址
     const RouterContract = new web3.value.eth.Contract(RouterABI, state.Router_ADDRESS.value);
     // console.log('RouterContract----------',RouterContract);

@@ -106,15 +106,23 @@ const copyLink = () => {
                     {{ fromWeiFun(state.infoData.value.teamCp2) }}
                   </span>
                 </div>
-                <div class="income_item bg-lime-50 flex items-center justify-between">
-                  <span class="text-sm">
-                    <img class="w-10 h-10" src="@/assets/img/process/process8.png"/>
-                    直推人数
+                <div>
+                  <div class="income_item bg-lime-50 flex items-center justify-between">
+                    <span class="text-sm">
+                      <img class="w-10 h-10" src="@/assets/img/process/process8.png"/>
+                      直推人数
+                      </span>
+                    <span style="text-align: right;">
+                      {{ (state.infoData.value.teamLength) }}
                     </span>
-                  <span style="text-align: right;">
-                    {{ (state.infoData.value.teamLength) }}
-                  </span>
+                  </div>
+                  <div class="collap_warp">
+                    <p>地址</p>
+                    <p>算力</p>
+                    <p>等级</p>
+                  </div>
                 </div>
+
                 <div class="income_item bg-lime-50 flex items-center justify-between">
                   <span class="text-sm">
                     <img class="w-10 h-10" src="@/assets/img/process/process8.png"/>

@@ -12,8 +12,7 @@ let fromWeiFun = (val)=>{
   if(val == 0) return val
   return (val / 1000000000000000000).toFixed(4)
 }
-// userSY 个人淘汰进度
-
+// userSY 个人淘汰进度 已领取收益 overAward / 可领取上限收益 userAward
 let nowUserSy = computed(()=>{ 
   if(!state.userSY.value){
     return 0
