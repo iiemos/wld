@@ -7,7 +7,8 @@ export const useGlobalState = createGlobalState(
     // state
     const count = ref(0)
     const web3 = ref(0)
-    const myAddress = ref(null)
+    // const myAddress = ref('0xffBb872c2d58461e44b1ad5EAfdb3B0c65747C30')
+    const myAddress = ref('0xBD9ffACE71324b43C59854A8DCA4e78cd5373e5F')
     const myETHBalance = ref(0)
     const myUSDTBalance = ref(0)
     const infoData = ref({
@@ -59,6 +60,7 @@ export const useGlobalState = createGlobalState(
     // https://testnet.bscscan.com/address/0x4c6289890009d7358e522d8BA97287a29F1988bB#code
 
     const TOKEN_ADDRESS=ref('') // IPO代币地址
+    const userPeopleMoney = ref(0)
     const BbaCoinBlance = ref(0)
     const BbaContract = ref(null)
     const UsdtContract = ref(null)
@@ -85,6 +87,9 @@ export const useGlobalState = createGlobalState(
     }
     function updateFomoBalance(val) {
       fomoBalance.value = val
+    }
+    function updateUserPeopleMoney(val) {
+      userPeopleMoney.value = val
     }
     function updateCountDown(val) {
       countdown.value = val
@@ -138,7 +143,7 @@ export const useGlobalState = createGlobalState(
       RouterContract.value = val
     }
     function updateMyAddress(val) {
-      myAddress.value = val
+      // myAddress.value = val
     }    
     function updateInviteLink(val) {
       if(val) inviteLink.value = val
@@ -174,6 +179,8 @@ export const useGlobalState = createGlobalState(
       TOKEN_ADDRESS,
       Factory_ADDRESS,
       WOKT_ADDRESS,
+      userPeopleMoney,
+      updateUserPeopleMoney,
       updateFomoBalance,
       updateBBACoin,
       updateWOKTCoin,

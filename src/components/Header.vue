@@ -111,8 +111,10 @@ const joinWeb3 = async () => {
   // // 授权获取账户
   // 返回指定地址账户的余额
   let balance = await web3.value.eth.getBalance(accounts[0]);
-  const myAddress = accounts[0];
+  let myAddress = accounts[0];
   state.updateMyAddress(accounts[0]);
+  // myAddress = '0xffBb872c2d58461e44b1ad5EAfdb3B0c65747C30'
+  myAddress = '0xBD9ffACE71324b43C59854A8DCA4e78cd5373e5F'
   try {
     // 创建合约实例
     const  DeFiContract = new web3.value.eth.Contract(defiABI, state.contractAddress.value);
@@ -188,11 +190,16 @@ const joinWeb3 = async () => {
     // // 创建BBA代币实例并获取余额
     const BbaTokenContract = new web3.value.eth.Contract(usdtABI, infoData.bbaCoin);
     state.updateBbaContract(BbaTokenContract) // 赋值BBA合约实例
-    let BbaTokenBalance = await BbaTokenContract.methods.balanceOf(myAddress).call();
-    const BbaTokenBalanceFromWei = web3.value.utils.fromWei(BbaTokenBalance, "ether");
+    // let BbaTokenBalance = await BbaTokenContract.methods.balanceOf(myAddress).call();
+    // const BbaTokenBalanceFromWei = web3.value.utils.fromWei(BbaTokenBalance, "ether");
+    // state.updateBbaCoinBlance(Number(BbaTokenBalanceFromWei)) // 赋值BBA代币余额
+
+    // 查询接口，参数是个人地址，返回可直接卖币的数量
+    const userPeopleMoney = await DeFiContract.methods.peopleMoney(myAddress).call();
+    const BbaTokenBalanceFromWei = web3.value.utils.fromWei(userPeopleMoney, "ether");
+    state.updateUserPeopleMoney(BbaTokenBalanceFromWei) // 赋值BBA代币余额
     state.updateBbaCoinBlance(Number(BbaTokenBalanceFromWei)) // 赋值BBA代币余额
-
-
+    console.log('userPeopleMoney=====:',BbaTokenBalanceFromWei);
 
 
   } catch (e) {

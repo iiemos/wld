@@ -46,8 +46,16 @@ watch(inputValue, (newValue) => {
   // updateConversionValue()
 });
 
+let UserIPOBalance = computed(()=>{ 
+  if(!state.BbaCoinBlance.value){
+    return 0
+  }else{
+    return Number((Math.floor(state.BbaCoinBlance.value * 100000) / 100000)).toFixed(5)
+  }
+})
+
 const MaxBalance = () =>{
-  inputValue.value = state.BbaCoinBlance.value
+  inputValue.value = UserIPOBalance.value
 }
 // 计算转换
 const calculateConversion = async() => {
@@ -217,7 +225,7 @@ const approveContract = () => {
             <span>Stake IPO</span>
           </div>
           <div class="flex">
-            <span>Balance: {{ state.BbaCoinBlance }}
+            <span>Balance: {{ UserIPOBalance }}
               <span class="font-semibold">IPO</span>
             </span>
             <span class="max_btn" @click="MaxBalance">Max</span>

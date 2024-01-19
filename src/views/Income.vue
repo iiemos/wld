@@ -23,7 +23,7 @@ let nowUserSy = computed(()=>{
 console.log('state.infoData.value.state.userSY.value',state.userSY.value);
 console.log('state.infoData.value.userCp',state.infoData.value.userCp);
 onMounted(() => {
-  getPeopleMoney()
+  // getPeopleMoney()
 })
 // 领取奖励
 const claimFun = useDebounceFn( async() => {
@@ -60,7 +60,6 @@ const claimFun = useDebounceFn( async() => {
 
 // 查询接口，参数是个人地址，返回可直接卖币的数量
 const getPeopleMoney = async()=>{
-    // 获取第一名 BNB 奖励
   const userPeopleMoney = await state.DeFiContract.value.methods.peopleMoney(state.myAddress.value).call();
   console.log('userPeopleMoney=====:',userPeopleMoney);
 }
@@ -126,6 +125,24 @@ const getPeopleMoney = async()=>{
                   <span>Over Award</span>
                   <span style="text-align: right;">
                     {{ fromWeiFun(state.infoData.value.overAward) }} USDT
+                    <!-- <p style="font-size: 12px;">
+                      ≈ 0.000 USDT
+                    </p> -->
+                  </span>
+                </div>
+                <div class="income_item bg-lime-50 flex items-center justify-between">
+                  <span>Dynamic income</span>
+                  <span style="text-align: right;">
+                    {{ fromWeiFun(state.infoData.value.overTeam) }} USDT
+                    <!-- <p style="font-size: 12px;">
+                      ≈ 0.000 USDT
+                    </p> -->
+                  </span>
+                </div>
+                <div class="income_item bg-lime-50 flex items-center justify-between">
+                  <span>Team income</span>
+                  <span style="text-align: right;">
+                    {{ fromWeiFun(state.infoData.value.overTeam2) }} USDT
                     <!-- <p style="font-size: 12px;">
                       ≈ 0.000 USDT
                     </p> -->
