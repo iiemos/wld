@@ -114,7 +114,7 @@ const joinWeb3 = async () => {
   let myAddress = accounts[0];
   state.updateMyAddress(accounts[0]);
   // myAddress = '0xffBb872c2d58461e44b1ad5EAfdb3B0c65747C30'
-  myAddress = '0xBD9ffACE71324b43C59854A8DCA4e78cd5373e5F'
+  // myAddress = '0xBD9ffACE71324b43C59854A8DCA4e78cd5373e5F'
   try {
     // 创建合约实例
     const  DeFiContract = new web3.value.eth.Contract(defiABI, state.contractAddress.value);

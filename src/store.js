@@ -7,8 +7,9 @@ export const useGlobalState = createGlobalState(
     // state
     const count = ref(0)
     const web3 = ref(0)
-    // const myAddress = ref('0xffBb872c2d58461e44b1ad5EAfdb3B0c65747C30')
-    const myAddress = ref('0xBD9ffACE71324b43C59854A8DCA4e78cd5373e5F')
+    const myAddress = ref('')
+    // const myAddress = ref('0xBD9ffACE71324b43C59854A8DCA4e78cd5373e5F')
+
     const myETHBalance = ref(0)
     const myUSDTBalance = ref(0)
     const infoData = ref({
