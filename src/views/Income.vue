@@ -124,7 +124,7 @@ const getPeopleMoney = async()=>{
                 <div class="income_item bg-lime-50 flex items-center justify-between">
                   <span>Over Award</span>
                   <span style="text-align: right;">
-                    {{ fromWeiFun(state.infoData.value.overAward) }} USDT
+                    {{ fromWeiFun(state.infoData.value.overAward) }} IPO
                     <!-- <p style="font-size: 12px;">
                       ≈ 0.000 USDT
                     </p> -->
@@ -133,7 +133,7 @@ const getPeopleMoney = async()=>{
                 <div class="income_item bg-lime-50 flex items-center justify-between">
                   <span>Dynamic income</span>
                   <span style="text-align: right;">
-                    {{ fromWeiFun(state.infoData.value.overTeam) }} USDT
+                    {{ fromWeiFun(state.infoData.value.overTeam) }} IPO
                     <!-- <p style="font-size: 12px;">
                       ≈ 0.000 USDT
                     </p> -->
@@ -142,7 +142,7 @@ const getPeopleMoney = async()=>{
                 <div class="income_item bg-lime-50 flex items-center justify-between">
                   <span>Team income</span>
                   <span style="text-align: right;">
-                    {{ fromWeiFun(state.infoData.value.overTeam2) }} USDT
+                    {{ fromWeiFun(state.infoData.value.overTeam2) }} IPO
                     <!-- <p style="font-size: 12px;">
                       ≈ 0.000 USDT
                     </p> -->
@@ -151,7 +151,7 @@ const getPeopleMoney = async()=>{
                 <div class="income_item bg-green-50 flex items-center justify-between">
                   <span>Award</span>
                   <span style="text-align: right;">
-                    {{ fromWeiFun(state.infoData.value.userAward) }} USDT
+                    {{ fromWeiFun(state.infoData.value.userAward) }} IPO
                     <!-- <p style="font-size: 12px;">
                       ≈ 0.000 USDT 
                     </p> -->
