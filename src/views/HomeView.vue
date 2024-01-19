@@ -162,7 +162,7 @@ const drawerShow = () =>{
           <div class="row g-4">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
               <div class="counter-items odometer-item">
-                <p class="mb-4">Invite more than 12 BNB addresses per day</p>
+                <p class="mb-4">Invite more than 3000USDT addresses per day</p>
                 <div class="add_warp">
                   <div class="add_item pt-2 pb-2"  style="font-size: 12px;" v-for="items in state.Team12BNB.value" :key="items">
                     <el-tooltip
@@ -188,7 +188,7 @@ const drawerShow = () =>{
     <Footer />
     <el-drawer
       v-model="drawer"
-      title="Invite more than 12 BNB addresses per day"
+      title="Invite more than 3000USDT addresses per day"
       direction="btt"
       :before-close="handleClose"
       size="90%"
