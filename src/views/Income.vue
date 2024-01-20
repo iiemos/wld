@@ -144,7 +144,8 @@ const getPeopleMoney = async()=>{
                 <div class="income_item bg-amber-50 flex items-center justify-between">
                   <span>User CP</span>
                   <span>
-                    {{ fromWeiFun(state.infoData.value.userCp) }} / V{{ myLevle }}
+                    <!-- {{ fromWeiFun(state.infoData.value.userCp) }} / V{{ myLevle }} -->
+                    {{ fromWeiFun(state.infoData.value.userCp) }} / V{{ state.infoData.value.levle }}
                   </span>
                 </div>
                 <div class="income_item bg-lime-50 flex items-center justify-between">
