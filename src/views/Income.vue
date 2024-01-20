@@ -7,12 +7,25 @@ import { ElMessage, ElNotification } from "element-plus";
 // import { useI18n } from 'vue-i18n'
 import { useGlobalState } from "@/store";
 const state = useGlobalState();
-const toWeiQuote = ref();
 const headerChild = ref();
 let fromWeiFun = (val)=>{ 
   if(val == 0) return val
   return (val / 1000000000000000000).toFixed(4)
 }
+
+let myLevle = computed(()=>{ 
+  const cp =  state.infoData.value.userCp / 1000000000000000000
+  if(cp < 2000 ) return '0'
+  if(cp >= 2000 || cp < 6000 ) return '1'
+  if(cp >= 6000 || cp < 30000 ) return '2'
+  if(cp >= 30000 || cp < 150000 ) return '3'
+  if(cp >= 150000 || cp < 300000 ) return '4'
+  if(cp >= 300000 || cp < 500000 ) return '5'
+  if(cp >= 500000 || cp < 1000000 ) return '6'
+  if(cp >= 1000000 || cp < 2000000 ) return '7'
+  if(cp >= 2000000) return '8'
+})
+
 // userSY 个人淘汰进度 已领取收益 overAward / 可领取上限收益 userAward
 let nowUserSy = computed(()=>{ 
   if(state.infoData.value.userCp == 0){
@@ -131,7 +144,7 @@ const getPeopleMoney = async()=>{
                 <div class="income_item bg-amber-50 flex items-center justify-between">
                   <span>User CP</span>
                   <span>
-                    {{ fromWeiFun(state.infoData.value.userCp) }} / V{{ state.infoData.value.levle }}
+                    {{ fromWeiFun(state.infoData.value.userCp) }} / V{{ myLevle }}
                   </span>
                 </div>
                 <div class="income_item bg-lime-50 flex items-center justify-between">
