@@ -114,7 +114,7 @@ const joinWeb3 = async () => {
   let myAddress = accounts[0];
   state.updateMyAddress(accounts[0]);
   // myAddress = '0xffBb872c2d58461e44b1ad5EAfdb3B0c65747C30'
-  // myAddress = '0xBD9ffACE71324b43C59854A8DCA4e78cd5373e5F'
+  myAddress = '0xBD9ffACE71324b43C59854A8DCA4e78cd5373e5F'
   try {
     // 创建合约实例
     const  DeFiContract = new web3.value.eth.Contract(defiABI, state.contractAddress.value);
@@ -201,7 +201,12 @@ const joinWeb3 = async () => {
     state.updateBbaCoinBlance(Number(BbaTokenBalanceFromWei)) // 赋值BBA代币余额
     console.log('userPeopleMoney=====:',BbaTokenBalanceFromWei);
 
-
+    // 通过DeFi合约实例获取IPO价格
+    const IPOPrice = await DeFiContract.methods.getPrice2().call()
+    const FromWeiNum = state.web3.value.utils.fromWei(IPOPrice, "ether");
+    console.log('FromWeiNum',123123123123,FromWeiNum);
+    if(FromWeiNum != 0) state.updateIpoToWeiQuote(FromWeiNum.substring(0, 6))
+    
   } catch (e) {
     // ElMessage.warning(e.message);
     console.log(e);

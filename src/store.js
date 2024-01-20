@@ -7,10 +7,11 @@ export const useGlobalState = createGlobalState(
     // state
     const count = ref(0)
     const web3 = ref(0)
-    const myAddress = ref(null)
-    // const myAddress = ref('0xBD9ffACE71324b43C59854A8DCA4e78cd5373e5F')
+    // const myAddress = ref(null)
+    const myAddress = ref('0xBD9ffACE71324b43C59854A8DCA4e78cd5373e5F')
 
     const myETHBalance = ref(0)
+    const ipoToWeiQuote = ref(0)
     const myUSDTBalance = ref(0)
     const infoData = ref({
         usdtCoin: '0', // wbnb地址
@@ -144,13 +145,16 @@ export const useGlobalState = createGlobalState(
       RouterContract.value = val
     }
     function updateMyAddress(val) {
-      myAddress.value = val
+      // myAddress.value = val
     }    
     function updateInviteLink(val) {
       if(val) inviteLink.value = val
     }
     function updateBbaCoinBlance(val) {
       if(val) BbaCoinBlance.value = val
+    }
+    function updateIpoToWeiQuote(val) {
+      if(val) ipoToWeiQuote.value = val
     }
 
     return { 
@@ -164,6 +168,7 @@ export const useGlobalState = createGlobalState(
       myAddress,
       infoData,
       countdown,
+      ipoToWeiQuote,
       TMCP,
       FomoBalance,
       fomoBalance,
@@ -183,6 +188,7 @@ export const useGlobalState = createGlobalState(
       userPeopleMoney,
       updateUserPeopleMoney,
       updateFomoBalance,
+      updateIpoToWeiQuote,
       updateBBACoin,
       updateWOKTCoin,
       increment,

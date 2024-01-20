@@ -26,14 +26,15 @@ const IpoTransFromUsdt = computed(()=>{
   if(state.infoData.value.userAward == 0){
     return 0
   }else{
-    return Number(state.infoData.value.userAward) * Number(toWeiQuote.value) 
+    let userFromWei = state.web3.value.utils.fromWei(state.infoData.value.userAward, "ether");
+    let truncatedNum = Math.floor(state.ipoToWeiQuote.value * 10000) / 10000;
+    const usdNum = (Number(userFromWei) * Number(truncatedNum))+''
+    return usdNum.substring(0, 6)
   }
 })
-console.log('state.infoData.value.state.userSY.value',state.userSY.value);
-console.log('state.infoData.value.userCp',state.infoData.value.userCp);
 onMounted(() => {
   // getPeopleMoney()
-  getPrice2Fun()
+  // getPrice2Fun()
 })
 // 领取奖励
 const claimFun = useDebounceFn( async() => {
@@ -75,14 +76,6 @@ const getPeopleMoney = async()=>{
 }
 
 
-// 通过DeFi合约实例获取价格
-const getPrice2Fun =  async() => {
-  const IPOPrice = await state.DeFiContract.value.methods.getPrice2().call()
-  const FromWeiNum = state.web3.value.utils.fromWei(IPOPrice, "ether");
-  if(FromWeiNum != 0) toWeiQuote.value = FromWeiNum.substring(0, 6)
-  else toWeiQuote.value = FromWeiNum
-  console.log('toWeiQuote',toWeiQuote.value);
-}
 </script>
 <template>
   <div class="contact">
@@ -171,9 +164,9 @@ const getPrice2Fun =  async() => {
                 <div class="income_item bg-green-50 flex items-center justify-between">
                   <span>Award</span>
                   <span style="text-align: right;">
-                    {{ fromWeiFun(state.infoData.value.userAward) }} IPO
+                    {{ IpoTransFromUsdt }} USDT
                     <p style="font-size: 12px;">
-                      ≈ {{ IpoTransFromUsdt }} USDT 
+                      ≈ {{ fromWeiFun(state.infoData.value.userAward) }} IPO 
                     </p>
                   </span>
                 </div>
