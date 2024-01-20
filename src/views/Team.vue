@@ -54,13 +54,14 @@ const getMyTeamArr = async() =>{
     .getTeamArry(state.myAddress.value,0,state.infoData.value.teamLength)
     .call();
     const teamMap = teamData.filter(arrItem => arrItem != '0x0000000000000000000000000000000000000000');
-    teamMap.forEach( async(ele) => {
-      const userinfoData = await state.DeFiContract.value.methods.getInfo(ele).call();
-      userinfoData.myUserAddress = ele
-      teamArray.value.push(userinfoData)
+    const arr = await teamMap.map( async item =>{
+      let userinfoData = await state.DeFiContract.value.methods.getInfo(item).call();
+      let newObj = {...userinfoData, myUserAddress: item}
+      return newObj
     });
-    // teamArray.value = 
-
+    let temp = await Promise.all(arr)
+    teamArray.value = temp
+    console.log('团队小区业绩',temp);
   }
 }
 </script>
@@ -133,7 +134,7 @@ const getMyTeamArr = async() =>{
                   <div class="income_item bg-lime-50 flex items-center justify-between" @click="getMyTeamArr">
                     <span class="text-sm">
                       <img class="w-10 h-10" src="@/assets/img/process/process8.png"/>
-                      直推人数
+                      团队小区业绩
                       </span>
                     <span style="text-align: right;">
                       <!-- {{ (state.infoData.value.teamLength) }} -->

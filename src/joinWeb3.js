@@ -61,7 +61,6 @@ onMounted(() => {
 
   const connections = () => { //链接小狐狸钱包
     window.ethereum.request({ method: 'eth_requestAccounts' }).then((res) => {
-      console.log(res, '当前钱包地址')
       state.myAddress.value=res[0]
       joinWeb3()
     }).catch((err) => {

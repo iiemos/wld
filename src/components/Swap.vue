@@ -175,8 +175,6 @@ const getPrice2Fun =  async() => {
   const FromWeiNum = state.web3.value.utils.fromWei(IPOPrice, "ether");
   if(FromWeiNum != 0) toWeiQuote.value = FromWeiNum.substring(0, 6)
   else toWeiQuote.value = FromWeiNum
-  console.log('toWeiQuote',toWeiQuote.value);
-  console.log('IPOPrice',FromWeiNum);
 }
 
 // 通过薄饼路由获取价格

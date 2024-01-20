@@ -94,7 +94,6 @@ const connections = () => {
   window.ethereum
     .request({ method: "eth_requestAccounts" })
     .then((res) => {
-      console.log(res, "当前钱包地址");
       state.updateMyAddress(res[0]);
       joinWeb3();
     })
@@ -204,7 +203,6 @@ const joinWeb3 = async () => {
     // 通过DeFi合约实例获取IPO价格
     const IPOPrice = await DeFiContract.methods.getPrice2().call()
     const FromWeiNum = state.web3.value.utils.fromWei(IPOPrice, "ether");
-    console.log('FromWeiNum',123123123123,FromWeiNum);
     if(FromWeiNum != 0) state.updateIpoToWeiQuote(FromWeiNum.substring(0, 6))
     
   } catch (e) {
