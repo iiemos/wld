@@ -20,7 +20,7 @@ export const useGlobalState = createGlobalState(
         inivet: '0', // 我的上级地址 
         lostUser: '', // 最后一名入场玩家
         deadNum: '', // 最后一名入场时间
-        usdtOver12: '', // 玩家领取了多少12小时截至的分配收益
+        userOver12: '', // 玩家领取了多少12小时截至的分配收益
         allOver12: '',  // 全网共分配了多少12小时未领取收益
         allStakeCp: '0', // 全网算力 
         userCp: '0', // 个人算力 
@@ -50,7 +50,7 @@ export const useGlobalState = createGlobalState(
     const FomoBalance = ref(0)
     const userLevel = ref('0')
     const inviteLink = ref('0x76a569aBA8E6909e9350A36389D0a061e1264193')
-    const contractAddress=ref('0xce3c538453CAB7cC373450c2cA47F5CD9F4D2d71')// Defi合约地址
+    const contractAddress=ref('0x63D60A81b8bdC59DDE639Faa0cC3719532B498ad')// Defi合约地址
 
     // const Router_ADDRESS=ref('0x10ED43C718714eb63d5aA57B78B54704E256024E') // 主网薄饼V2路由合约地址
     const Router_ADDRESS=ref('0xA7f24657114948f146f145863C8F7Abb55091006') //  测试路由合约地址
@@ -214,3 +214,9 @@ export const useGlobalState = createGlobalState(
      }
   }
 )
+
+
+/*
+  我的领取上限 - 未领取
+  
+*/ 

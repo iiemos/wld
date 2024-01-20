@@ -31,7 +31,9 @@ let nowUserSy = computed(()=>{
   if(state.infoData.value.userCp == 0){
     return 0
   }else{
-    return Number(state.infoData.value.overAward) / (Number(state.infoData.value.userCp) * 2 )
+    // state.userSY
+    // return Number(state.infoData.value.overAward) / (Number(state.infoData.value.userCp) * 2 )
+    return Number(state.userSY.value) / (Number(state.infoData.value.userCp) * 2 )
   }
 })
 
@@ -146,6 +148,12 @@ const getPeopleMoney = async()=>{
                   <span>
                     <!-- {{ fromWeiFun(state.infoData.value.userCp) }} / V{{ myLevle }} -->
                     {{ fromWeiFun(state.infoData.value.userCp) }} / V{{ state.infoData.value.levle }}
+                  </span>
+                </div>
+                <div class="income_item bg-amber-50 flex items-center justify-between">
+                  <span>User Fomo Pool</span>
+                  <span>
+                    {{ fromWeiFun(state.infoData.value.userOver12) }} USDT
                   </span>
                 </div>
                 <div class="income_item bg-lime-50 flex items-center justify-between">
