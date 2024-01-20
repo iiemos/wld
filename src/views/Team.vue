@@ -221,7 +221,7 @@ const getMyTeamArr = async() =>{
             Levle: V{{ invitem.levle }}
           </div>
           <div>
-            Pool: {{ invitem.userCp }}
+            Pool: {{ fromWeiFun(invitem.userCp) }}
           </div>
           <el-tooltip
             effect="dark"
