@@ -7,6 +7,7 @@ import { ElMessage, ElNotification } from "element-plus";
 // import { useI18n } from 'vue-i18n'
 import { useGlobalState } from "@/store";
 const state = useGlobalState();
+const toWeiQuote = ref();
 const headerChild = ref();
 let fromWeiFun = (val)=>{ 
   if(val == 0) return val
@@ -20,10 +21,19 @@ let nowUserSy = computed(()=>{
     return Number(state.infoData.value.overAward) / Number(state.infoData.value.userCp) 
   }
 })
+
+const IpoTransFromUsdt = computed(()=>{ 
+  if(state.infoData.value.userAward == 0){
+    return 0
+  }else{
+    return Number(state.infoData.value.userAward) * Number(toWeiQuote.value) 
+  }
+})
 console.log('state.infoData.value.state.userSY.value',state.userSY.value);
 console.log('state.infoData.value.userCp',state.infoData.value.userCp);
 onMounted(() => {
   // getPeopleMoney()
+  getPrice2Fun()
 })
 // 领取奖励
 const claimFun = useDebounceFn( async() => {
@@ -62,6 +72,16 @@ const claimFun = useDebounceFn( async() => {
 const getPeopleMoney = async()=>{
   const userPeopleMoney = await state.DeFiContract.value.methods.peopleMoney(state.myAddress.value).call();
   console.log('userPeopleMoney=====:',userPeopleMoney);
+}
+
+
+// 通过DeFi合约实例获取价格
+const getPrice2Fun =  async() => {
+  const IPOPrice = await state.DeFiContract.value.methods.getPrice2().call()
+  const FromWeiNum = state.web3.value.utils.fromWei(IPOPrice, "ether");
+  if(FromWeiNum != 0) toWeiQuote.value = FromWeiNum.substring(0, 6)
+  else toWeiQuote.value = FromWeiNum
+  console.log('toWeiQuote',toWeiQuote.value);
 }
 </script>
 <template>
@@ -152,9 +172,9 @@ const getPeopleMoney = async()=>{
                   <span>Award</span>
                   <span style="text-align: right;">
                     {{ fromWeiFun(state.infoData.value.userAward) }} IPO
-                    <!-- <p style="font-size: 12px;">
-                      ≈ 0.000 USDT 
-                    </p> -->
+                    <p style="font-size: 12px;">
+                      ≈ {{ IpoTransFromUsdt }} USDT 
+                    </p>
                   </span>
                 </div>
               </div>
