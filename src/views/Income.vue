@@ -153,7 +153,7 @@ const getPeopleMoney = async()=>{
                 <div class="income_item bg-amber-50 flex items-center justify-between">
                   <span>User Fomo Pool</span>
                   <span>
-                    {{ fromWeiFun(state.infoData.value.userOver12) }}
+                    {{ fromWeiFun(state.infoData.value.userOver12) }} USDT
                   </span>
                 </div>
                 <div class="income_item bg-lime-50 flex items-center justify-between">
