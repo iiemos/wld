@@ -102,7 +102,7 @@ const swapTokens = () => {
 const ShellTokens = () =>{
   if(state.BbaCoinBlance.value == 0) return false
     //console.log(this.inputValue, this.inputToken, this.outputValue, this.outputToken);
-    let stringValue = String(inputValue.value.toString()+'000000000000000000'); 
+    let stringValue = state.web3.value.utils.toWei(String(inputValue.value), "ether");
     // BBA 代币 ---> WBNB
     state.DeFiContract.value.methods.sellToken(stringValue).send({from: state.myAddress.value}).on('transactionHash', (hash)=>{
       console.log(hash);

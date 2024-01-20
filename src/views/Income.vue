@@ -31,7 +31,7 @@ let nowUserSy = computed(()=>{
   if(state.infoData.value.userCp == 0){
     return 0
   }else{
-    return Number(state.infoData.value.overAward) / Number(state.infoData.value.userCp) 
+    return Number(state.infoData.value.overAward) / (Number(state.infoData.value.userCp) * 2 )
   }
 })
 
