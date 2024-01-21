@@ -6,7 +6,6 @@ import { useDebounceFn } from '@vueuse/core'
 import { ElMessage, ElNotification } from "element-plus";
 // import { useI18n } from 'vue-i18n'
 import { useGlobalState } from "@/store";
-import { InvalidLargeValueError } from "web3";
 const state = useGlobalState();
 const headerChild = ref();
 let fromWeiFun = (val)=>{ 
@@ -46,7 +45,7 @@ const IpoTransFromUsdt = computed(()=>{
     let userFromWei = state.web3.value.utils.fromWei(state.infoData.value.userAward, "ether");
     let truncatedNum = Math.floor(state.ipoToWeiQuote.value * 10000) / 10000;
     const usdNum = (Number(userFromWei) * Number(truncatedNum))+''
-    return usdNum
+    return usdNumv
   }
 })
 onMounted(() => {
