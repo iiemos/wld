@@ -3077,6 +3077,9 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   appearance: none;
 }
+.items-center{
+  align-items: center;
+}
 .basis-1\/2 {
   flex-basis: 50%
 }

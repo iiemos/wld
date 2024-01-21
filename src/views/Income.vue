@@ -85,6 +85,38 @@ const claimFun = useDebounceFn( async() => {
   }
 })
 
+const claimFun2 = useDebounceFn( async() => {
+  if(!state.myAddress.value || state.myAddress.value === '0x00000000000000000000000000000000deadbeef'){
+    return headerChild.value.joinWeb3();
+  }
+  if(state.myETHBalance.value * 1 < 0.001) return ElMessage.warning('Insufficient Gas');
+  if(state.infoData.value.userAward == '0') return ElMessage.warning('当前奖励为0，请确认后再进行操作！');
+  try{
+    state.DeFiContract.value.methods.claim2(state.userPeopleMoney.value).send({
+        from: state.myAddress.value,
+        gasPrice: state.gasPrice.value
+      })
+    .on('transactionHash', (hash)=>{
+      console.log('hash',hash);
+      ElMessage.success(t('withdrawSend'))
+      console.log("Transaction sent");
+    })
+    .once('receipt', res => {
+      ElMessage.success(t('withdrawConfirmed'))
+      console.log("Transaction confirmed");
+      headerChild.value.joinWeb3();
+    })
+    .catch((error) => {
+        console.error('Approval failed:', error.code);
+        if(error.code == '-32603' || error.message == 'transaction underpriced'){
+          ElMessage.error(t('gasLow'));
+        }
+      });
+  }catch(e){
+    console.log(e);
+  }
+})
+
 // 查询接口，参数是个人地址，返回可直接卖币的数量
 const getPeopleMoney = async()=>{
   const userPeopleMoney = await state.DeFiContract.value.methods.peopleMoney(state.myAddress.value).call();
@@ -203,12 +235,15 @@ const getPeopleMoney = async()=>{
                   </span>
                 </div>
               </div>
-              <div class="rounded-md shadow mt-5 mb-5 h-sm:mt-2">
-                <div v-if="state.myAddress" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-semibold rounded-md text-white action-button md:py-5 md:text-xl md:px-10" @click="claimFun()">
-                  Receive award
+              <div class="flex justify-between mt-5 mb-5 h-sm:mt-2">
+                <div v-if="state.myAddress" class="flex items-center justify-center rounded-md shadow font-semibold py-3 action-button md:py-5 md:text-xl md:px-10" style="flex-basis: 48%" @click="claimFun()">
+                  Claim to Account
+                </div>
+                <div v-if="state.myAddress" class="flex items-center justify-center rounded-md shadow font-semibold py-3 action-button md:py-5 md:text-xl md:px-10" style="flex-basis: 48%" @click="claimFun2()">
+                  Claim to Wallet
                 </div>
                 <div
-                  v-else
+                v-if="!state.myAddress"
                   class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-semibold rounded-md text-white action-button md:py-5 md:text-xl md:px-10">
                   Connect Wallet
                 </div>
