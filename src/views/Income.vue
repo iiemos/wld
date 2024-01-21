@@ -43,9 +43,10 @@ function fromWeiFunUSDT(number) {
 const MyTokenJD = () =>{
   const userTotle = fromWeiFun(state.infoData.value.userCp*2)
   if(state.userSY.value == 0) return userTotle + ' / ' + userTotle
-  const ToWeiSY = state.infoData.value.userCp * 2 - state.userSY.value
-  console.log('ToWeiSY',ToWeiSY);
-  const res =  fromWeiFunUSDT(ToWeiSY) + ' / ' + userTotle
+  const SYKLQ = state.userSY.value / Math.pow(10, 18) // 剩余可领取
+  const WDSL = state.infoData.value.userCp / Math.pow(10, 18) // 我的算力
+  const ToWeiYLQ = (WDSL * 2) - SYKLQ
+  const res =  fromWeiFunUSDT(ToWeiYLQ) + ' / ' + userTotle
   return res
 }
 
@@ -223,6 +224,7 @@ const claimFun2 = useDebounceFn( async() => {
               <p class="mb-2">Elimination progress</p>
               <p class="mb-2 " style="font-size: 12px;">
                 Received rewards:
+                <!-- <br/> -->
                 {{ MyTokenJD() }}
               </p>
               <div class="mb-5 h-4 overflow-hidden rounded-full bg-gray-200">
