@@ -45,7 +45,7 @@ const IpoTransFromUsdt = computed(()=>{
     let userFromWei = state.web3.value.utils.fromWei(state.infoData.value.userAward, "ether");
     let truncatedNum = Math.floor(state.ipoToWeiQuote.value * 10000) / 10000;
     const usdNum = (Number(userFromWei) * Number(truncatedNum))+''
-    return usdNumv
+    return usdNum
   }
 })
 onMounted(() => {
