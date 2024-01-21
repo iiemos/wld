@@ -42,7 +42,9 @@ function fromWeiFunUSDT(number) {
 // 我的领取代币进度
 const MyTokenJD = () =>{
   const userTotle = fromWeiFun(state.infoData.value.userCp*2)
+  if(state.userSY.value == 0) return userTotle + ' / ' + userTotle
   const ToWeiSY = state.infoData.value.userCp * 2 - state.userSY.value
+  console.log('ToWeiSY',ToWeiSY);
   const res =  fromWeiFunUSDT(ToWeiSY) + ' / ' + userTotle
   return res
 }
@@ -72,7 +74,9 @@ let UserIPOBalance = computed(()=>{
 let nowUserSy = computed(()=>{ 
   if(state.infoData.value.userCp == 0){
     return 0
-  }else{
+  }else if(state.userSY.value == 0)
+    return 100
+  else{
     // state.userSY
     // return Number(state.infoData.value.overAward) / (Number(state.infoData.value.userCp) * 2 )
     // 已领取
