@@ -7,9 +7,10 @@ export const useGlobalState = createGlobalState(
     // state
     const count = ref(0)
     const web3 = ref(0)
-    const myAddress = ref(null) 
+    // const myAddress = ref(null) 
     // const myAddress = ref('0x73c76571d5956762Fb65d041509da2355537217F')
     // const myAddress = ref('0xBD9ffACE71324b43C59854A8DCA4e78cd5373e5F')
+    // const myAddress = ref('0xc126dfe4A539CAe4962Cb2fB0389847E4A550E37')
 
     const myETHBalance = ref(0)
     const ipoToWeiQuote = ref(0)
@@ -50,7 +51,7 @@ export const useGlobalState = createGlobalState(
     const FomoBalance = ref(0)
     const userLevel = ref('0')
     const inviteLink = ref('0x76a569aBA8E6909e9350A36389D0a061e1264193')
-    const contractAddress=ref('0xE3830B688278213B3aaBD0F7Af738a5cB1dAA27D')// Defi合约地址
+    const contractAddress=ref('0xB47E0cb99AB6Ea68255F7005fd793a782e6738eA')// Defi合约地址
 
     // const Router_ADDRESS=ref('0x10ED43C718714eb63d5aA57B78B54704E256024E') // 主网薄饼V2路由合约地址
     const Router_ADDRESS=ref('0xA7f24657114948f146f145863C8F7Abb55091006') //  测试路由合约地址

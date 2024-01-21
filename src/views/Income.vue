@@ -8,9 +8,35 @@ import { ElMessage, ElNotification } from "element-plus";
 import { useGlobalState } from "@/store";
 const state = useGlobalState();
 const headerChild = ref();
-let fromWeiFun = (val)=>{ 
-  if(val == 0) return val
-  return (val / 1000000000000000000).toFixed(4)
+// 除以18位，保留4位小数
+function fromWeiFun(number) {
+  // 将数字除以10的18次方
+  const dividedNumber = number / Math.pow(10, 18);
+  // 将除以18个0后的数字转为字符串
+  const numberString = dividedNumber.toString();
+  // 拆分整数部分和小数部分
+  const [integerPart, decimalPart] = numberString.split('.');
+  // 将整数部分每1000加一个逗号分隔符
+  const formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  // 保留小数部分最多4位小数
+  const formattedDecimalPart = decimalPart ? decimalPart.slice(0, 4) : '';
+  // 组合整数部分和小数部分
+  const result = formattedDecimalPart ? `${formattedIntegerPart}.${formattedDecimalPart}` : formattedIntegerPart;
+  return result;
+}
+
+function fromWeiFunUSDT(number) {
+  // 将除以18个0后的数字转为字符串
+  const numberString = number.toString();
+  // 拆分整数部分和小数部分
+  const [integerPart, decimalPart] = numberString.split('.');
+  // 将整数部分每1000加一个逗号分隔符
+  const formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  // 保留小数部分最多4位小数
+  const formattedDecimalPart = decimalPart ? decimalPart.slice(0, 4) : '';
+  // 组合整数部分和小数部分
+  const result = formattedDecimalPart ? `${formattedIntegerPart}.${formattedDecimalPart}` : formattedIntegerPart;
+  return result;
 }
 
 let myLevle = computed(()=>{ 
@@ -41,6 +67,7 @@ let nowUserSy = computed(()=>{
   }else{
     // state.userSY
     // return Number(state.infoData.value.overAward) / (Number(state.infoData.value.userCp) * 2 )
+    // 已领取
     const YLQ = (Number(state.infoData.value.userCp) * 2 ) - Number(state.userSY.value)
     return YLQ / (Number(state.infoData.value.userCp) * 2 )
   }
@@ -100,7 +127,8 @@ const claimFun2 = useDebounceFn( async() => {
   if(state.myETHBalance.value * 1 < 0.001) return ElMessage.warning('Insufficient Gas');
   if(state.infoData.value.userAward == '0') return ElMessage.warning('当前奖励为0，请确认后再进行操作！');
   try{
-    state.DeFiContract.value.methods.claim2(state.userPeopleMoney.value).send({
+    const callValue = state.web3.value.utils.toWei(state.userPeopleMoney.value.toString());
+    state.DeFiContract.value.methods.claim2(callValue).send({
         from: state.myAddress.value,
         gasPrice: state.gasPrice.value
       })
@@ -179,6 +207,10 @@ const getPeopleMoney = async()=>{
           <div class="col-lg-12" style="padding: 0;">
             <div class="add_power rounded-lg px-3 py-3 pb-1 pt-6 h-sm:p-2 h-sm:pt-2">
               <p class="mb-2">Elimination progress</p>
+              <p class="mb-2 " style="font-size: 12px;">
+                Received rewards:
+                {{ fromWeiFun((Number(state.infoData.value.userCp) * 2 ) - Number(state.userSY.value)) }} / {{ fromWeiFun(state.infoData.value.userCp * 2) }}
+              </p>
               <div class="mb-5 h-4 overflow-hidden rounded-full bg-gray-200">
                 <div class="h-4 animate-pulse rounded-full bg-gradient-to-r from-sky-500 to-indigo-500" :style="{width: nowUserSy+'%'}"></div>
               </div>
@@ -236,7 +268,7 @@ const getPeopleMoney = async()=>{
                 <div class="income_item bg-green-50 flex items-center justify-between">
                   <span>Award</span>
                   <span style="text-align: right;">
-                    {{ IpoTransFromUsdt }} USDT
+                    {{ fromWeiFunUSDT(IpoTransFromUsdt) }} USDT
                     <p style="font-size: 12px;">
                       ≈ {{ fromWeiFun(state.infoData.value.userAward) }} IPO 
                     </p>
