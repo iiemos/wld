@@ -26,7 +26,6 @@ function fromWeiFun(number) {
 }
 
 function fromWeiFunUSDT(number) {
-  // 将除以18个0后的数字转为字符串
   const numberString = number.toString();
   // 拆分整数部分和小数部分
   const [integerPart, decimalPart] = numberString.split('.');
@@ -37,6 +36,15 @@ function fromWeiFunUSDT(number) {
   // 组合整数部分和小数部分
   const result = formattedDecimalPart ? `${formattedIntegerPart}.${formattedDecimalPart}` : formattedIntegerPart;
   return result;
+}
+
+
+// 我的领取代币进度
+const MyTokenJD = () =>{
+  const userTotle = fromWeiFun(state.infoData.value.userCp*2)
+  const ToWeiSY = state.infoData.value.userCp * 2 - state.userSY.value
+  const res =  fromWeiFunUSDT(ToWeiSY) + ' / ' + userTotle
+  return res
 }
 
 let myLevle = computed(()=>{ 
@@ -73,14 +81,23 @@ let nowUserSy = computed(()=>{
   }
 })
 
-const IpoTransFromUsdt = computed(()=>{ 
+const USDTtransFromIPO = computed(()=>{ 
   if(state.infoData.value.userAward == 0){
     return 0
   }else{
     let userFromWei = state.web3.value.utils.fromWei(state.infoData.value.userAward, "ether");
     let truncatedNum = Math.floor(state.ipoToWeiQuote.value * 10000) / 10000;
-    const usdNum = (Number(userFromWei) * Number(truncatedNum))+''
-    return usdNum
+    const usdNum = (Number(userFromWei) / Number(truncatedNum))
+    const numberString = usdNum.toString();
+    // 拆分整数部分和小数部分
+    const [integerPart, decimalPart] = numberString.split('.');
+    // 将整数部分每1000加一个逗号分隔符
+    const formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    // 保留小数部分最多4位小数
+    const formattedDecimalPart = decimalPart ? decimalPart.slice(0, 6) : '';
+    // 组合整数部分和小数部分
+    const result = formattedDecimalPart ? `${formattedIntegerPart}.${formattedDecimalPart}` : formattedIntegerPart;
+    return result;
   }
 })
 onMounted(() => {
@@ -153,13 +170,6 @@ const claimFun2 = useDebounceFn( async() => {
   }
 })
 
-// 查询接口，参数是个人地址，返回可直接卖币的数量
-const getPeopleMoney = async()=>{
-  const userPeopleMoney = await state.DeFiContract.value.methods.peopleMoney(state.myAddress.value).call();
-  console.log('userPeopleMoney=====:',userPeopleMoney);
-}
-
-
 </script>
 <template>
   <div class="contact">
@@ -209,7 +219,7 @@ const getPeopleMoney = async()=>{
               <p class="mb-2">Elimination progress</p>
               <p class="mb-2 " style="font-size: 12px;">
                 Received rewards:
-                {{ fromWeiFun((Number(state.infoData.value.userCp) * 2 ) - Number(state.userSY.value)) }} / {{ fromWeiFun(state.infoData.value.userCp * 2) }}
+                {{ MyTokenJD() }}
               </p>
               <div class="mb-5 h-4 overflow-hidden rounded-full bg-gray-200">
                 <div class="h-4 animate-pulse rounded-full bg-gradient-to-r from-sky-500 to-indigo-500" :style="{width: nowUserSy+'%'}"></div>
@@ -268,9 +278,10 @@ const getPeopleMoney = async()=>{
                 <div class="income_item bg-green-50 flex items-center justify-between">
                   <span>Award</span>
                   <span style="text-align: right;">
-                    {{ fromWeiFunUSDT(IpoTransFromUsdt) }} USDT
+                    {{  fromWeiFun(state.infoData.value.userAward) }} USDT
                     <p style="font-size: 12px;">
-                      ≈ {{ fromWeiFun(state.infoData.value.userAward) }} IPO 
+                      <!-- fromWeiFunUSDT(IpoTransFromUsdt) -->
+                      ≈ {{ USDTtransFromIPO }} IPO 
                     </p>
                   </span>
                 </div>

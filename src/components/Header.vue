@@ -176,7 +176,7 @@ const joinWeb3 = async () => {
 
     // 获取getSy 剩余奖励
     let SYJL = await DeFiContract.methods.getSy(myAddress).call();
-    state.updateUserSY(web3.value.utils.fromWei(SYJL, "ether"))
+    state.updateUserSY(SYJL)
     console.log('我的剩余可领取---------:',web3.value.utils.fromWei(SYJL, "ether"));
     // 创建路由合约地址
     const RouterContract = new web3.value.eth.Contract(RouterABI, state.Router_ADDRESS.value);
