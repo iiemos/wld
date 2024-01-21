@@ -26,6 +26,14 @@ let myLevle = computed(()=>{
   if(cp >= 2000000) return '8'
 })
 
+let UserIPOBalance = computed(()=>{ 
+  if(!state.BbaCoinBlance.value){
+    return 0
+  }else{
+    return Number((Math.floor(state.BbaCoinBlance.value * 100000) / 100000)).toFixed(5)
+  }
+})
+
 // userSY 个人淘汰进度 已领取收益 overAward / 可领取上限收益 userAward
 let nowUserSy = computed(()=>{ 
   if(state.infoData.value.userCp == 0){
@@ -170,7 +178,7 @@ const getPeopleMoney = async()=>{
         <div class="row justify-content-between align-items-center max-w-2xl m-auto flex flex-col items-center justify-center">
           <div class="col-lg-12" style="padding: 0;">
             <div class="add_power rounded-lg px-3 py-3 pb-1 pt-6 h-sm:p-2 h-sm:pt-2">
-              <p class="mb-2">Elimination progress {{ nowUserSy }}%</p>
+              <p class="mb-2">Elimination progress</p>
               <div class="mb-5 h-4 overflow-hidden rounded-full bg-gray-200">
                 <div class="h-4 animate-pulse rounded-full bg-gradient-to-r from-sky-500 to-indigo-500" :style="{width: nowUserSy+'%'}"></div>
               </div>
@@ -192,7 +200,7 @@ const getPeopleMoney = async()=>{
                 <div class="income_item bg-lime-50 flex items-center justify-between">
                   <span>My IPO</span>
                   <span style="text-align: right;">
-                    {{ fromWeiFun(state.userPeopleMoney.value) }} IPO
+                    {{ UserIPOBalance }} IPO
                     <!-- <p style="font-size: 12px;">
                       ≈ 0.000 USDT
                     </p> -->

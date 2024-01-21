@@ -203,7 +203,8 @@ const joinWeb3 = async () => {
     // 通过DeFi合约实例获取IPO价格
     const IPOPrice = await DeFiContract.methods.getPrice2().call()
     const FromWeiNum = state.web3.value.utils.fromWei(IPOPrice, "ether");
-    if(FromWeiNum != 0) state.updateIpoToWeiQuote(FromWeiNum.substring(0, 6))
+    console.log('IPO价格为：', FromWeiNum);
+    if(FromWeiNum != 0) state.updateIpoToWeiQuote(Number((Math.floor(FromWeiNum * 100000) / 100000)).toFixed(5))
     
   } catch (e) {
     // ElMessage.warning(e.message);

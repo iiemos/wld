@@ -173,7 +173,7 @@ const updateShowIPOTokensVal = useDebounceFn((val) => {
 const getPrice2Fun =  async() => {
   const IPOPrice = await state.DeFiContract.value.methods.getPrice2().call()
   const FromWeiNum = state.web3.value.utils.fromWei(IPOPrice, "ether");
-  if(FromWeiNum != 0) toWeiQuote.value = FromWeiNum.substring(0, 6)
+  if(FromWeiNum != 0) toWeiQuote.value = Number((Math.floor(FromWeiNum * 100000) / 100000)).toFixed(5)
   else toWeiQuote.value = FromWeiNum
 }
 
