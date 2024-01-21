@@ -6,6 +6,7 @@ import { useDebounceFn } from '@vueuse/core'
 import { ElMessage, ElNotification } from "element-plus";
 // import { useI18n } from 'vue-i18n'
 import { useGlobalState } from "@/store";
+import { InvalidLargeValueError } from "web3";
 const state = useGlobalState();
 const headerChild = ref();
 let fromWeiFun = (val)=>{ 
@@ -33,7 +34,8 @@ let nowUserSy = computed(()=>{
   }else{
     // state.userSY
     // return Number(state.infoData.value.overAward) / (Number(state.infoData.value.userCp) * 2 )
-    return Number(state.userSY.value) / (Number(state.infoData.value.userCp) * 2 )
+    const YLQ = (Number(state.infoData.value.userCp) * 2 ) - Number(state.userSY.value)
+    return YLQ / (Number(state.infoData.value.userCp) * 2 )
   }
 })
 
@@ -44,7 +46,7 @@ const IpoTransFromUsdt = computed(()=>{
     let userFromWei = state.web3.value.utils.fromWei(state.infoData.value.userAward, "ether");
     let truncatedNum = Math.floor(state.ipoToWeiQuote.value * 10000) / 10000;
     const usdNum = (Number(userFromWei) * Number(truncatedNum))+''
-    return usdNum.substring(0, 6)
+    return usdNum
   }
 })
 onMounted(() => {
