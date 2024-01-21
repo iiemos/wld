@@ -144,16 +144,25 @@ const getPeopleMoney = async()=>{
 
               <div class="income_info">
                 <div class="income_item bg-amber-50 flex items-center justify-between">
-                  <span>User CP</span>
+                  <span>My CP</span>
                   <span>
                     <!-- {{ fromWeiFun(state.infoData.value.userCp) }} / V{{ myLevle }} -->
                     {{ fromWeiFun(state.infoData.value.userCp) }} / V{{ state.infoData.value.levle }}
                   </span>
                 </div>
                 <div class="income_item bg-amber-50 flex items-center justify-between">
-                  <span>User Fomo Pool</span>
+                  <span>My Fomo Pool</span>
                   <span>
                     {{ fromWeiFun(state.infoData.value.userOver12) }} USDT
+                  </span>
+                </div>
+                <div class="income_item bg-lime-50 flex items-center justify-between">
+                  <span>My IPO</span>
+                  <span style="text-align: right;">
+                    {{ fromWeiFun(state.userPeopleMoney.value) }} IPO
+                    <!-- <p style="font-size: 12px;">
+                      ≈ 0.000 USDT
+                    </p> -->
                   </span>
                 </div>
                 <div class="income_item bg-lime-50 flex items-center justify-between">

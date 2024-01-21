@@ -223,6 +223,9 @@ const getMyTeamArr = async() =>{
           <div>
             Pool: {{ fromWeiFun(invitem.userCp) }}
           </div>
+          <div>
+            Team CP : {{ fromWeiFun(invitem.teamCp2) }}
+          </div>
           <el-tooltip
             effect="dark"
             :content="invitem.myUserAddress"
