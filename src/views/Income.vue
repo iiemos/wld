@@ -1,5 +1,6 @@
 
 <script setup>
+import IconUSDT from '@/components/icons/IconUSDT.vue'
 import { ref, computed, onMounted, watch } from "vue";
 import { RouterLink, RouterView } from "vue-router";
 import { useDebounceFn } from '@vueuse/core'
@@ -8,6 +9,8 @@ import { ElMessage, ElNotification } from "element-plus";
 import { useGlobalState } from "@/store";
 const state = useGlobalState();
 const headerChild = ref();
+const claimToWalletVal = ref(0);
+const centerDialogVisible = ref(false)
 const isApprove = ref(true)
 // 除以18位，保留4位小数
 function fromWeiFun(number) {
@@ -150,14 +153,17 @@ const claimFun2 = useDebounceFn( async() => {
   if(!state.myAddress.value || state.myAddress.value === '0x00000000000000000000000000000000deadbeef'){
     return headerChild.value.joinWeb3();
   }
+  const callValue = state.web3.value.utils.toWei(String(claimToWalletVal.value));
+  if(callValue == 0) return
   if(state.myETHBalance.value * 1 < 0.001) return ElMessage.warning('Insufficient Gas');
   if(state.infoData.value.userAward == '0') return ElMessage.warning('当前奖励为0，请确认后再进行操作！');
+  if(Number(callValue) >  Number(state.infoData.value.userAward)) return ElMessage.warning('提取数量大于奖励数量，请确认后再操作');
   try{
-    const callValue = state.web3.value.utils.toWei(String(state.infoData.value.userAward));
+    // const callValue = state.web3.value.utils.toWei(String(state.infoData.value.userAward));
     console.log('提取到钱包的数量',callValue);
+    console.log('我的奖励数量',state.infoData.value.userAward);
     state.DeFiContract.value.methods.claim2('100000000').send({
         from: state.myAddress.value,
-        // gasPrice: state.gasPrice.value
       })
     .on('transactionHash', (hash)=>{
       console.log('hash',hash);
@@ -180,34 +186,7 @@ const claimFun2 = useDebounceFn( async() => {
   }
 })
 
-// 查询授权状态
-async function checkAuthorization() {
-  try {
-    // 调用合约中的allowance方法
-    const allowance = await state.BbaContract.value.methods.allowance(state.myAddress.value, state.contractAddress.value).call();
-    console.log('allowance======',allowance);
-    // 根据返回值判断授权状态
-    if (allowance > 0) {
-      console.log('用户已授权DeFi合约');
-    } else {
-      isApprove.value = false;
-      console.log('用户未授权DeFi合约');
-    }
-  } catch (error) {
-    console.error('查询DeFi授权状态时发生错误:', error);
-  }
-}
-const approveContract = () => {
-  if(state.BbaCoinBlance.value == 0) return false
-  let stringValue = state.web3.value.utils.toWei("10000000000", "ether"); // 默认授权额度
-  // 创建代币合约实例
-  state.BbaContract.value.methods.approve(state.contractAddress.value, stringValue).send({
-    from: state.myAddress.value
-  }).then((receipt) => {
-    console.log('授权成功DeFi', receipt);
-    isApprove.value = true;
-  }).catch((error) => { console.log('授权失败',error); })
-}
+
 </script>
 <template>
   <div class="contact">
@@ -329,10 +308,8 @@ const approveContract = () => {
                 <div v-if="state.myAddress" class="flex items-center justify-center rounded-md shadow font-semibold py-3 action-button md:py-5 md:text-xl md:px-10" style="flex-basis: 48%" @click="claimFun()">
                   Claim to Account
                 </div>
-                <div v-if="!isApprove" @click="approveContract" :class="{ disabled: state.BbaCoinBlance.value == 0 }" class="flex items-center justify-center rounded-md shadow font-semibold py-3 action-button md:py-5 md:text-xl md:px-10" style="flex-basis: 48%">
-                  Approve
-                </div>
-                <div v-if="state.myAddress && isApprove"  :class="{ disabled: state.BbaCoinBlance.value == 0 }" class="flex items-center justify-center rounded-md shadow font-semibold py-3 action-button md:py-5 md:text-xl md:px-10" style="flex-basis: 48%" @click="claimFun2()">
+   
+                <div v-if="state.myAddress && isApprove"  :class="{ disabled: state.BbaCoinBlance.value == 0 }" class="flex items-center justify-center rounded-md shadow font-semibold py-3 action-button md:py-5 md:text-xl md:px-10" style="flex-basis: 48%" @click="centerDialogVisible = true">
                   Claim to Wallet
                 </div>
                 <div
@@ -389,6 +366,27 @@ const approveContract = () => {
       </div>
     </section>
     <Footer />
+    <el-dialog
+      v-model="centerDialogVisible"
+      title="Claim to Wallet"
+      width="90%"
+      custom-class="toWalletDialog"
+      align-center
+    >
+    <div class="wallet_item_mid relative">
+      <div
+        class="wallet_item_logo absolute inset-y-0 left-0 pl-1 flex items-center pointer-events-none px-3 py-3">
+        <IconUSDT style="width: 2rem;height: 2rem;" />
+      </div>
+      <input class="text-right" id="ethAmountToStake" name="ethAmountToStake" placeholder="0.00"
+        type="number" v-model="claimToWalletVal" >
+    </div>
+      <template #footer>
+        <span class="dialog-footer">
+          <div class="confirm_btn" @click="claimFun2">Confirm</div>
+        </span>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -397,6 +395,18 @@ const approveContract = () => {
 @import url('@/assets/css/base.css');
 .font-semibold {
   font-weight: 600;
+}
+.toWalletDialog{
+  border-radius: 10px;
+  // background-color: #f0fdf4;
+}
+.confirm_btn{
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  color: var(--theme-color);
 }
 .add_power{
   background-color: var(--white-color);
