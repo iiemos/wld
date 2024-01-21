@@ -7,7 +7,7 @@ export const useGlobalState = createGlobalState(
     // state
     const count = ref(0)
     const web3 = ref(0)
-    // const myAddress = ref(null) 
+    const myAddress = ref(null) 
     // const myAddress = ref('0x73c76571d5956762Fb65d041509da2355537217F')
     // const myAddress = ref('0xBD9ffACE71324b43C59854A8DCA4e78cd5373e5F')
     // const myAddress = ref('0xc126dfe4A539CAe4962Cb2fB0389847E4A550E37')
