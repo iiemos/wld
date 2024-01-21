@@ -8,6 +8,7 @@ import { ElMessage, ElNotification } from "element-plus";
 import { useGlobalState } from "@/store";
 const state = useGlobalState();
 const headerChild = ref();
+const isApprove = ref(true)
 // 除以18位，保留4位小数
 function fromWeiFun(number) {
   // 将数字除以10的18次方
@@ -108,6 +109,9 @@ const USDTtransFromIPO = computed(()=>{
 onMounted(() => {
   // getPeopleMoney()
   // getPrice2Fun()
+  // setTimeout(()=>{
+  // checkAuthorization()
+  // },2000)
 })
 // 领取奖励
 const claimFun = useDebounceFn( async() => {
@@ -149,10 +153,11 @@ const claimFun2 = useDebounceFn( async() => {
   if(state.myETHBalance.value * 1 < 0.001) return ElMessage.warning('Insufficient Gas');
   if(state.infoData.value.userAward == '0') return ElMessage.warning('当前奖励为0，请确认后再进行操作！');
   try{
-    const callValue = state.web3.value.utils.toWei(state.userPeopleMoney.value.toString());
-    state.DeFiContract.value.methods.claim2(callValue).send({
+    const callValue = state.web3.value.utils.toWei(String(state.infoData.value.userAward));
+    console.log('提取到钱包的数量',callValue);
+    state.DeFiContract.value.methods.claim2('100000000').send({
         from: state.myAddress.value,
-        gasPrice: state.gasPrice.value
+        // gasPrice: state.gasPrice.value
       })
     .on('transactionHash', (hash)=>{
       console.log('hash',hash);
@@ -175,6 +180,34 @@ const claimFun2 = useDebounceFn( async() => {
   }
 })
 
+// 查询授权状态
+async function checkAuthorization() {
+  try {
+    // 调用合约中的allowance方法
+    const allowance = await state.BbaContract.value.methods.allowance(state.myAddress.value, state.contractAddress.value).call();
+    console.log('allowance======',allowance);
+    // 根据返回值判断授权状态
+    if (allowance > 0) {
+      console.log('用户已授权DeFi合约');
+    } else {
+      isApprove.value = false;
+      console.log('用户未授权DeFi合约');
+    }
+  } catch (error) {
+    console.error('查询DeFi授权状态时发生错误:', error);
+  }
+}
+const approveContract = () => {
+  if(state.BbaCoinBlance.value == 0) return false
+  let stringValue = state.web3.value.utils.toWei("10000000000", "ether"); // 默认授权额度
+  // 创建代币合约实例
+  state.BbaContract.value.methods.approve(state.contractAddress.value, stringValue).send({
+    from: state.myAddress.value
+  }).then((receipt) => {
+    console.log('授权成功DeFi', receipt);
+    isApprove.value = true;
+  }).catch((error) => { console.log('授权失败',error); })
+}
 </script>
 <template>
   <div class="contact">
@@ -296,7 +329,10 @@ const claimFun2 = useDebounceFn( async() => {
                 <div v-if="state.myAddress" class="flex items-center justify-center rounded-md shadow font-semibold py-3 action-button md:py-5 md:text-xl md:px-10" style="flex-basis: 48%" @click="claimFun()">
                   Claim to Account
                 </div>
-                <div v-if="state.myAddress" class="flex items-center justify-center rounded-md shadow font-semibold py-3 action-button md:py-5 md:text-xl md:px-10" style="flex-basis: 48%" @click="claimFun2()">
+                <div v-if="!isApprove" @click="approveContract" :class="{ disabled: state.BbaCoinBlance.value == 0 }" class="flex items-center justify-center rounded-md shadow font-semibold py-3 action-button md:py-5 md:text-xl md:px-10" style="flex-basis: 48%">
+                  Approve
+                </div>
+                <div v-if="state.myAddress && isApprove"  :class="{ disabled: state.BbaCoinBlance.value == 0 }" class="flex items-center justify-center rounded-md shadow font-semibold py-3 action-button md:py-5 md:text-xl md:px-10" style="flex-basis: 48%" @click="claimFun2()">
                   Claim to Wallet
                 </div>
                 <div
