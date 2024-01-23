@@ -1,6 +1,7 @@
 
 <script setup>
 import IconUSDT from '@/components/icons/IconUSDT.vue'
+import IconLogo from '@/components/icons/IconLogo.vue'
 import { ref, computed, onMounted, watch } from "vue";
 import { RouterLink, RouterView } from "vue-router";
 import { useDebounceFn } from '@vueuse/core'
@@ -156,6 +157,7 @@ const claimFun2 = useDebounceFn( async() => {
     return headerChild.value.joinWeb3();
   }
   const callValue = state.web3.value.utils.toWei(String(claimToWalletVal.value));
+  console.log('112312312------------',callValue);
   if(callValue == 0) return
   if(state.myETHBalance.value * 1 < 0.001) return ElMessage.warning('Insufficient Gas');
   if(state.infoData.value.userAward == '0') return ElMessage.warning('当前奖励为0，请确认后再进行操作！');
@@ -164,7 +166,7 @@ const claimFun2 = useDebounceFn( async() => {
     // const callValue = state.web3.value.utils.toWei(String(state.infoData.value.userAward));
     console.log('提取到钱包的数量',callValue);
     console.log('我的奖励数量',state.infoData.value.userAward);
-    state.DeFiContract.value.methods.claim2('100000000').send({
+    state.DeFiContract.value.methods.claim2(callValue).send({
         from: state.myAddress.value,
       })
     .on('transactionHash', (hash)=>{
@@ -378,7 +380,7 @@ const claimFun2 = useDebounceFn( async() => {
     <div class="wallet_item_mid relative">
       <div
         class="wallet_item_logo absolute inset-y-0 left-0 pl-1 flex items-center pointer-events-none px-3 py-3">
-        <IconUSDT style="width: 2rem;height: 2rem;" />
+        <IconLogo style="width: 2rem;height: 2rem;" />
       </div>
       <input class="text-right" id="ethAmountToStake" name="ethAmountToStake" placeholder="0.00"
         type="number" v-model="claimToWalletVal" >
