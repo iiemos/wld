@@ -152,7 +152,7 @@ const joinWeb3 = async () => {
     const userStakeCp = await DeFiContract.methods.userStakeCp(infoData.NO1).call();
     const userCP = web3.value.utils.fromWei(userStakeCp, "ether")
     console.log('第一名奖励=====:',userCP);
-    state.updateTMCP((Number(userCP / 3)).toFixed(4));  // 设置info值
+    state.updateTMCP((Number(userCP / 2)).toFixed(4));  // 设置info值
     
 
     updateCountdown()
