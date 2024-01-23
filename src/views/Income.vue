@@ -49,7 +49,7 @@ const MyTokenJD = () =>{
   if(state.userSY.value == 0) return userTotle + ' / ' + userTotle
   const SYKLQ = state.userSY.value / Math.pow(10, 18) // 剩余可领取
   const WDSL = state.infoData.value.userCp / Math.pow(10, 18) // 我的算力
-  const ToWeiYLQ = (WDSL * 2) - SYKLQ
+  const ToWeiYLQ = (WDSL) - SYKLQ
   const res =  fromWeiFunUSDT(ToWeiYLQ) + ' / ' + userTotle
   return res
 }
@@ -85,8 +85,8 @@ let nowUserSy = computed(()=>{
     // state.userSY
     // return Number(state.infoData.value.overAward) / (Number(state.infoData.value.userCp) * 2 )
     // 已领取
-    const YLQ = (Number(state.infoData.value.userCp) * 2 ) - Number(state.userSY.value)
-    return YLQ / (Number(state.infoData.value.userCp) * 2 )
+    const YLQ = (Number(state.infoData.value.userCp)  ) - Number(state.userSY.value)
+    return YLQ / (Number(state.infoData.value.userCp)  )
   }
 })
 
