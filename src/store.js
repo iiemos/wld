@@ -51,10 +51,10 @@ export const useGlobalState = createGlobalState(
     const FomoBalance = ref(0)
     const userLevel = ref('0')
     const inviteLink = ref('0x76a569aBA8E6909e9350A36389D0a061e1264193')
-    const contractAddress=ref('0xB47E0cb99AB6Ea68255F7005fd793a782e6738eA')// Defi合约地址
+    const contractAddress=ref('0x93068ec12275504cd03eb772eb66682d541d06f6')// Defi合约地址
 
     // const Router_ADDRESS=ref('0x10ED43C718714eb63d5aA57B78B54704E256024E') // 主网薄饼V2路由合约地址
-    const Router_ADDRESS=ref('0xA7f24657114948f146f145863C8F7Abb55091006') //  测试路由合约地址
+    const Router_ADDRESS=ref('0xDB644EeA5c14EE5c3a27115A28E098aC90FaD199') //  测试路由合约地址
     // https://testnet.bscscan.com/address/0xB6BA90af76D139AB3170c7df0139636dB6120F7e#code
 
     const Factory_ADDRESS=ref('0x6C7130Ba50800A56cbA0415a85734e8115caB68A') // 工厂合约地址
@@ -63,7 +63,7 @@ export const useGlobalState = createGlobalState(
     const WOKT_ADDRESS=ref('') // WOKT合约地址
     // https://testnet.bscscan.com/address/0x4c6289890009d7358e522d8BA97287a29F1988bB#code
 
-    const TOKEN_ADDRESS=ref('') // IPO代币地址
+    const TOKEN_ADDRESS=ref('0x28d787157a4AFc6b58b846f2f178420435ED6587') // IPO代币地址
     const userPeopleMoney = ref(0)
     const BbaCoinBlance = ref(0)
     const BbaContract = ref(null)

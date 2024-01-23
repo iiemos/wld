@@ -90,12 +90,14 @@ let nowUserSy = computed(()=>{
   }
 })
 
+
 const USDTtransFromIPO = computed(()=>{ 
   if(state.infoData.value.userAward == 0){
     return 0
   }else{
     let userFromWei = state.web3.value.utils.fromWei(state.infoData.value.userAward, "ether");
-    let truncatedNum = Math.floor(state.ipoToWeiQuote.value * 10000) / 10000;
+    // let truncatedNum = Math.floor(state.ipoToWeiQuote.value * 10000) / 10000;
+    let truncatedNum = state.ipoToWeiQuote.value;
     const usdNum = (Number(userFromWei) / Number(truncatedNum))
     const numberString = usdNum.toString();
     // 拆分整数部分和小数部分
