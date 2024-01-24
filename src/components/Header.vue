@@ -127,8 +127,8 @@ const joinWeb3 = async () => {
     state.updateBBACoin(infoData.bbaCoin);  // 设置BBA 代币地址
     state.updateWOKTCoin(infoData.usdtCoin);  // 设置WOKT 代币地址
 
-
-
+    const Calu = await DeFiContract.methods.calu().call();
+    console.log('Calu------------:',Calu);
     // 创建usdt合约实例
     const usdtContract = new web3.value.eth.Contract(usdtABI, infoData.usdtCoin);
     state.updateUsdtContract(usdtContract);  // 设置usdt合约实例
