@@ -92,39 +92,40 @@ const stakeFun = async() =>{
   // 判断是否授权
   let allowanceOfCurrentAccount = await state.UsdtContract.value.methods.allowance(state.myAddress.value, state.contractAddress.value).call();
   console.log('被授权的数量：',allowanceOfCurrentAccount);
-  if(allowanceOfCurrentAccount == 0 || allowanceOfCurrentAccount < callValue){
-    console.log('执行授权语句');
-    approveUSDT()
-  }
   console.log('购买的数量',callValue);
-  console.log('邀请链接----',state.inviteLink.value);
-  console.log('from---',state.myAddress.value);
-  console.log('Defi合约地址---',state.contractAddress.value);
-  if(!state.inviteLink.value || state.inviteLink.value == 'undefined') return ElMessage.error('邀请链接不能为空！');
-  state.DeFiContract.value.methods.stake(state.inviteLink.value, callValue)
-    .send({
-      from: state.myAddress.value,
-    })
-    .on('transactionHash', (hash)=>{
-      console.log(hash);
-      ElMessage.success('交易已发送')
-      console.log("Transaction sent");
-    })
-    .once('receipt', res => {
-      ElMessage.success(t('TransactionSuccess'))
-      console.log("交易已确认");
-      addUsdtNum.value = 0
-      headerChild.value.joinWeb3();
-    })
-    .catch((error) => {
-      console.error('Approval failed:', error);
-      if(error.code == '4001'){
-        ElMessage.warning('用户拒绝了请求！');
-      }
-      if(error.code == '-32603' || error.message == 'transaction underpriced'){
-        ElMessage.error('gas不足！');
-      }
-    });
+  if(allowanceOfCurrentAccount == 0 || Number(allowanceOfCurrentAccount) < Number(callValue)){
+    console.log('执行授权语句');
+    return approveUSDT()
+  }else{
+    console.log('邀请链接----',state.inviteLink.value);
+    console.log('from---',state.myAddress.value);
+    console.log('Defi合约地址---',state.contractAddress.value);
+    if(!state.inviteLink.value || state.inviteLink.value == 'undefined') return ElMessage.error('邀请链接不能为空！');
+    state.DeFiContract.value.methods.stake(state.inviteLink.value, callValue)
+      .send({
+        from: state.myAddress.value,
+      })
+      .on('transactionHash', (hash)=>{
+        console.log(hash);
+        ElMessage.success('交易已发送')
+        console.log("Transaction sent");
+      })
+      .once('receipt', res => {
+        ElMessage.success(t('TransactionSuccess'))
+        console.log("交易已确认");
+        addUsdtNum.value = 0
+        headerChild.value.joinWeb3();
+      })
+      .catch((error) => {
+        console.error('Approval failed:', error);
+        if(error.code == '4001'){
+          ElMessage.warning('用户拒绝了请求！');
+        }
+        if(error.code == '-32603' || error.message == 'transaction underpriced'){
+          ElMessage.error('gas不足！');
+        }
+      });
+  }
 }
 const approveUSDT = ()=>{
   let stringValue = state.web3.value.utils.toWei("100000000000", "ether"); // 默认授权额度
@@ -133,7 +134,7 @@ const approveUSDT = ()=>{
     from: state.myAddress.value
   }).then((receipt) => {
     console.log('授权成功USDT', receipt);
-    stakeFun()
+    // stakeFun()
   }).catch((error) => { console.log('授权失败',error); })
 }
 </script>
