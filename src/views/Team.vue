@@ -128,7 +128,7 @@ const getMyTeamArr = async() =>{
                     {{ $t("TeamComputingPower") }}
                     </span>
                   <span>
-                    {{ fromWeiFun(state.infoData.value.teamCp2) }}
+                    {{ fromWeiFun(state.infoData.value.teamCp2) / 2 }}
                   </span>
                 </div>
                 <div>
@@ -225,7 +225,7 @@ const getMyTeamArr = async() =>{
             Pool: {{ fromWeiFun(invitem.userCp) }}
           </div>
           <div>
-            Team CP : {{ fromWeiFun(invitem.teamCp2) }}
+            Team CP : {{ fromWeiFun(invitem.teamCp2) / 2 }}
           </div>
           <el-tooltip
             effect="dark"

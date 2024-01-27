@@ -189,12 +189,12 @@ const joinWeb3 = async () => {
     state.updateUserSY(SYJL)
     console.log('我的剩余可领取---------:',web3.value.utils.fromWei(SYJL, "ether"));
     // 创建路由合约地址
-    const RouterContract = new web3.value.eth.Contract(RouterABI, state.Router_ADDRESS.value);
-    // console.log('RouterContract----------',RouterContract);
+    // const RouterContract = new web3.value.eth.Contract(RouterABI, state.Router_ADDRESS.value);
+    // // console.log('RouterContract----------',RouterContract);
 
-    const WETH = await RouterContract.methods.WETH().call();
-    // console.log('WETH----------',WETH);
-    state.updateRouterContract(RouterContract) // 赋值合约实例
+    // const WETH = await RouterContract.methods.WETH().call();
+    // // console.log('WETH----------',WETH);
+    // state.updateRouterContract(RouterContract) // 赋值合约实例
 
     // // 创建BBA代币实例并获取余额
     const BbaTokenContract = new web3.value.eth.Contract(usdtABI, infoData.bbaCoin);

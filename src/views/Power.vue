@@ -82,7 +82,7 @@ const stakeFun = async() =>{
   // myETHBalance addUsdtNum
   /* 临时去除最低0.5的校验 */ 
   if(addUsdtNum.value < 100) return ElMessage.error('Minimum addition of 100 USDT');
-  if(addUsdtNum.value > 10000) return ElMessage.error('Max addition of 10000 USDT');
+  if(addUsdtNum.value > 2000) return ElMessage.error('Max addition of 2000 USDT');
   // if(state.myETHBalance.value < 0.5) return ElMessage.error('The account balance is insufficient, please add more');
 
   if(addUsdtNum.value > state.myUSDTBalance.value) return ElMessage.error('The account balance is insufficient, please add more');
