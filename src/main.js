@@ -7,7 +7,6 @@ import '@/assets/js/bootstrap.bundle.js'
 // import './assets/js/odometer.min.js'
 // import './assets/js/jquery.nice-select.min.js'
 // import './assets/js/main.js'
-
 // wow 样式
 import 'wow.js/css/libs/animate.css'
 
@@ -21,6 +20,7 @@ import 'element-plus/dist/index.css'
 import App from './App.vue'
 import router from './router'
 import countTo from 'vue3-count-to'
+import i18n from './i18n'
 
 
 const app = createApp(App)
@@ -30,6 +30,7 @@ import Footer from './components/Footer.vue'
 
 app.use(ElementPlus)
 app.use(countTo)
+app.use(i18n)
 app
     .component('Footer', Footer)
     .component('Header', Header)

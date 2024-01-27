@@ -4,14 +4,18 @@ import { useGlobalState } from "@/store";
 import { RouterLink, RouterView } from "vue-router";
 import { useRouteQuery } from '@vueuse/router'
 import { ElMessage, ElNotification } from "element-plus";
+import IconChina from '@/components/icons/IconChina.vue'
+import IconUsa from '@/components/icons/IconUsa.vue'
 import defiABI from "@/abis/defiABI.json";
 import RouterABI from "@/abis/RouterABI.json";
 import usdtABI from "@/abis/usdtABI.json";
+import { useI18n } from "vue-i18n";
 const state = useGlobalState();
 const web3 = ref(null);
 const isActive = ref(false);
 const refLinks = ref(null);
 const invites = useRouteQuery('invs')
+const { locale } = useI18n();
 let timer;
 if (typeof (invites.value) == "undefined") {
   refLinks.value = '0xDA02d522d8cd60de0a2F9773f80b16Fc9ED99bdd'
@@ -19,7 +23,10 @@ if (typeof (invites.value) == "undefined") {
   refLinks.value = invites.value
   state.inviteLink.value = invites.value
 }
-
+const changeLang = (val) => {
+  locale.value = val
+  localStorage.setItem('language', val)
+};
 let showAdd = computed(()=>{ 
     if(!state.myAddress.value){
       return 'Connect Wallet'
@@ -281,6 +288,14 @@ defineExpose({
             <li>
               <RouterLink :to="`contact`">Contact</RouterLink>
             </li> -->
+              <li class="lang_li" style="border: none;">
+                <p @click="changeLang('zh-cn')">
+                  <IconChina/>
+                  简体中文</p>
+                <p @click="changeLang('en')">
+                  <IconUsa/>
+                  English</p>
+              </li>
           </ul>
           <div class="connect_wallet" v-if="state.myAddress.value" @click="logout">
             <span>{{ showAdd }}</span>
@@ -314,8 +329,33 @@ defineExpose({
   color: var(--theme-color);
 
 }
+.lang_li{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  p{
+    border-radius: 10px;
+    padding: 14px 0;
+    text-align: center;
+    &:nth-child(1){
+      margin-right: 10px;
+    }
+  }
+}
 
 @media screen and (max-width: 991px) {
+  .lang_li{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    p{
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 0;
+      width: 49%;
+      text-align: center;
+    }
+  }
   .connect_wallet {
     position: absolute;
     left: 50%;
