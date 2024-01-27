@@ -77,11 +77,13 @@ const getMyTeamArr = async() =>{
             data-wow-delay="0.2s"
           >
             <div class="breadcumnd-content">
-              <h1>Team</h1>
+              <h1>IPO {{ $t("team") }}</h1>
               <ul class="breadcrumb-light">
-                <li><a href="#">Home </a></li>
+                <li><a href="#">{{ $t("home") }} </a></li>
                 <li><i class="fas fa-long-arrow-right"></i></li>
-                <li>Team</li>
+                <li>Pages</li>
+                <li><i class="fas fa-long-arrow-right"></i></li>
+                <li>IPO {{ $t("team") }}</li>
               </ul>
             </div>
           </div>
@@ -101,10 +103,9 @@ const getMyTeamArr = async() =>{
           class="section-header section-center wow fadeInDown"
           data-wow-delay="0.3s"
         >
-          <h2 class="section-title">Our core values</h2>
+          <h2 class="section-title">{{ $t("myTeam") }}</h2>
           <p>
-            Nam semper,lectus ac vestibulum sollicitudin,enim ante elementum
-            ligula,nec ornare nulla elit vel nunc.
+            <!-- {{ $t("FootetP1") }} -->
           </p>
         </div>
         <div class="row justify-content-between align-items-center max-w-2xl m-auto flex flex-col items-center justify-center">
@@ -115,7 +116,7 @@ const getMyTeamArr = async() =>{
                 <div class="income_item bg-amber-50 flex items-center justify-between">
                   <span class="text-sm">
                     <img class="w-10 h-10" src="@/assets/img/process/process1.png"/>
-                    团队人数
+                    {{ $t("TeamSize") }}
                   </span>
                   <span>
                     {{ (state.infoData.value.team2Length) }}
@@ -124,7 +125,7 @@ const getMyTeamArr = async() =>{
                 <div class="income_item bg-amber-50 flex items-center justify-between">
                   <span class="text-sm">
                     <img class="w-10 h-10" src="@/assets/img/process/process5.png"/>
-                    团队算力
+                    {{ $t("TeamComputingPower") }}
                     </span>
                   <span>
                     {{ fromWeiFun(state.infoData.value.teamCp2) }}
@@ -134,7 +135,7 @@ const getMyTeamArr = async() =>{
                   <div class="income_item bg-lime-50 flex items-center justify-between" @click="getMyTeamArr">
                     <span class="text-sm">
                       <img class="w-10 h-10" src="@/assets/img/process/process8.png"/>
-                      团队小区业绩
+                      {{ $t("TeamCommunityPerformance") }}
                       </span>
                     <span style="text-align: right;">
                       <!-- {{ (state.infoData.value.teamLength) }} -->
@@ -146,7 +147,7 @@ const getMyTeamArr = async() =>{
                 <div class="income_item bg-lime-50 flex items-center justify-between">
                   <span class="text-sm">
                     <img class="w-10 h-10" src="@/assets/img/process/process8.png"/>
-                    我的算力
+                    {{ $t("MyCP") }}
                     </span>
                   <span style="text-align: right;">
                     {{ fromWeiFun(state.infoData.value.userCp) }}
@@ -167,7 +168,7 @@ const getMyTeamArr = async() =>{
                 <div class="income_item bg-green-50 flex items-center justify-between">
                   <span class="text-sm">
                     <img class="w-10 h-10" src="@/assets/img/process/process7.png"/>
-                    上级地址
+                    {{ $t("SuperiorAddress") }}
                     </span>
                   <span style="text-align: right;">
                     <p style="font-size: 12px;" class="flex items-center">
@@ -196,12 +197,12 @@ const getMyTeamArr = async() =>{
           </div>
           <div class="rounded-md mt-5 mb-5 h-sm:mt-2">
             <div v-if="state.myAddress" class=" w-full flex items-center justify-center px-8 py-3 text-base font-semibold rounded-md  md:py-5 md:text-xl md:px-10 copy_btn" @click="copyLink()">
-              Copy referral link
+              {{ $t("CopyInvitationLink") }}
             </div>
             <div
               v-else
               class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-semibold rounded-md text-white action-button md:py-5 md:text-xl md:px-10">
-              Connect Wallet
+              {{ $t("ConnectWallet") }}
             </div>
           </div>
         </div>
@@ -209,7 +210,7 @@ const getMyTeamArr = async() =>{
     </section>
     <el-dialog
       v-model="centerDialogVisible"
-      :title="`Invitation List ${state.infoData.value.teamLength}`"
+      :title="`${$t('InvitationList')} ${state.infoData.value.teamLength}`"
       width="90%"
       align-center
     >

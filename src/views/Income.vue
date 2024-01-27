@@ -203,13 +203,13 @@ const claimFun2 = useDebounceFn( async() => {
             data-wow-delay="0.2s"
           >
             <div class="breadcumnd-content">
-              <h1>IPO Income</h1>
+              <h1>IPO {{ $t("income") }}</h1>
               <ul class="breadcrumb-light">
-                <li><a href="#">Home </a></li>
+                <li><a href="#">{{ $t("home") }} </a></li>
                 <li><i class="fas fa-long-arrow-right"></i></li>
                 <li>Pages</li>
                 <li><i class="fas fa-long-arrow-right"></i></li>
-                <li>IPO Income</li>
+                <li>IPO {{ $t("income") }}</li>
               </ul>
             </div>
           </div>
@@ -229,17 +229,17 @@ const claimFun2 = useDebounceFn( async() => {
           class="section-header section-center wow fadeInDown"
           data-wow-delay="0.3s"
         >
-          <h2 class="section-title">View my earnings details</h2>
+          <h2 class="section-title">{{ $t("EarningsDetails") }}</h2>
           <p>
-            Update earnings every 15 seconds, please check carefully
+            {{ $t("EarningsDetailsTxt") }}
           </p>
         </div>
         <div class="row justify-content-between align-items-center max-w-2xl m-auto flex flex-col items-center justify-center">
           <div class="col-lg-12" style="padding: 0;">
             <div class="add_power rounded-lg px-3 py-3 pb-1 pt-6 h-sm:p-2 h-sm:pt-2">
-              <p class="mb-2">Elimination progress</p>
+              <p class="mb-2">{{ $t("EliminationProgress") }} </p>
               <p class="mb-2 " style="font-size: 12px;">
-                Received rewards:
+                {{ $t("ReceivedRewards") }}:
                 <!-- <br/> -->
                 {{ MyTokenJD() }}
               </p>
@@ -249,20 +249,20 @@ const claimFun2 = useDebounceFn( async() => {
 
               <div class="income_info">
                 <div class="income_item bg-amber-50 flex items-center justify-between">
-                  <span>My CP</span>
+                  <span>{{ $t("MyCP") }} </span>
                   <span>
                     <!-- {{ fromWeiFun(state.infoData.value.userCp) }} / V{{ myLevle }} -->
                     {{ fromWeiFun(state.infoData.value.userCp) }} / V{{ state.infoData.value.levle }}
                   </span>
                 </div>
                 <div class="income_item bg-amber-50 flex items-center justify-between">
-                  <span>My Fomo Pool</span>
+                  <span>{{ $t("MyFomoPool") }}</span>
                   <span>
                     {{ fromWeiFun(state.infoData.value.userOver12) }} USDT
                   </span>
                 </div>
                 <div class="income_item bg-lime-50 flex items-center justify-between">
-                  <span>My IPO</span>
+                  <span>{{ $t("MyIPO") }}</span>
                   <span style="text-align: right;">
                     {{ UserIPOBalance }} IPO
                     <!-- <p style="font-size: 12px;">
@@ -271,7 +271,7 @@ const claimFun2 = useDebounceFn( async() => {
                   </span>
                 </div>
                 <div class="income_item bg-lime-50 flex items-center justify-between">
-                  <span>Over Award</span>
+                  <span>{{ $t("OverAward") }}</span>
                   <span style="text-align: right;">
                     {{ fromWeiFun(state.infoData.value.overAward) }} IPO
                     <!-- <p style="font-size: 12px;">
@@ -280,7 +280,7 @@ const claimFun2 = useDebounceFn( async() => {
                   </span>
                 </div>
                 <div class="income_item bg-lime-50 flex items-center justify-between">
-                  <span>Dynamic income</span>
+                  <span>{{ $t("DynamicIncome") }}</span>
                   <span style="text-align: right;">
                     {{ fromWeiFun(state.infoData.value.overTeam) }} IPO
                     <!-- <p style="font-size: 12px;">
@@ -289,7 +289,7 @@ const claimFun2 = useDebounceFn( async() => {
                   </span>
                 </div>
                 <div class="income_item bg-lime-50 flex items-center justify-between">
-                  <span>Team income</span>
+                  <span>{{ $t("TeamIncome") }}</span>
                   <span style="text-align: right;">
                     {{ fromWeiFun(state.infoData.value.overTeam2) }} IPO
                     <!-- <p style="font-size: 12px;">
@@ -298,7 +298,7 @@ const claimFun2 = useDebounceFn( async() => {
                   </span>
                 </div>
                 <div class="income_item bg-green-50 flex items-center justify-between">
-                  <span>Award</span>
+                  <span>{{ $t("Award") }}</span>
                   <span style="text-align: right;">
                     {{  fromWeiFun(state.infoData.value.userAward) }} USDT
                     <p style="font-size: 12px;">
@@ -310,16 +310,16 @@ const claimFun2 = useDebounceFn( async() => {
               </div>
               <div class="flex justify-between mt-5 mb-5 h-sm:mt-2">
                 <div v-if="state.myAddress" class="flex items-center justify-center rounded-md shadow font-semibold py-3 action-button md:py-5 md:text-xl md:px-10" style="flex-basis: 48%" @click="claimFun()">
-                  Claim to Account
+                  {{ $t("ClaimToAccount") }}
                 </div>
    
                 <div v-if="state.myAddress && isApprove"  :class="{ disabled: state.BbaCoinBlance.value == 0 }" class="flex items-center justify-center rounded-md shadow font-semibold py-3 action-button md:py-5 md:text-xl md:px-10" style="flex-basis: 48%" @click="centerDialogVisible = true">
-                  Claim to Wallet
+                  {{ $t("ClaimToWallet") }}
                 </div>
                 <div
                 v-if="!state.myAddress"
                   class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-semibold rounded-md text-white action-button md:py-5 md:text-xl md:px-10">
-                  Connect Wallet
+                  Connect Wallet{{ $t("MyCP") }}
                 </div>
               </div>
             </div>
@@ -387,7 +387,7 @@ const claimFun2 = useDebounceFn( async() => {
     </div>
       <template #footer>
         <span class="dialog-footer">
-          <div class="confirm_btn" @click="claimFun2">Confirm</div>
+          <div class="confirm_btn" @click="claimFun2">Confirm{{ $t("MyCP") }}</div>
         </span>
       </template>
     </el-dialog>

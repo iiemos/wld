@@ -7,11 +7,10 @@ import IconLogo from '@/components/icons/IconLogo.vue'
 import Swap from '@/components/Swap.vue'
 import { ref, computed, onMounted, watch } from "vue";
 import { RouterLink, RouterView } from "vue-router";
-import { useStorage } from '@vueuse/core'
 // import { useI18n } from 'vue-i18n'
 import { useRouteQuery } from '@vueuse/router'
 import { useGlobalState } from "@/store";
-import { useDebounceFn, computedAsync } from '@vueuse/core'
+import { useDebounceFn, computedAsync, useStorage } from '@vueuse/core'
 import { ElMessage, ElNotification } from "element-plus";
 import { Pointer } from '@element-plus/icons-vue'
 import defiABI from "@/abis/defiABI.json";
@@ -146,13 +145,13 @@ const approveUSDT = ()=>{
         <div class="row align-items-center">
           <div class="col-xxl-7 col-lg-7 wow fadeInUp" data-wow-delay="0.2s">
             <div class="breadcumnd-content">
-              <h1>IPO Power</h1>
+              <h1>IPO {{ $t('power') }}</h1>
               <ul class="breadcrumb-light">
-                <li><a href="#">Home </a></li>
+                <li><a href="#">{{ $t('home') }} </a></li>
                 <li><i class="fas fa-long-arrow-right"></i></li>
                 <li>Pages</li>
                 <li><i class="fas fa-long-arrow-right"></i></li>
-                <li>IPO Power</li>
+                <li>IPO {{ $t('power') }}</li>
               </ul>
             </div>
           </div>
@@ -169,9 +168,9 @@ const approveUSDT = ()=>{
     <section class="contact-section pt-120 pb-120">
       <div class="container">
         <div class="section-header section-center wow fadeInDown" data-wow-delay="0.3s">
-          <h2 class="section-title">Join Mining</h2>
+          <h2 class="section-title">{{ $t('JoinMining') }}</h2>
           <p>
-            Join us now and embark on your journey of computing mining!
+            {{ $t('JoinMiningTxt') }}
           </p>
         </div>
         <div class="tabs_warp">
@@ -186,10 +185,10 @@ const approveUSDT = ()=>{
                 <div class="wallet_item">
                   <div class="wallet_item_top">
                     <div>
-                      <span>Stake USDT</span>
+                      <span>{{ $t('Stake') }} USDT</span>
                     </div>
                     <div class="flex">
-                      <span>Balance: {{ UserUSDTBalance }}
+                      <span>{{ $t('Balance') }}: {{ UserUSDTBalance }}
                         <span class="font-semibold">USDT</span>
                       </span>
                       <span class="max_btn" @click="MaxBalance()">Max</span>
@@ -208,7 +207,7 @@ const approveUSDT = ()=>{
                 <div class="wallet_item">
                   <div class="wallet_item_top">
                     <div>
-                      <span>My computing power</span>
+                      <span>{{ $t('MyComputingPower') }}</span>
                     </div>
                     <div class="flex">
                     </div>
@@ -224,12 +223,12 @@ const approveUSDT = ()=>{
                 </div>
                 <div class="rounded-md shadow mt-5 mb-5 h-sm:mt-2">
                   <div v-if="state.myAddress" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-semibold rounded-md text-white action-button md:py-5 md:text-xl md:px-10" @click="stakeFun()">
-                    Start Mining
+                    {{ $t('StartMining') }}
                   </div>
                   <div
                     v-else
                     class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-semibold rounded-md text-white action-button md:py-5 md:text-xl md:px-10">
-                    Connect Wallet
+                    {{ $t('ConnectWallet') }}
                   </div>
                 </div>
               </div>
@@ -246,9 +245,9 @@ const approveUSDT = ()=>{
           <div class="col-lg-8">
             <div class="section-header section-center wow fadeInDown"
               style="visibility: visible; animation-name: fadeInDown">
-              <h2>InscriptionOne Agreement (IPO) Details</h2>
+              <h2>{{ $t('IPODetails') }}</h2>
               <p>
-                The IPO protocol permanently binds the token units of each blockchain network to the IPO, destroys them, and automatically inscribes them on the IPO network.
+                {{ $t('IPODetails') }}
               </p>
             </div>
             <div class="main-faq">
@@ -258,15 +257,14 @@ const approveUSDT = ()=>{
                     <div class="accordion-header" id="headingOne">
                       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                        <span>1. Narrative nature of IPO based on inscriptions</span><span class="icon"><img
+                        <span>{{ $t('LiItem1') }} </span><span class="icon"><img
                             src="@/assets/img/faq/plus.png" alt="arrow-img" /></span><span class="plus"><img
                             src="@/assets/img/faq/d.png" alt="arrow-img" /></span>
                       </button>
                       <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
                         data-bs-parent="#accordionExample">
                         <div class="accordion-body">
-                          <p>
-                            Consensus through characters is the cornerstone of inscription; the deployer and the inscriber have the same rights, and the inscription means I own it.
+                          <p>{{ $t('LiItem1Txt') }}
                           </p>
                         </div>
                       </div>
@@ -276,15 +274,14 @@ const approveUSDT = ()=>{
                     <div class="accordion-header" id="headingThree">
                       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                        <span>2. Scenarios of IPO Agreement</span><span class="icon"><img
+                        <span>{{ $t('LiItem2') }}</span><span class="icon"><img
                             src="@/assets/img/faq/plus.png" alt="arrow-img" /></span><span class="plus"><img
                             src="@/assets/img/faq/d.png" alt="arrow-img" /></span>
                       </button>
                       <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
                         data-bs-parent="#accordionExample">
                         <div class="accordion-body">
-                          <p>
-                            The protocol permanently binds the token units of each blockchain network to the IPO, destroys them and automatically inscribes them on the IPO network. Different blockchain network inscriptions can be misaligned with IPO tokens to achieve multi-chain aggregation transactions on the IPO inscription exchange.
+                          <p>{{ $t('LiItem2Txt') }}
                           </p>
                         </div>
                       </div>
@@ -294,15 +291,14 @@ const approveUSDT = ()=>{
                     <div class="accordion-header" id="headingThree4">
                       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseThree4" aria-expanded="false" aria-controls="collapseThree">
-                        <span>3. What problems does IPO solve?</span><span class="icon"><img
+                        <span>{{ $t('LiItem3') }}</span><span class="icon"><img
                             src="@/assets/img/faq/plus.png" alt="arrow-img" /></span><span class="plus"><img
                             src="@/assets/img/faq/d.png" alt="arrow-img" /></span>
                       </button>
                       <div id="collapseThree4" class="accordion-collapse collapse" aria-labelledby="headingThree4"
                         data-bs-parent="#accordionExample">
                         <div class="accordion-body">
-                          <p>
-                            Users can seamlessly transfer tokens between the Bitcoin blockchain and other blockchain networks, thereby enhancing liquidity and interoperability between different blockchain networks; IPO tokens provide a new way for users to Inscriptions can be transferred smoothly between different networks.
+                          <p>{{ $t('LiItem3Txt') }}
                           </p>
                         </div>
                       </div>
@@ -312,15 +308,14 @@ const approveUSDT = ()=>{
                     <div class="accordion-header" id="headingTwo">
                       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        <span>4. What is an IPO agreement?</span><span class="icon"><img
+                        <span>{{ $t('LiItem4') }}</span><span class="icon"><img
                             src="@/assets/img/faq/plus.png" alt="arrow-img" /></span><span class="plus"><img
                             src="@/assets/img/faq/d.png" alt="arrow-img" /></span>
                       </button>
                       <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
                         data-bs-parent="#accordionExample">
                         <div class="accordion-body">
-                          <p>
-                            The IPO protocol promotes the seamless flow and interoperability of tokens between different blockchain ecosystems; it proposes a cultural solution for non-native tokens in other blockchain networks; the IPO protocol cleverly uses destruction to replace the high-quality products produced by inscription Because Gas does not enter the cycle of token economics, it avoids asset spillover.
+                          <p>{{ $t('LiItem4Txt') }}
                           </p>
                         </div>
                       </div>

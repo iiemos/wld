@@ -265,16 +265,16 @@ defineExpose({
           </div>
           <ul class="main-menu" :class="{ active: isActive }">
             <li class="active">
-              <RouterLink :to="`/?invs=${invites}`">Home</RouterLink>
+              <RouterLink :to="`/?invs=${invites}`">{{ $t("home") }}</RouterLink>
             </li>
             <li>
-              <RouterLink :to="`power?invs=${invites}`">power</RouterLink>
+              <RouterLink :to="`power?invs=${invites}`">{{ $t("power") }}</RouterLink>
             </li>
             <li>
-              <RouterLink :to="`income?invs=${invites}`">income</RouterLink>
+              <RouterLink :to="`income?invs=${invites}`">{{ $t("income") }}</RouterLink>
             </li>
             <li>
-              <RouterLink :to="`team?invs=${invites}`">team</RouterLink>
+              <RouterLink :to="`team?invs=${invites}`">{{ $t("team") }}</RouterLink>
             </li>
             <!-- <li>
               <RouterLink :to="`portfolio-single`">Portfolio</RouterLink>
@@ -336,6 +336,7 @@ defineExpose({
   p{
     border-radius: 10px;
     padding: 14px 0;
+    cursor: pointer;
     text-align: center;
     &:nth-child(1){
       margin-right: 10px;

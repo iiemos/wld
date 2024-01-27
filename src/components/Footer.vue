@@ -19,29 +19,30 @@ const invites = useRouteQuery('invs')
               </div>
               <div class="content-area">
                 <p>
-                  The IPO platform is designed to facilitate users to seamlessly transfer tokens between different blockchain networks (including the Bitcoin network), thereby enhancing liquidity and interoperability between different blockchain networks.
+                  {{ $t("FootetP1") }}
                 </p>
-                <p>The protocol permanently binds the token units of each blockchain network to the IPO, destroys them and automatically inscribes them on the IPO network.</p>
-
+                <p>
+                  {{ $t("FootetP2") }}
+                </p>
               </div>
             </div>
           </div>
           <div class="col-xl-2 col-lg-4 col-md-6 col-sm-6">
             <div class="widget-items">
-              <div class="footer-head"><h5 class="title">Menu</h5></div>
+              <div class="footer-head"><h5 class="title">{{ $t("menu") }}</h5></div>
               <div class="content-area">
                 <ul class="quick-link">
                   <li class="active">
-                    <RouterLink :to="`/?invs=${invites}`">Home</RouterLink>
+                    <RouterLink :to="`/?invs=${invites}`">{{ $t("home") }}</RouterLink>
                   </li>
                   <li>
-                    <RouterLink :to="`power?invs=${invites}`">power</RouterLink>
+                    <RouterLink :to="`power?invs=${invites}`">{{ $t("power") }}</RouterLink>
                   </li>
                   <li>
-                    <RouterLink :to="`income?invs=${invites}`">income</RouterLink>
+                    <RouterLink :to="`income?invs=${invites}`">{{ $t("income") }}</RouterLink>
                   </li>
                   <li>
-                    <RouterLink :to="`team?invs=${invites}`">team</RouterLink>
+                    <RouterLink :to="`team?invs=${invites}`">{{ $t("team") }}</RouterLink>
                   </li>
                 </ul>
               </div>
@@ -49,7 +50,7 @@ const invites = useRouteQuery('invs')
           </div>
           <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
             <div class="widget-items">
-              <div class="footer-head"><h5 class="title">Contact Us</h5></div>
+              <div class="footer-head"><h5 class="title">{{ $t("ContactUs") }}</h5></div>
               <div class="content-area">
                 <ul class="social mb-4" style="justify-content: space-around;">
                   <li>

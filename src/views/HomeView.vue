@@ -73,17 +73,16 @@ const drawerShow = () =>{
             data-wow-delay="0.2s"
           >
             <div class="hero-content">
-              <h5>Welcome to IPO
+              <h5>{{ $t('WelcomeToIPO') }}
               </h5>
-              <h1>We are a high-yield web3 project</h1>
+              <h1>{{ $t('HomeTitle1') }}</h1>
               <p>
-                Sed do eiusmod tempor incididunt ut labore et dolore magna
-                aliqua quis ipsum.
+                {{ $t('HomeTitle1Txt') }}
               </p>
               <div class="banner-cmn">
                 <!-- <a href="#" class="cmn--btn">邀请好友</a> -->
                 <a href="#" class="cmn--border" @click="copyLink">
-                  Copy referral link
+                  {{ $t('CopyInvitationLink') }}
                 </a>
               </div>
             </div>
@@ -119,21 +118,25 @@ const drawerShow = () =>{
                   <div class="fomo_info">
                     <div class="flex flex-row py-3 px-2 my-2 " style="border-bottom: 1px solid var(--border-color);">
                       <div class="basis-1/2">
-                        Fomo Time
+                        {{ $t('FomoTime') }}
                       </div>
                       <div class="basis-1/2 text-right">
                         {{ state.countdown.value }}
                       </div>
                     </div>
                     <div class="flex flex-row py-3 px-2 my-2 " style="border-bottom: 1px solid var(--border-color);">
-                      <div class="basis-1/2">Fomo Pool</div>
+                      <div class="basis-1/2">
+                        {{ $t('FomoPool') }}
+                      </div>
                       <div class="basis-1/2 text-right">
                         <count-to class="conut_to" style="color: #e55638;" :startVal='0' :endVal='state.FomoBalance.value' :duration='3000' :decimals="4"/>
                         USDT
                       </div>
                     </div>
                     <div class="flex flex-row py-3 px-2 my-2" style="border-bottom: 1px solid var(--border-color);">
-                      <div class="basis-1/2">NO.1 Address</div>
+                      <div class="basis-1/2">
+                        {{ $t('NO1Address') }}
+                       </div>
                       <div class="basis-1/2 text-right">
                         <el-tooltip
                           class="box-item"
@@ -146,7 +149,9 @@ const drawerShow = () =>{
                       </div>
                     </div>
                     <div class="flex flex-row py-3 px-2 my-2 " style="border-bottom: 1px solid var(--border-color);">
-                      <div class="basis-1/2">NO.1 USDT Number</div>
+                      <div class="basis-1/2">
+                        {{ $t('NO1USDTNumber') }}
+                       </div>
                       <div class="basis-1/2 text-right">
                         {{ state.TMCP.value }} USDT
                       </div>
@@ -162,7 +167,9 @@ const drawerShow = () =>{
           <div class="row g-4">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
               <div class="counter-items odometer-item">
-                <p class="mb-4">Invite more than 3000USDT addresses per day</p>
+                <p class="mb-4">
+                  {{ $t('InviteDayTxt') }}
+                 </p>
                 <div class="add_warp">
                   <div class="add_item pt-2 pb-2"  style="font-size: 12px;" v-for="items in state.Team12BNB.value" :key="items">
                     <el-tooltip
@@ -175,7 +182,7 @@ const drawerShow = () =>{
                     </el-tooltip>
                   </div>
                   <div v-if="state.Team12BNB.value.length>10">
-                    <div v-if="state.Team12BNB.value.length>0" class="more_btn" @click="drawerShow()">More <el-icon class="ml-2"><More /></el-icon></div>
+                    <div v-if="state.Team12BNB.value.length>0" class="more_btn" @click="drawerShow()">{{ $t('More') }} <el-icon class="ml-2"><More /></el-icon></div>
                     <div v-else style="color: black;">No data</div>
                   </div>
                 </div>
@@ -188,7 +195,7 @@ const drawerShow = () =>{
     <Footer />
     <el-drawer
       v-model="drawer"
-      title="Invite more than 3000USDT addresses per day"
+      :title="`${$t('InviteDayTxt')}`"
       direction="btt"
       :before-close="handleClose"
       size="90%"

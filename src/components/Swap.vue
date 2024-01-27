@@ -220,10 +220,10 @@ const approveContract = () => {
       <div class="wallet_item">
         <div class="wallet_item_top">
           <div>
-            <span>Stake IPO</span>
+            <span>{{ $t('Stake') }} IPO</span>
           </div>
           <div class="flex">
-            <span>Balance: {{ UserIPOBalance }}
+            <span>{{ $t('Balance') }}: {{ UserIPOBalance }}
               <span class="font-semibold">IPO</span>
             </span>
             <span class="max_btn" @click="MaxBalance">Max</span>
@@ -245,7 +245,7 @@ const approveContract = () => {
             <span></span>
           </div>
           <div class="flex">
-            <span>Balance: 0.00
+            <span>{{ $t('Balance') }}: 0.00
               <span class="font-semibold">USDT</span>
             </span>
           </div>
@@ -269,13 +269,13 @@ const approveContract = () => {
           </dd>
         </div>
         <div class="py-2 flex items-center justify-between">
-          <dt class="font-medium flex">After Tax Rate</dt>
+          <dt class="font-medium flex">{{ $t('AfterTaxRate') }}</dt>
             <dd class="font-base flex items-center justify-between">
               <span class="pr-1">1 IPO ≈ {{ toWeiQuote * 0.9 }} USDT</span>
             </dd>
         </div>
         <div class="py-2 flex items-center justify-between">
-          <dt class="font-medium flex">Exchange Rate</dt>
+          <dt class="font-medium flex">{{ $t('ExchangeRate') }}</dt>
             <dd class="font-base flex items-center justify-between">
               <span class="pr-1">1 IPO ≈ {{ toWeiQuote }} USDT</span>
             </dd>
@@ -289,10 +289,10 @@ const approveContract = () => {
         </div>
       </dl>
       <div v-if="!isApprove" @click="approveContract" :class="{ disabled: state.BbaCoinBlance.value == 0 }" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-semibold rounded-md text-white action-button md:py-5 md:text-xl md:px-10 mb-4">
-        Approve Swap
+        {{ $t('approve') }}
       </div>
       <div v-else @click="ShellTokens" :class="{ disabled: state.BbaCoinBlance.value == 0 }" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-semibold rounded-md text-white action-button md:py-5 md:text-xl md:px-10 mb-4">
-        Swap
+        {{ $t('swap') }}
       </div>
     </div>
   </div>
