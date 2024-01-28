@@ -160,12 +160,12 @@ const claimFun2 = useDebounceFn( async() => {
   console.log('112312312------------',callValue);
   if(callValue == 0) return
   if(state.myETHBalance.value * 1 < 0.001) return ElMessage.warning('Insufficient Gas');
-  if(state.infoData.value.userAward == '0') return ElMessage.warning('当前奖励为0，请确认后再进行操作！');
-  if(Number(callValue) >  Number(state.infoData.value.userAward)) return ElMessage.warning('提取数量大于奖励数量，请确认后再操作');
+  if(UserIPOBalance.value == '0') return ElMessage.warning('当前奖励为0，请确认后再进行操作！');
+  if(Number(callValue) >  Number(UserIPOBalance.value)) return ElMessage.warning('提取数量大于奖励数量，请确认后再操作');
   try{
     // const callValue = state.web3.value.utils.toWei(String(state.infoData.value.userAward));
     console.log('提取到钱包的数量',callValue);
-    console.log('我的奖励数量',state.infoData.value.userAward);
+    console.log('我的奖励数量',UserIPOBalance.value);
     state.DeFiContract.value.methods.claim2(callValue).send({
         from: state.myAddress.value,
       })
