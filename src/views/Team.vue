@@ -46,6 +46,14 @@ const copyLink = () => {
     _input.remove()
 };
 
+const formatHas = (hash) => {
+  if (!hash) {
+    return '';
+  }
+  const front = hash.slice(0, 4);
+  const back = hash.slice(-4);
+  return `${front}....${back}`;
+}
 const getMyTeamArr = async() =>{
   centerDialogVisible.value = true
   // 获取直推地址列表
@@ -178,7 +186,7 @@ const getMyTeamArr = async() =>{
                         :content="state.infoData.value.inivet"
                         placement="top-end"
                       >
-                        <span class="address_txt">{{ state.infoData.value.inivet }}</span>
+                        <span class="address_txt">{{ formatHas(state.infoData.value.inivet) }}</span>
                       </el-tooltip>
                     </p>
                   </span>
@@ -233,7 +241,7 @@ const getMyTeamArr = async() =>{
             placement="top-end"
           >
             <span class="">
-              Address: {{ invitem.myUserAddress }}
+              Address: {{ formatHas(invitem.myUserAddress) }}
             </span>
           </el-tooltip>
         </div>

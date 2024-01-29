@@ -389,7 +389,7 @@ const claimFun2 = useDebounceFn( async() => {
     </div>
       <template #footer>
         <span class="dialog-footer">
-          <div class="confirm_btn" @click="claimFun2">Confirm{{ $t("MyCP") }}</div>
+          <div class="confirm_btn" @click="claimFun2">{{ $t("Confirm") }}</div>
         </span>
       </template>
     </el-dialog>

@@ -18,7 +18,14 @@ let infoData = ref(null); // 合约信息
 let drawer = ref(false); // 合约信息
 
 
-
+const formatHas = (hash) => {
+  if (!hash) {
+    return '';
+  }
+  const front = hash.slice(0, 4);
+  const back = hash.slice(-4);
+  return `${front}....${back}`;
+}
 onMounted(async () => {
   let wow = new WOW({
     boxClass: 'wow',    // 需要执行动画元素的Class
@@ -144,7 +151,7 @@ const drawerShow = () =>{
                           :content="state.infoData.value.NO1"
                           placement="top-end"
                         >
-                          <span class="address_txt">{{ state.infoData.value.NO1 }}</span>
+                          <span class="address_txt">{{ formatHas(state.infoData.value.NO1) }}</span>
                         </el-tooltip>
                       </div>
                     </div>
