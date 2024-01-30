@@ -46,6 +46,8 @@ const cutAdd = () => {
 // 当用户点击登录按钮时，请求 MetaMask 授权
 const login = async () => {
   try {
+    // connections();
+
     // 请求 MetaMask 授权
     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
     state.updateMyAddress(accounts[0]);
@@ -109,7 +111,6 @@ if (typeof window.tronWeb === 'undefined') {
     console.log("断开连接", result);
     console.log("error", error);
   });
-  connections();
 
 });
 const connections = () => {
