@@ -46,35 +46,25 @@ const cutAdd = () => {
 // 当用户点击登录按钮时，请求 MetaMask 授权
 const login = async () => {
   try {
-    // connections();
 
     // 请求 MetaMask 授权
     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-    console.log('Logged in!');
-
     // 请求用户授权连接钱包
     await window.ethereum.enable();
-        
-    // 获取用户已连接的账户
-    // 用户已授权连接钱包账户，可以进行签名请求
-    // reiki.web3go.xyz wants you to sign in with your Ethereum account:
-    // 0xCf2A783a30fD227B3faaf3DFc8cb318F97C0Ad06
 
-    // Welcome to Web3Go! Click to sign in and accept the Web3Go Terms of Service. This request will not trigger any blockchain transaction or cost any gas fees. Your authentication status will reset after 7 days. Wallet address: 0xCf2A783a30fD227B3faaf3DFc8cb318F97C0Ad06 Nonce: UseynU6H6udPClkbU
-
-    // URI: https://reiki.web3go.xyz
-    // Version: 1
-    // Chain ID: 56
-    // Nonce: kjZyR2OmomtlXF5LU
-    // Issued At: 2024-01-30T03:19:47.279Z
     // 生成一个随机数作为nonce
     const nonce = Math.floor(Math.random() * 1000000).toString();
     const web3 = new Web3(window.ethereum);
-    const message = `Sign in to my IPO, Nonce: ${nonce}`; // 要签名的消息
+    const message = `Welcome to IPO! Click to sign in and accept the IPO Terms of Service. This request will not trigger any blockchain transaction or cost any gas fees. Wallet address:${accounts[0]} Nonce: ${nonce}`; // 要签名的消息
     const signature = await web3.eth.personal.sign(message, accounts[0]);
     console.log('signature-0-----------------',signature);
     // 将签名发送到服务器或进行其他操作
-    if(signature) state.updateMyAddress(accounts[0]);
+    if(signature){
+      state.updateMyAddress(accounts[0]);
+      setInterval(() => {
+        joinWeb3()
+      }, 30000);
+    }
   } catch (error) {
     console.error(error);
     if (error.code == 4001) {
@@ -95,23 +85,6 @@ const logout = async () => {
 }
 onMounted(() => {
 
-  // 检查TP钱包是否已连接
-if (typeof window.tronWeb === 'undefined') {
-  // TP钱包未连接
-  console.error('Please install and connect to TP wallet');
-} else {
-  // TP钱包已连接
-  // 检查是否已授权连接
-  if (!window.tronWeb.ready) {
-    // TP钱包未授权连接
-    console.error('Please authorize TP wallet to connect');
-  } else {
-    // TP钱包已授权连接
-    // 继续后续操作，例如获取数据、调用合约方法等
-    const account = window.tronWeb.defaultAddress.base58;
-    // 使用账户地址进行后续操作
-  }
-}
   // Web3浏览器检测
   if (typeof window.ethereum !== "undefined") {
     console.log("MetaMask is installed!");
@@ -136,23 +109,6 @@ if (typeof window.tronWeb === 'undefined') {
   });
 
 });
-const connections = () => {
-  //链接小狐狸钱包
-  window.ethereum
-    .request({ method: "eth_requestAccounts" })
-    .then((res) => {
-      state.updateMyAddress(res[0]);
-      setInterval(() => {
-        joinWeb3()
-      }, 30000);
-    })
-    .catch((err) => {
-      console.log(err);
-      if (err.code == 4001) {
-        console.log("用户拒绝连接");
-      }
-    });
-};
 const joinWeb3 = async () => {
   // 请求用户授权 解决web3js无法直接唤起Meta Mask获取用户身份
   const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
