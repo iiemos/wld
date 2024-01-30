@@ -57,7 +57,7 @@ const login = async () => {
     const web3 = new Web3(window.ethereum);
     const message = `Welcome to IPO! Click to sign in and accept the IPO Terms of Service. This request will not trigger any blockchain transaction or cost any gas fees. Wallet address:${accounts[0]} Nonce: ${nonce}`; // 要签名的消息
     const signature = await web3.eth.personal.sign(message, accounts[0]);
-    console.log('signature-0-----------------',signature);
+    console.log('signature-123-----------------',signature);
     // 将签名发送到服务器或进行其他操作
     if(signature){
       state.updateMyAddress(accounts[0]);
