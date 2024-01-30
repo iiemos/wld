@@ -23,10 +23,14 @@ import countTo from 'vue3-count-to'
 import i18n from './i18n'
 
 
+import Vconsole from 'vconsole'
+let vConsole = new Vconsole()
+
 const app = createApp(App)
 
 import Header from './components/Header.vue'
 import Footer from './components/Footer.vue'
+app.use(vConsole)
 
 app.use(ElementPlus)
 app.use(countTo)

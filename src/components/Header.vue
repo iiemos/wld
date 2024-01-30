@@ -69,6 +69,24 @@ const logout = async () => {
   }
 }
 onMounted(() => {
+
+  // 检查TP钱包是否已连接
+if (typeof window.tronWeb === 'undefined') {
+  // TP钱包未连接
+  console.error('Please install and connect to TP wallet');
+} else {
+  // TP钱包已连接
+  // 检查是否已授权连接
+  if (!window.tronWeb.ready) {
+    // TP钱包未授权连接
+    console.error('Please authorize TP wallet to connect');
+  } else {
+    // TP钱包已授权连接
+    // 继续后续操作，例如获取数据、调用合约方法等
+    const account = window.tronWeb.defaultAddress.base58;
+    // 使用账户地址进行后续操作
+  }
+}
   // Web3浏览器检测
   if (typeof window.ethereum !== "undefined") {
     console.log("MetaMask is installed!");
