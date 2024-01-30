@@ -61,6 +61,7 @@ const login = async () => {
     // 将签名发送到服务器或进行其他操作
     if(signature){
       state.updateMyAddress(accounts[0]);
+      joinWeb3()
       setInterval(() => {
         joinWeb3()
       }, 30000);
