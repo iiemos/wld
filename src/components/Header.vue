@@ -57,14 +57,24 @@ const login = async () => {
         
     // 获取用户已连接的账户
     // 用户已授权连接钱包账户，可以进行签名请求
+    // reiki.web3go.xyz wants you to sign in with your Ethereum account:
+    // 0xCf2A783a30fD227B3faaf3DFc8cb318F97C0Ad06
+
+    // Welcome to Web3Go! Click to sign in and accept the Web3Go Terms of Service. This request will not trigger any blockchain transaction or cost any gas fees. Your authentication status will reset after 7 days. Wallet address: 0xCf2A783a30fD227B3faaf3DFc8cb318F97C0Ad06 Nonce: UseynU6H6udPClkbU
+
+    // URI: https://reiki.web3go.xyz
+    // Version: 1
+    // Chain ID: 56
+    // Nonce: kjZyR2OmomtlXF5LU
+    // Issued At: 2024-01-30T03:19:47.279Z
+    // 生成一个随机数作为nonce
+    const nonce = Math.floor(Math.random() * 1000000).toString();
     const web3 = new Web3(window.ethereum);
-    const message = 'Sign in to my DApp'; // 要签名的消息
+    const message = `Sign in to my IPO, Nonce: ${nonce}`; // 要签名的消息
     const signature = await web3.eth.personal.sign(message, accounts[0]);
     console.log('signature-0-----------------',signature);
-    // state.updateMyAddress(accounts[0]);
-    
     // 将签名发送到服务器或进行其他操作
-    console.log('Signature:', signature);
+    if(signature) state.updateMyAddress(accounts[0]);
   } catch (error) {
     console.error(error);
     if (error.code == 4001) {
