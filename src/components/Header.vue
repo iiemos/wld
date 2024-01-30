@@ -50,8 +50,21 @@ const login = async () => {
 
     // 请求 MetaMask 授权
     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-    state.updateMyAddress(accounts[0]);
     console.log('Logged in!');
+
+    // 请求用户授权连接钱包
+    await window.ethereum.enable();
+        
+    // 获取用户已连接的账户
+    // 用户已授权连接钱包账户，可以进行签名请求
+    const web3 = new Web3(window.ethereum);
+    const message = 'Sign in to my DApp'; // 要签名的消息
+    const signature = await web3.eth.personal.sign(message, accounts[0]);
+    console.log('signature-0-----------------',signature);
+    // state.updateMyAddress(accounts[0]);
+    
+    // 将签名发送到服务器或进行其他操作
+    console.log('Signature:', signature);
   } catch (error) {
     console.error(error);
     if (error.code == 4001) {
