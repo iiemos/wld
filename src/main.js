@@ -30,7 +30,7 @@ const app = createApp(App)
 
 import Header from './components/Header.vue'
 import Footer from './components/Footer.vue'
-app.use(vConsole)
+// app.use(vConsole)
 
 app.use(ElementPlus)
 app.use(countTo)
