@@ -87,7 +87,7 @@ let nowUserSy = computed(()=>{
     // return Number(state.infoData.value.overAward) / (Number(state.infoData.value.userCp) * 2 )
     // 已领取
     const YLQ = (Number(state.infoData.value.userCp) * 2 ) - Number(state.userSY.value)
-    return YLQ / (Number(state.infoData.value.userCp) * 2 )
+    return (YLQ / (Number(state.infoData.value.userCp) * 2 )*100)
   }
 })
 

@@ -23,8 +23,8 @@ import countTo from 'vue3-count-to'
 import i18n from './i18n'
 
 
-import Vconsole from 'vconsole'
-let vConsole = new Vconsole()
+// import Vconsole from 'vconsole'
+// let vConsole = new Vconsole()
 
 const app = createApp(App)
 
