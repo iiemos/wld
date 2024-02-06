@@ -8,7 +8,7 @@ export const useGlobalState = createGlobalState(
     const count = ref(0)
     const web3 = ref(0)
     const myAddress = ref(null)
-    // const myAddress = ref('0x73c76571d5956762Fb65d041509da2355537217F')
+    // const myAddress = ref('0x10e2Bc7e2eDAbc4C23Bea8435c1CD52ef94d6184')
     // const myAddress = ref('0xBD9ffACE71324b43C59854A8DCA4e78cd5373e5F')
     // const myAddress = ref('0xc126dfe4A539CAe4962Cb2fB0389847E4A550E37')
 
@@ -51,6 +51,7 @@ export const useGlobalState = createGlobalState(
     const FomoBalance = ref(0)
     const userLevel = ref('0')
     const inviteLink = ref('0x76a569aBA8E6909e9350A36389D0a061e1264193')
+    // const contractAddress=ref('0xA9d2eD72f8fF25145904C1E4B976bDA2d8552A6B')// Defi合约地址
     const contractAddress=ref('0xA9d2eD72f8fF25145904C1E4B976bDA2d8552A6B')// Defi合约地址
 
     // const Router_ADDRESS=ref('0x10ED43C718714eb63d5aA57B78B54704E256024E') // 主网薄饼V2路由合约地址

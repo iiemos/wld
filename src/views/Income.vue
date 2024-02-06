@@ -192,7 +192,29 @@ const claimFun2 = useDebounceFn( async() => {
   }
 })
 
-
+const stake2 = useDebounceFn( async() => {
+  try{
+    state.DeFiContract.value.methods.stake2().send({
+      from: state.myAddress.value,
+    })
+    .on('transactionHash', (hash)=>{
+      console.log('hash',hash);
+      console.log("Transaction sent");
+    })
+    .once('receipt', res => {
+      console.log("Transaction confirmed");
+      headerChild.value.joinWeb3();
+    })
+    .catch((error) => {
+        console.error('Approval failed:', error.code);
+        if(error.code == '-32603' || error.message == 'transaction underpriced'){
+          ElMessage.error(t('gasLow'));
+        }
+      });
+  }catch(e){
+    console.log(e);
+  }
+})
 </script>
 <template>
   <div class="contact">
@@ -324,6 +346,10 @@ const claimFun2 = useDebounceFn( async() => {
                   Connect Wallet{{ $t("MyCP") }}
                 </div>
               </div>
+              <div class="migrate_data_btn py-3" 
+              @click="stake2()">
+                {{ $t('MigrateData') }}
+              </div>
             </div>
 
           </div>
@@ -401,6 +427,14 @@ const claimFun2 = useDebounceFn( async() => {
 @import url('@/assets/css/base.css');
 .font-semibold {
   font-weight: 600;
+}
+.migrate_data_btn{
+  font-weight: bold;
+  width: 100%;
+  text-align: center;
+  background: var(--border);
+  border-radius: 6px;
+  margin-bottom: 20px;
 }
 .toWalletDialog{
   border-radius: 10px;

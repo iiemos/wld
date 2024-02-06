@@ -340,7 +340,6 @@ const approveUSDT = ()=>{
 .font-semibold {
   font-weight: 600;
 }
-
 .add_power {
   background-color: var(--white-color);
   box-shadow: 0 5px 15.52px 0.48px rgba(0, 0, 0, 0.27);
