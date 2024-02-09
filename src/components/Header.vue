@@ -45,6 +45,12 @@ const cutAdd = () => {
 };
 // 当用户点击登录按钮时，请求 MetaMask 授权
 const login = async () => {
+    // Web3浏览器检测
+    if (typeof window.ethereum !== "undefined") {
+      console.log("MetaMask is installed!");
+    }
+    web3.value = new Web3(window.ethereum);
+    state.updateWbe3(web3.value)
   try {
 
     // 请求 MetaMask 授权
@@ -117,6 +123,7 @@ const joinWeb3 = async () => {
   let balance = await web3.value.eth.getBalance(accounts[0]);
   let myAddress = accounts[0];
   state.updateMyAddress(accounts[0]);
+  console.log('balance',balance);
   // myAddress = '0x73c76571d5956762Fb65d041509da2355537217F'
   // myAddress = '0xc126dfe4A539CAe4962Cb2fB0389847E4A550E37'
   // myAddress = '0xBD9ffACE71324b43C59854A8DCA4e78cd5373e5F'
@@ -124,7 +131,6 @@ const joinWeb3 = async () => {
   try {
     // 创建合约实例
     const  DeFiContract = new web3.value.eth.Contract(defiABI, state.contractAddress.value);
-    // console.log('DeFiContract',DeFiContract);
     state.updateDeFiContract(DeFiContract) // 赋值合约实例
     const infoData = await DeFiContract.methods.getInfo(myAddress).call();
     console.log('infoData',infoData);
