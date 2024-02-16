@@ -55,7 +55,7 @@ export const useGlobalState = createGlobalState(
     const contractAddress=ref('0x490397a46C9C379417f3CCE29eAa9e413d5Af9Fd')// Defi合约地址
 
     // const Router_ADDRESS=ref('0x10ED43C718714eb63d5aA57B78B54704E256024E') // 主网薄饼V2路由合约地址
-    const Router_ADDRESS=ref('0x10ED43C718714eb63d5aA57B78B54704E256024E') //  测试路由合约地址
+    const Router_ADDRESS=ref('0x6dcDf4494db3eA9eda10109899A4FDDB93B4217a') //  测试路由合约地址
     // https://testnet.bscscan.com/address/0xB6BA90af76D139AB3170c7df0139636dB6120F7e#code
 
     const Factory_ADDRESS=ref('0x6C7130Ba50800A56cbA0415a85734e8115caB68A') // 工厂合约地址

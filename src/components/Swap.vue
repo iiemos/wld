@@ -11,6 +11,9 @@ import RouterABI from "@/abis/RouterABI.json";
 import usdtABI from "@/abis/usdtABI.json";
 const state = useGlobalState();
 
+const amountADesired = ref(0)
+const amountBDesired = ref(0)
+
 const RouterContract = ref(null)
 const inputValue=ref(0)
 const outputValue=ref(0)
@@ -27,7 +30,7 @@ quote函数用于获取两种代币之间的实时交易报价。它可以告诉
 */ 
 
 onMounted(() => {
-  RouterContract.value = new state.web3.value.eth.Contract(RouterABI, state.Router_ADDRESS.value);
+  // RouterContract.value = new state.web3.value.eth.Contract(RouterABI, state.Router_ADDRESS.value);
   getPrice2Fun()
   // getQuote()
   checkAuthorization()
@@ -56,6 +59,42 @@ let UserIPOBalance = computed(()=>{
 
 const MaxBalance = () =>{
   inputValue.value = UserIPOBalance.value
+}
+// 通过路由合约添加流动性 
+const addLiquidity = async() => {
+  try {
+
+    // 创建合约实例
+    const pancakeRouterContract = new state.web3.value.eth.Contract(RouterABI, state.Router_ADDRESS.value);
+
+    // 设置参数
+    const tokenAAddress = state.infoData.value.bbaCoin
+    const tokenBAddress = state.infoData.value.usdtCoin
+    const account = state.myAddress.value
+    const amountAMin = state.web3.value.utils.toWei('0.1'); // 最小接受的Token A数量
+    const amountBMin = state.web3.value.utils.toWei('0.1'); // 最小接受的Token B数量
+    const deadline = Math.floor(Date.now() / 1000) + 60 * 20; // 20分钟后过期
+
+    // 调用addLiquidity方法
+    const tx = await pancakeRouterContract.methods.addLiquidity(
+      tokenAAddress,
+      tokenBAddress,
+      amountADesired.value, // IPO 
+      amountBDesired.value, // USDT
+      amountAMin,
+      amountBMin,
+      account,
+      deadline
+    ).send({
+      from: account,
+      gas: 300000, // 设置gas限制
+      gasPrice: state.web3.value.utils.toWei('5', 'gwei'), // 设置gas价格
+    });
+
+    console.log('Transaction receipt:', tx);
+  } catch (error) {
+    console.error('Transaction error:', error);
+  }
 }
 // 计算转换
 const calculateConversion = async() => {
@@ -216,6 +255,18 @@ const approveContract = () => {
 
 <template>
   <div class="pools">
+      <div style="color: black;">
+        <h1>Add Liquidity</h1>
+        <div>
+          <label for="amountA">Amount IPO:</label>
+          <input style="color: black;" type="text" id="amountA" v-model="amountADesired" />
+        </div>
+        <div>
+          <label for="amountB">Amount USDT:</label>
+          <input style="color: black;" type="text" id="amountB" v-model="amountBDesired" />
+        </div>
+        <button @click="addLiquidity">Add Liquidity</button>
+      </div>
     <div class="wallet_info">
       <div class="wallet_item">
         <div class="wallet_item_top">

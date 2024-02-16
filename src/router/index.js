@@ -25,6 +25,11 @@ const router = createRouter({
       component: () => import('../views/Team.vue')
     },
     {
+      path: '/addLiquidity',
+      name: 'addLiquidity',
+      component: () => import('../views/AddLiquidity.vue')
+    },
+    {
       path: '/portfolio-single',
       name: 'portfolioSingle',
       component: () => import('../views/portfolioSingle.vue')
