@@ -52,7 +52,7 @@ export const useGlobalState = createGlobalState(
     const userLevel = ref('0')
     const inviteLink = ref('0x76a569aBA8E6909e9350A36389D0a061e1264193')
     // const contractAddress=ref('0xA9d2eD72f8fF25145904C1E4B976bDA2d8552A6B')// Defi合约地址
-    const contractAddress=ref('0x490397a46C9C379417f3CCE29eAa9e413d5Af9Fd')// Defi合约地址
+    const contractAddress=ref('0xa24ed572dE68af8b3759D598877D92C5eD9DF50D')// Defi合约地址
 
     // const Router_ADDRESS=ref('0x10ED43C718714eb63d5aA57B78B54704E256024E') // 主网薄饼V2路由合约地址
     const Router_ADDRESS=ref('0x6dcDf4494db3eA9eda10109899A4FDDB93B4217a') //  测试路由合约地址
