@@ -51,8 +51,8 @@ const addLiquidity = async() => {
         deadline
       ).send({
         from: account,
-        gas: 300000, // 设置gas限制
-        gasPrice: state.web3.value.utils.toWei('5', 'gwei'), // 设置gas价格
+        // gas: 300000, // 设置gas限制
+        // gasPrice: state.web3.value.utils.toWei('5', 'gwei'), // 设置gas价格
       });
       console.log('Transaction receipt:', tx);
   } catch (error) {
@@ -65,8 +65,8 @@ const addLiquidity = async() => {
     let defaultVal = state.web3.value.utils.toWei("1000000000000", "ether"); // 默认授权额度
     state.UsdtContract.value.methods.approve(state.Router_ADDRESS.value , defaultVal).send({
       from: state.myAddress.value,
-      gas: 300000, // 设置gas限制
-      gasPrice: state.web3.value.utils.toWei('5', 'gwei'), // 设置gas价格
+      // gas: 300000, // 设置gas限制
+      // gasPrice: state.web3.value.utils.toWei('5', 'gwei'), // 设置gas价格
     }).then((receipt) => {
       console.log('授权USDT成功：', receipt);
     }).catch((error) => {
@@ -81,8 +81,8 @@ const addLiquidity = async() => {
     let defaultVal = state.web3.value.utils.toWei("10000000000000", "ether"); // 默认授权额度
     state.BbaContract.value.methods.approve(state.Router_ADDRESS.value , defaultVal).send({
       from: state.myAddress.value,
-      gas: 300000, // 设置gas限制
-      gasPrice: state.web3.value.utils.toWei('5', 'gwei'), // 设置gas价格
+      // gas: 300000, // 设置gas限制
+      // gasPrice: state.web3.value.utils.toWei('5', 'gwei'), // 设置gas价格
     }).then((receipt) => {
       console.log('授权IPO成功：', receipt);
     }).catch((error) => {
