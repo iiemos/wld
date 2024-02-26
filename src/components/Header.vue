@@ -280,9 +280,9 @@ defineExpose({
             <li>
               <RouterLink :to="`team?invs=${invites}`">{{ $t("team") }}</RouterLink>
             </li>
-            <li>
+            <!-- <li>
               <RouterLink :to="`addLiquidity?invs=${invites}`">{{ $t("addLiquidity") }}</RouterLink>
-            </li>
+            </li> -->
             <!-- <li>
               <RouterLink :to="`portfolio-single`">Portfolio</RouterLink>
             </li>
