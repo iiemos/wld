@@ -24,11 +24,11 @@ const router = createRouter({
       name: 'team',
       component: () => import('../views/Team.vue')
     },
-    {
-      path: '/addLiquidity',
-      name: 'addLiquidity',
-      component: () => import('../views/AddLiquidity.vue')
-    },
+    // {
+    //   path: '/addLiquidity',
+    //   name: 'addLiquidity',
+    //   component: () => import('../views/AddLiquidity.vue')
+    // },
     {
       path: '/portfolio-single',
       name: 'portfolioSingle',

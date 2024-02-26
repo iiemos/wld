@@ -255,18 +255,6 @@ const approveContract = () => {
 
 <template>
   <div class="pools">
-      <div style="color: black;">
-        <h1>Add Liquidity</h1>
-        <div>
-          <label for="amountA">Amount IPO:</label>
-          <input style="color: black;" type="text" id="amountA" v-model="amountADesired" />
-        </div>
-        <div>
-          <label for="amountB">Amount USDT:</label>
-          <input style="color: black;" type="text" id="amountB" v-model="amountBDesired" />
-        </div>
-        <button @click="addLiquidity">Add Liquidity</button>
-      </div>
     <div class="wallet_info">
       <div class="wallet_item">
         <div class="wallet_item_top">
