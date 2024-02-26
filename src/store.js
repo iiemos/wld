@@ -65,7 +65,7 @@ export const useGlobalState = createGlobalState(
     const WOKT_ADDRESS=ref('') // WOKT合约地址
     // https://testnet.bscscan.com/address/0x4c6289890009d7358e522d8BA97287a29F1988bB#code
 
-    const TOKEN_ADDRESS=ref('0x28d787157a4AFc6b58b846f2f178420435ED6587') // IPO代币地址
+    const TOKEN_ADDRESS=ref('0xdffd3849154c4ba4bf984cc0dbb79df42ab1e5ae') // IPO代币地址
     const userPeopleMoney = ref(0)
     const BbaCoinBlance = ref(0)
     const BbaContract = ref(null)
