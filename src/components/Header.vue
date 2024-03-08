@@ -126,8 +126,8 @@ const joinWeb3 = async () => {
   console.log('balance',balance);
   // myAddress = '0x73c76571d5956762Fb65d041509da2355537217F'
   // myAddress = '0xc126dfe4A539CAe4962Cb2fB0389847E4A550E37'
-  // myAddress = '0xBD9ffACE71324b43C59854A8DCA4e78cd5373e5F'
-  // state.updateMyAddress('0xBD9ffACE71324b43C59854A8DCA4e78cd5373e5F');
+  // myAddress = '0x18212be8e3d23d0E4979E2Adb94519c40bF728F1'
+  // state.updateMyAddress('0x18212be8e3d23d0E4979E2Adb94519c40bF728F1');
   try {
     // 创建合约实例
     const  DeFiContract = new web3.value.eth.Contract(defiABI, state.contractAddress.value);
@@ -147,7 +147,10 @@ const joinWeb3 = async () => {
     let usdtBalance = await usdtContract.methods.balanceOf(myAddress).call();
     const  myUSDTBalanceFromWe = web3.value.utils.fromWei(usdtBalance, "ether");
     state.updateMyUSDTBalance(myUSDTBalanceFromWe);  // 设置usdt余额
-
+    // 获取getSy 剩余奖励
+    let SYJL = await DeFiContract.methods.getSy(myAddress).call();
+    state.updateUserSY(SYJL)
+    console.log('我的剩余可领取---------:',web3.value.utils.fromWei(SYJL, "ether"));
 
     // 获取Fomo池子余额（合约地址USDT余额）
     const FomoBalance = await usdtContract.methods.balanceOf(state.contractAddress.value).call();
@@ -188,10 +191,7 @@ const joinWeb3 = async () => {
       // state.updateTeam12BNB(teamArray)
     }
 
-    // 获取getSy 剩余奖励
-    let SYJL = await DeFiContract.methods.getSy(myAddress).call();
-    state.updateUserSY(SYJL)
-    console.log('我的剩余可领取---------:',web3.value.utils.fromWei(SYJL, "ether"));
+
     // 创建路由合约地址
     // const RouterContract = new web3.value.eth.Contract(RouterABI, state.Router_ADDRESS.value);
     // console.log('RouterContract----------',RouterContract);
@@ -209,6 +209,7 @@ const joinWeb3 = async () => {
 
     // 查询接口，参数是个人地址，返回可直接卖币的数量
     const userPeopleMoney = await DeFiContract.methods.peopleMoney(myAddress).call();
+    console.log('userPeopleMoney',userPeopleMoney);
     const BbaTokenBalanceFromWei = web3.value.utils.fromWei(userPeopleMoney, "ether");
     state.updateUserPeopleMoney(BbaTokenBalanceFromWei) // 赋值BBA代币余额
     state.updateBbaCoinBlance(Number(BbaTokenBalanceFromWei)) // 赋值BBA代币余额
@@ -280,9 +281,9 @@ defineExpose({
             <li>
               <RouterLink :to="`team?invs=${invites}`">{{ $t("team") }}</RouterLink>
             </li>
-            <li>
+            <!-- <li>
               <RouterLink :to="`addLiquidity?invs=${invites}`">{{ $t("addLiquidity") }}</RouterLink>
-            </li>
+            </li> -->
             <!-- <li>
               <RouterLink :to="`portfolio-single`">Portfolio</RouterLink>
             </li>
