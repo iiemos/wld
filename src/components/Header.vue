@@ -170,28 +170,12 @@ const joinWeb3 = async () => {
     state.updateTMCP((Number(userCP / 2)).toFixed(4));  // 设置info值
     
 
-    updateCountdown()
-    // 获取钱包eth余额
-    const myETHBalance = web3.value.utils.fromWei(balance, "ether");
-    // console.log('myETHBalance',myETHBalance);
-    state.updateMyETHBalance(myETHBalance);  // 设置info值
-    // 获取当前gas价格
-    const gasPrice = await web3.value.eth.getGasPrice();
-    state.updateGasPrice(gasPrice);  // 设置Gas值
-    state.updateGasGWeiPrice(web3.value.utils.fromWei(gasPrice, "ether"));  // 设置GasGwei值
-    // // 设置gas费用
-    // gasLimit.value = 9000000; // 设置gas限制
-    // const gasCost = gasLimit.value * gasPrice.value;
-    // console.log('计算后的gas价格', gasCost/1000000000000000000);
 
-    if(infoData.t12Length>0){
-      let teamData = await DeFiContract.methods.getTeam12BNB(0,infoData.t12Length).call();
-      const teamArray = teamData.filter(arrItem => arrItem != '0x0000000000000000000000000000000000000000');
-      state.updateTeam12BNB(teamArray)
-      // state.updateTeam12BNB(teamArray)
-    }
-
-
+    // 通过DeFi合约实例获取IPO价格
+    const IPOPrice = await DeFiContract.methods.getPrice2().call()
+    const FromWeiNum = state.web3.value.utils.fromWei(IPOPrice, "ether");
+    console.log('IPO价格为：', FromWeiNum);
+    if(FromWeiNum != 0) state.updateIpoToWeiQuote(Number((Math.floor(FromWeiNum * 100000) / 100000)).toFixed(5))
     // 创建路由合约地址
     // const RouterContract = new web3.value.eth.Contract(RouterABI, state.Router_ADDRESS.value);
     // console.log('RouterContract----------',RouterContract);
@@ -209,17 +193,32 @@ const joinWeb3 = async () => {
 
     // 查询接口，参数是个人地址，返回可直接卖币的数量
     const userPeopleMoney = await DeFiContract.methods.peopleMoney(myAddress).call();
-    console.log('userPeopleMoney',userPeopleMoney);
     const BbaTokenBalanceFromWei = web3.value.utils.fromWei(userPeopleMoney, "ether");
     state.updateUserPeopleMoney(BbaTokenBalanceFromWei) // 赋值BBA代币余额
     state.updateBbaCoinBlance(Number(BbaTokenBalanceFromWei)) // 赋值BBA代币余额
     console.log('userPeopleMoney=====:',BbaTokenBalanceFromWei);
 
-    // 通过DeFi合约实例获取IPO价格
-    const IPOPrice = await DeFiContract.methods.getPrice2().call()
-    const FromWeiNum = state.web3.value.utils.fromWei(IPOPrice, "ether");
-    console.log('IPO价格为：', FromWeiNum);
-    if(FromWeiNum != 0) state.updateIpoToWeiQuote(Number((Math.floor(FromWeiNum * 100000) / 100000)).toFixed(5))
+
+    updateCountdown()
+    // // 获取钱包eth余额
+    const myETHBalance = web3.value.utils.fromWei(balance, "ether");
+    console.log('myETHBalance',myETHBalance);
+    state.updateMyETHBalance(myETHBalance);  // 设置info值
+    // // 获取当前gas价格
+    // const gasPrice = await web3.value.eth.getGasPrice();
+    // state.updateGasPrice(gasPrice);  // 设置Gas值
+    // state.updateGasGWeiPrice(web3.value.utils.fromWei(gasPrice, "ether"));  // 设置GasGwei值
+    // // // 设置gas费用
+    // // gasLimit.value = 9000000; // 设置gas限制
+    // // const gasCost = gasLimit.value * gasPrice.value;
+    // // console.log('计算后的gas价格', gasCost/1000000000000000000);
+
+    if(infoData.t12Length>0){
+      let teamData = await DeFiContract.methods.getTeam12BNB(0,infoData.t12Length).call();
+      const teamArray = teamData.filter(arrItem => arrItem != '0x0000000000000000000000000000000000000000');
+      state.updateTeam12BNB(teamArray)
+      // state.updateTeam12BNB(teamArray)
+    }
     
   } catch (e) {
     // ElMessage.warning(e.message);
