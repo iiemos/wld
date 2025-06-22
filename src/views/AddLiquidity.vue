@@ -61,7 +61,7 @@ const addLiquidity = async() => {
 }
 
   // 投入授权USDT
-  const approveUSDT = () =>{
+  const approveUSDT = () => {
     let defaultVal = state.web3.value.utils.toWei("1000000000000", "ether"); // 默认授权额度
     state.UsdtContract.value.methods.approve(state.Router_ADDRESS.value , defaultVal).send({
       from: state.myAddress.value,
